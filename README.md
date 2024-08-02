@@ -1,1 +1,2 @@
-# deaBeacon-FrontEnd
+# IdeaBeacon-FrontEnd
+

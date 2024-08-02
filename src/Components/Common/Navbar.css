@@ -1,0 +1,28 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  font-family: 'Libre Baskerville', serif;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.navbar-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-login .login-button {
+  padding: 0.5rem 1rem;
+  font-family: 'Libre Baskerville', serif;
+  border: 1px solid #000;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.navbar-login .login-button:hover {
+  background-color: #000;
+  color: #fff;
+}

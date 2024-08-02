@@ -1,0 +1,46 @@
+/* src/Components/Screens/LandingPage.css */
+
+.landing-page {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 89vh;
+  background: url('../../Assets/images/background-image.jpg') no-repeat center center;
+  background-size: cover;
+  font-family: 'Libre Baskerville', serif;
+  padding: 0 2rem;
+  color: #fff; 
+}
+
+.landing-content {
+  max-width: 700px;
+  margin-bottom: 12rem;
+}
+
+.landing-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 6rem;
+  margin: 0;
+  color: #000;
+}
+
+.landing-content p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: black;
+}
+
+.landing-content .login-button {
+  padding: 0.75rem 1.5rem;
+  font-family: 'Libre Baskerville', serif;
+  border: 1px solid #000000;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #000000;
+}
+
+.landing-content .login-button:hover {
+  background-color: #fff;
+  color: #000;
+}

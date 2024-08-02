@@ -1,0 +1,12 @@
+.footer {
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #fff;
+  font-family: 'Libre Baskerville', serif;
+  border-top: 1px solid #eaeaea;
+  flex-shrink: 0;
+}
+
+.footer p {
+  margin: 0;
+}
