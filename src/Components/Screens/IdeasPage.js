@@ -9,8 +9,7 @@ const dummyIdeas = [
     id: 1,
     stage: "Idea",
     createdDate: "2024-07-01",
-    synopsis:
-      "This is a brief synopsis of the first idea that provides an overview of the concept and its objectives.",
+    synopsis: "This is a brief synopsis of the first idea that provides an overview of the concept and its objectives.",
     author: "Alice Johnson",
     likes: 120,
     comments: 30,
@@ -19,8 +18,7 @@ const dummyIdeas = [
     id: 2,
     stage: "Brainstorm",
     createdDate: "2024-07-05",
-    synopsis:
-      "A synopsis of the second idea with some insights into the brainstorming process and initial thoughts.",
+    synopsis: "A synopsis of the second idea with some insights into the brainstorming process and initial thoughts.",
     author: "Bob Smith",
     likes: 75,
     comments: 15,
@@ -29,8 +27,7 @@ const dummyIdeas = [
     id: 3,
     stage: "Selected",
     createdDate: "2024-07-10",
-    synopsis:
-      "Details about the third idea that has been selected for further development and evaluation.",
+    synopsis: "Details about the third idea that has been selected for further development and evaluation.",
     author: "Carol Lee",
     likes: 200,
     comments: 45,
@@ -39,8 +36,7 @@ const dummyIdeas = [
     id: 4,
     stage: "Implemented",
     createdDate: "2024-07-15",
-    synopsis:
-      "Synopsis of the fourth idea which has been implemented and is now being reviewed for feedback.",
+    synopsis: "Synopsis of the fourth idea which has been implemented and is now being reviewed for feedback.",
     author: "David Brown",
     likes: 90,
     comments: 25,
@@ -49,8 +45,7 @@ const dummyIdeas = [
     id: 5,
     stage: "Idea",
     createdDate: "2024-07-20",
-    synopsis:
-      "Another example synopsis for an idea that demonstrates how it is handled in the system.",
+    synopsis: "Another example synopsis for an idea that demonstrates how it is handled in the system.",
     author: "Emma White",
     likes: 50,
     comments: 10,
@@ -59,8 +54,7 @@ const dummyIdeas = [
     id: 6,
     stage: "Selected",
     createdDate: "2024-07-25",
-    synopsis:
-      "This synopsis shows the information for an idea that has been selected for implementation.",
+    synopsis: "This synopsis shows the information for an idea that has been selected for implementation.",
     author: "Frank Green",
     likes: 65,
     comments: 20,
@@ -146,15 +140,9 @@ const IdeasPage = () => {
             inputProps={{ "aria-label": "All Categories" }}
           >
             <MenuItem value="">All Categories</MenuItem>
-            <MenuItem value="Tools & Technologies">
-              Tools & Technologies
-            </MenuItem>
-            <MenuItem value="Process & Documentation">
-              Process & Documentation
-            </MenuItem>
-            <MenuItem value="Work Life Integration">
-              Work Life Integration
-            </MenuItem>
+            <MenuItem value="Tools & Technologies">Tools & Technologies</MenuItem>
+            <MenuItem value="Process & Documentation">Process & Documentation</MenuItem>
+            <MenuItem value="Work Life Integration">Work Life Integration</MenuItem>
             <MenuItem value="Others">Others</MenuItem>
           </Select>
         </div>
@@ -247,33 +235,20 @@ const IdeasPage = () => {
       </div>
 
       <div className="quick-filters">
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={resetFilters}
-          className="reset-filters"
-        >
+        <Button variant="outlined" color="secondary" onClick={resetFilters} className="reset-filters">
           Reset Filters
         </Button>
       </div>
 
       <div className="idea-cards">
         {dummyIdeas.map((idea) => (
-          <div
-            className="idea-card"
-            key={idea.id}
-            onClick={() => handleCardClick(idea.id)}
-          >
+          <div className="idea-card" key={idea.id} onClick={() => handleCardClick(idea.id)}>
             <div className="card-header">
               <span>{idea.stage}</span>
               <span>{idea.createdDate}</span>
             </div>
             <div className="card-body">
-              <p>
-                {idea.synopsis.length > 100
-                  ? `${idea.synopsis.substring(0, 100)}...`
-                  : idea.synopsis}
-              </p>
+              <p>{idea.synopsis.length > 100 ? `${idea.synopsis.substring(0, 100)}...` : idea.synopsis}</p>
               <p>
                 <strong>Author:</strong> {idea.author}
               </p>
