@@ -14,7 +14,19 @@
   font-weight: bold;
 }
 
-.navbar-login .login-button {
+.navbar-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: inherit;
+  font-family: 'Libre Baskerville', serif;
+}
+
+.login-button {
   padding: 0.5rem 1rem;
   font-family: 'Libre Baskerville', serif;
   border: 1px solid #000;
@@ -22,7 +34,7 @@
   cursor: pointer;
 }
 
-.navbar-login .login-button:hover {
+.login-button:hover {
   background-color: #000;
   color: #fff;
 }
