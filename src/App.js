@@ -4,6 +4,7 @@ import Navbar from './Components/Common/Navbar';
 import LandingPage from './Components/Screens/LandingPage';
 import PostIdeaPage from './Components/Screens/PostIdeaPage';
 import Footer from './Components/Common/Footer';
+import Dashboard from './Components/Screens/Dashboard';
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/post-idea" element={<PostIdeaPage />} />
                 </Routes>
                 <Footer />
