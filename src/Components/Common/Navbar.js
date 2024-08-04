@@ -1,8 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Navbar.css";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+  console.log("isLoggedIn ->", isLoggedIn);
+
   return (
     <nav className="navbar">
       <div className="navbar-logo">IdeaBeacon</div>
