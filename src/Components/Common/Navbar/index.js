@@ -1,22 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
 import "./Navbar.css";
-import { useSelector } from "react-redux";
+
+import React from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { setIsLoggedIn } from "../../Redux/slice/auth-slice";
 
 const Navbar = () => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
-
-  console.log("isLoggedIn ->", isLoggedIn);
+  const dispatch = useDispatch();
 
   return (
     <nav className="navbar">
       <div className="navbar-logo">IdeaBeacon</div>
       <div className="navbar-links">
-        <Link to="/">Home</Link>
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/post-idea">Post Idea</Link>
         <Link to="/ideas">Ideas</Link>
-        <button className="login-button">Login</button>
+        <button className="login-button" onClick={() => dispatch(setIsLoggedIn(false))}>
+          Logout
+        </button>
       </div>
     </nav>
   );
