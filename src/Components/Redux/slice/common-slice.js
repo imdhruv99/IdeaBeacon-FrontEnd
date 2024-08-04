@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import { getAllCategory, getAllFunctions, getAllStages } from "../api/comonAPI";
+import { getAllCategory, getAllFunctions, getAllStages, getAllSubdivisionById } from "../api/comonAPI";
 
 const initialState = {
   stages: [],
@@ -14,57 +13,42 @@ export const commonSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // fetch all stages
-    builder.addCase(getAllStages.fulfilled, (state, action) => {
-      const data = action.payload;
-      // console.log("data ->", JSON.stringify(data));
+    // Fetch all stages
+    builder
+      .addCase(getAllStages.fulfilled, (state, action) => {
+        state.stages = action.payload;
+      })
+      .addCase(getAllStages.rejected, (state, action) => {
+        console.error("🚀 ~ rejected ~ getAllStages:", action);
+      });
 
-      state.stages = data;
-    });
+    // Fetch all categories
+    builder
+      .addCase(getAllCategory.fulfilled, (state, action) => {
+        state.categories = action.payload;
+      })
+      .addCase(getAllCategory.rejected, (state, action) => {
+        console.error("🚀 ~ rejected ~ getAllCategory:", action);
+      });
 
-    builder.addCase(getAllStages.rejected, (state, action) => {
-      console.log("🚀 ~ rejected ~ getAllStages:", action);
-    });
+    // Fetch all functions
+    builder
+      .addCase(getAllFunctions.fulfilled, (state, action) => {
+        state.functions = action.payload;
+      })
+      .addCase(getAllFunctions.rejected, (state, action) => {
+        console.error("🚀 ~ rejected ~ getAllFunctions:", action);
+      });
 
-    // fetch all categories
-    builder.addCase(getAllCategory.fulfilled, (state, action) => {
-      const data = action.payload;
-      // console.log("data ->", JSON.stringify(data));
-
-      state.categories = data;
-    });
-
-    builder.addCase(getAllCategory.rejected, (state, action) => {
-      console.log("🚀 ~ rejected ~ getAllCategory:", action);
-    });
-
-    // fetch all functions
-    builder.addCase(getAllFunctions.fulfilled, (state, action) => {
-      const data = action.payload;
-      // console.log("data ->", JSON.stringify(data));
-
-      state.functions = data;
-    });
-
-    builder.addCase(getAllFunctions.rejected, (state, action) => {
-      console.log("🚀 ~ rejected ~ getAllFunctions:", action);
-    });
-
-    // fetch all subdivisions by function id
-    builder.addCase(getAllSubdivisionById.fulfilled, (state, action) => {
-      const data = action.payload;
-      // console.log("data ->", JSON.stringify(data));
-
-      state.subdivisions = data;
-    });
-
-    builder.addCase(getAllSubdivisionById.rejected, (state, action) => {
-      console.log("🚀 ~ rejected ~ getAllSubdivisionById:", action);
-    });
+    // Fetch all subdivisions by function id
+    builder
+      .addCase(getAllSubdivisionById.fulfilled, (state, action) => {
+        state.subdivisions = action.payload;
+      })
+      .addCase(getAllSubdivisionById.rejected, (state, action) => {
+        console.error("🚀 ~ rejected ~ getAllSubdivisionById:", action);
+      });
   },
 });
-
-// Action creators are generated for each case reducer function
-export const {} = commonSlice.actions;
 
 export default commonSlice.reducer;
