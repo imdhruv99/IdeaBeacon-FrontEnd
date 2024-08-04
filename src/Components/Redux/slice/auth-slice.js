@@ -9,7 +9,7 @@ export const authClice = createSlice({
   initialState,
   reducers: {
     setIsLoggedIn: (state, action) => {
-      state.selectedLanguage = action.payload;
+      state.isLoggedIn = action.payload;
     },
   },
 });

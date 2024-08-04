@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { MenuItem, Select, InputLabel, FormControl, Grid, Typography } from '@mui/material';
-import './Dashboard.css';
+import React, { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { MenuItem, Select, InputLabel, FormControl, Grid, Typography } from "@mui/material";
+import "./Dashboard.css";
 
 // importing images
-import ideaIcon from '../../Assets/icons/idea-icon.png';
-import brainstormIcon from '../../Assets/icons/brainstorm-icon.png';
-import selectedIcon from '../../Assets/icons/selected-icon.png';
-import implementedIcon from '../../Assets/icons/implement-icon.png';
-import toolsAndTechnologyIcon from '../../Assets/icons/tech-tool.png';
-import processIcon from '../../Assets/icons/process.png';
-import workLifeIcon from '../../Assets/icons/work-life.png';
-import otherIcon from '../../Assets/icons/other.png';
-import jnprImage from '../../Assets/images/jnpr.png'
+import ideaIcon from "../../../Assets/icons/idea-icon.png";
+import brainstormIcon from "../../../Assets/icons/brainstorm-icon.png";
+import selectedIcon from "../../../Assets/icons/selected-icon.png";
+import implementedIcon from "../../../Assets/icons/implement-icon.png";
+import toolsAndTechnologyIcon from "../../../Assets/icons/tech-tool.png";
+import processIcon from "../../../Assets/icons/process.png";
+import workLifeIcon from "../../../Assets/icons/work-life.png";
+import otherIcon from "../../../Assets/icons/other.png";
+import jnprImage from "../../../Assets/images/jnpr.png";
 
-const functions = ['Function 1', 'Function 2'];
-const subdivisions = ['Sub 1', 'Sub 2'];
-const months = ['January', 'February', 'March'];
-const years = ['2022', '2023', '2024'];
+const functions = ["Function 1", "Function 2"];
+const subdivisions = ["Sub 1", "Sub 2"];
+const months = ["January", "February", "March"];
+const years = ["2022", "2023", "2024"];
 
 const initialStages = [
-    { name: 'Idea', count: 10, icon: ideaIcon },
-    { name: 'Brainstorm', count: 5, icon: brainstormIcon },
-    { name: 'Selected', count: 3, icon: selectedIcon },
-    { name: 'Implemented', count: 1, icon: implementedIcon }
-  ];
-  
+  { name: "Idea", count: 10, icon: ideaIcon },
+  { name: "Brainstorm", count: 5, icon: brainstormIcon },
+  { name: "Selected", count: 3, icon: selectedIcon },
+  { name: "Implemented", count: 1, icon: implementedIcon },
+];
+
 const initialCategories = [
-  { name: 'Tools & Technologies', count: 7, icon: toolsAndTechnologyIcon },
-  { name: 'Process & Documentation', count: 4, icon: processIcon },
-  { name: 'Work Life Integration', count: 6, icon: workLifeIcon },
-  { name: 'Others', count: 2, icon: otherIcon }
+  { name: "Tools & Technologies", count: 7, icon: toolsAndTechnologyIcon },
+  { name: "Process & Documentation", count: 4, icon: processIcon },
+  { name: "Work Life Integration", count: 6, icon: workLifeIcon },
+  { name: "Others", count: 2, icon: otherIcon },
 ];
 
 const Dashboard = () => {
@@ -38,18 +38,18 @@ const Dashboard = () => {
   const [stages, setStages] = useState(initialStages);
   const [categories, setCategories] = useState(initialCategories);
 
-  const selectedFunction = watch('function');
-  const selectedSubDivision = watch('subDivision');
-  const selectedMonth = watch('month');
-  const selectedYear = watch('year');
+  const selectedFunction = watch("function");
+  const selectedSubDivision = watch("subDivision");
+  const selectedMonth = watch("month");
+  const selectedYear = watch("year");
 
   useEffect(() => {
     // Example: Update counts based on filters
     // You would replace this with actual API calls
     if (selectedFunction || selectedSubDivision || selectedMonth || selectedYear) {
       // Update counts based on selected filters
-      setStages(stages.map(stage => ({ ...stage, count: stage.count + 1 })));
-      setCategories(categories.map(category => ({ ...category, count: category.count + 1 })));
+      setStages(stages.map((stage) => ({ ...stage, count: stage.count + 1 })));
+      setCategories(categories.map((category) => ({ ...category, count: category.count + 1 })));
     }
   }, [selectedFunction, selectedSubDivision, selectedMonth, selectedYear]);
 
@@ -133,10 +133,10 @@ const Dashboard = () => {
         </FormControl>
       </div>
 
-     
-
       <div className="dashboard-cards">
-        <Typography variant="h5" className="section-header">Idea Stages</Typography>
+        <Typography variant="h5" className="section-header">
+          Idea Stages
+        </Typography>
         <Grid container spacing={2}>
           {stages.map((stage) => (
             <Grid item xs={12} sm={6} md={3} key={stage.name}>
@@ -152,8 +152,11 @@ const Dashboard = () => {
             </Grid>
           ))}
         </Grid>
-        <br/><br/>
-        <Typography variant="h5" className="section-header">Idea Categories</Typography>
+        <br />
+        <br />
+        <Typography variant="h5" className="section-header">
+          Idea Categories
+        </Typography>
         <Grid container spacing={2} className="category-cards">
           {categories.map((category) => (
             <Grid item xs={12} sm={6} md={3} key={category.name}>

@@ -1,10 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './IdeaCard.css';
+import "./IdeaCard.css";
+
+import React from "react";
+import { Link } from "react-router-dom";
 
 const IdeaCard = ({ idea }) => {
   const { stage, createdDate, synopsis, author, likes, comments, id } = idea;
-  const shortSynopsis = synopsis.length > 100 ? synopsis.slice(0, 100) + '...' : synopsis;
+  const shortSynopsis = synopsis.length > 100 ? synopsis.slice(0, 100) + "..." : synopsis;
 
   return (
     <div className="idea-card">
@@ -24,7 +25,9 @@ const IdeaCard = ({ idea }) => {
           <span>💬 {comments}</span>
         </div>
       </div>
-      <Link to={`/idea/${id}`} className="idea-card-link">View Details</Link>
+      <Link to={`/idea/${id}`} className="idea-card-link">
+        View Details
+      </Link>
     </div>
   );
 };
