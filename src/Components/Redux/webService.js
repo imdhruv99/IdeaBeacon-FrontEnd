@@ -2,17 +2,13 @@ import httpService from "./httpService";
 import { store } from "./store";
 
 export default class Webservice {
-  static POST = async (strURL, params, isMultiPartForm) => {
-    // const accessToken = store.getState().user.accessToken;
+  static POST = async (strURL, params) => {
+    const accessToken = store.getState().auth.accessToken;
 
-    // httpService.defaults.headers.common["Authorization"] = `Bearer ${accessToken.access_token}`;
+    httpService.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
     return httpService
-      .post(strURL, params, {
-        headers: {
-          "content-type": isMultiPartForm ? "multipart/form-data" : "application/json",
-        },
-      })
+      .post(strURL, params)
       .then(function (response) {
         return response;
       })
@@ -22,9 +18,9 @@ export default class Webservice {
   };
 
   static GET = async (strURL, params) => {
-    // const accessToken = store.getState().user.accessToken;
+    const accessToken = store.getState().auth.accessToken;
 
-    // httpService.defaults.headers.common["Authorization"] = `Bearer ${accessToken.access_token}`;
+    httpService.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
     return httpService
       .get(strURL, params)
@@ -38,9 +34,9 @@ export default class Webservice {
   };
 
   static DELETE = async (strURL, params) => {
-    // const accessToken = store.getState().user.accessToken;
+    const accessToken = store.getState().auth.accessToken;
 
-    // httpService.defaults.headers.common["Authorization"] = `Bearer ${accessToken.access_token}`;
+    httpService.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
     return httpService
       .delete(strURL, params)
@@ -52,13 +48,13 @@ export default class Webservice {
       });
   };
 
-  static PATCH = async (strURL, params) => {
-    // const accessToken = store.getState().user.accessToken;
+  static PUT = async (strURL, params) => {
+    const accessToken = store.getState().auth.accessToken;
 
-    // httpService.defaults.headers.common["Authorization"] = `Bearer ${accessToken.access_token}`;
+    httpService.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
     return httpService
-      .patch(strURL, params)
+      .put(strURL, params)
       .then(function (response) {
         return response;
       })

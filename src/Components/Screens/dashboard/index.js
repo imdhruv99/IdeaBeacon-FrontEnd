@@ -13,6 +13,7 @@ import processIcon from "../../../Assets/icons/process.png";
 import workLifeIcon from "../../../Assets/icons/work-life.png";
 import otherIcon from "../../../Assets/icons/other.png";
 import jnprImage from "../../../Assets/images/jnpr.png";
+import useInitialFeatch from "../../hooks/useInitialFeatch";
 
 const functions = ["Function 1", "Function 2"];
 const subdivisions = ["Sub 1", "Sub 2"];
@@ -34,6 +35,9 @@ const initialCategories = [
 ];
 
 const Dashboard = () => {
+  // fetching initial data
+  useInitialFeatch();
+
   const { control, watch } = useForm();
   const [stages, setStages] = useState(initialStages);
   const [categories, setCategories] = useState(initialCategories);

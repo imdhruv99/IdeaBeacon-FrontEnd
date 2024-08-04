@@ -1,24 +1,21 @@
 import "./LoginPage.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 
-import { setIsLoggedIn } from "../../Redux/slice/auth-slice";
-import { login } from "../../Redux/api/authAPI";
+import { setAccessToken, setIsLoggedIn } from "../../Redux/slice/auth-slice";
 import { loginRequest } from "../../../authConfig";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuthenticated = useIsAuthenticated();
 
+  const isAuthenticated = useIsAuthenticated();
   const { instance, accounts } = useMsal();
 
-  const [graphData, setGraphData] = useState(null);
-
-  const handleLogin = async () => {
+  const handleAzureLogin = async () => {
     await instance.loginRedirect(loginRequest).catch((e) => {
       console.error(e);
     });
@@ -37,6 +34,15 @@ const Login = () => {
 
     return fetch("https://graph.microsoft.com/v1.0/me", options)
       .then((response) => response.json())
+      .then((res) => {
+        const userInfo = {
+          oid: res.id,
+          name: res.displayName,
+          preferredUsername: res.userPrincipalName,
+        };
+
+        dispatch(setAccessToken(accessToken));
+      })
       .catch((error) => console.log(error));
   };
 
@@ -50,13 +56,11 @@ const Login = () => {
       instance
         .acquireTokenSilent(request)
         .then((response) => {
-          callMsGraph(response.accessToken).then((response) => {
-            setGraphData(response);
-          });
+          callMsGraph(response.accessToken);
         })
         .catch((e) => {
           instance.acquireTokenPopup(request).then((response) => {
-            callMsGraph(response.accessToken).then((response) => setGraphData(response));
+            callMsGraph(response.accessToken);
           });
         });
     }
@@ -79,7 +83,7 @@ const Login = () => {
         <h1 className="landing-title">Ideas</h1>
         <h1 className="landing-title">& Innovations</h1>
         <p>Share your ideas and collaborate with other Junivators.</p>
-        <button className="login-button" onClick={handleLogin}>
+        <button className="login-button" onClick={handleAzureLogin}>
           Login
         </button>
       </div>

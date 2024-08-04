@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { login } from "../api/authAPI";
-
 const initialState = {
   isLoggedIn: false,
+  accessToken: null,
 };
 
 export const authSlice = createSlice({
@@ -13,20 +12,13 @@ export const authSlice = createSlice({
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (state, action) => {
-      const data = action.payload;
-
-      console.log("data ->", JSON.stringify(data));
-    });
-    builder.addCase(login.rejected, (state, action) => {
-      console.log("🚀 ~ rejected ~ login:", action);
-    });
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setIsLoggedIn } = authSlice.actions;
+export const { setIsLoggedIn, setAccessToken } = authSlice.actions;
 
 export default authSlice.reducer;
