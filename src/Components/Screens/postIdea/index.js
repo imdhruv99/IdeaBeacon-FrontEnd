@@ -1,32 +1,47 @@
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button, Checkbox, FormControlLabel, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import './PostIdeaPage.css';
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import {
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "./PostIdeaPage.css";
+import { createIdea } from "../../Redux/api/ideaAPI";
+import { useDispatch } from "react-redux";
 
 // Example options
-const categories = ['Tech', 'Science', 'Art'];
-const functions = ['Function 1', 'Function 2'];
-const subdivisions = ['Sub 1', 'Sub 2'];
-const coAuthorsOptions = ['Author 1', 'Author 2', 'Author 3'];
-const tagsOptions = ['Tag 1', 'Tag 2', 'Tag 3'];
+const categories = ["Tech", "Science", "Art"];
+const functions = ["Function 1", "Function 2"];
+const subdivisions = ["Sub 1", "Sub 2"];
+const coAuthorsOptions = ["Author 1", "Author 2", "Author 3"];
+const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
 
 const PostIdeaPage = () => {
+  const dispatch = useDispatch();
+
   const { control, handleSubmit, watch, setValue } = useForm();
-  const selectedFunction = watch('function');
+  const selectedFunction = watch("function");
 
   const onSubmit = (data) => {
     console.log(data);
+
+    // dispatch(createIdea());
   };
 
   const modules = {
     toolbar: [
-      [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-      [{size: []}],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['code-block'],
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+      ["code-block"],
     ],
   };
 
@@ -56,26 +71,22 @@ const PostIdeaPage = () => {
           name="synopsis"
           control={control}
           defaultValue=""
-          render={({ field }) => (
-            <TextField {...field} label="Synopsis" fullWidth margin="normal" multiline rows={1} />
-          )}
+          render={({ field }) => <TextField {...field} label="Synopsis" fullWidth margin="normal" multiline rows={1} />}
         />
 
-        {['description', 'advantages', 'proposedSolution', 'existingSolution'].map((field) => (
+        {["description", "advantages", "proposedSolution", "existingSolution"].map((field) => (
           <div className="quill-wrapper" key={field}>
-            <InputLabel>{field.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}</InputLabel>
+            <InputLabel>{field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}</InputLabel>
             <Controller
               name={field}
               control={control}
               defaultValue=""
-              render={({ field }) => (
-                <ReactQuill {...field} modules={modules} theme="snow" className="quill-editor" />
-              )}
+              render={({ field }) => <ReactQuill {...field} modules={modules} theme="snow" className="quill-editor" />}
             />
           </div>
         ))}
 
-        <br/>
+        <br />
 
         <Controller
           name="presentableDate"
@@ -135,9 +146,7 @@ const PostIdeaPage = () => {
           name="isPrivate"
           control={control}
           defaultValue={false}
-          render={({ field }) => (
-            <FormControlLabel control={<Checkbox {...field} />} label="Private" />
-          )}
+          render={({ field }) => <FormControlLabel control={<Checkbox {...field} />} label="Private" />}
         />
 
         <Controller
@@ -151,7 +160,7 @@ const PostIdeaPage = () => {
                 multiple
                 value={field.value}
                 onChange={(e) => setValue(field.name, e.target.value)}
-                renderValue={(selected) => selected.join(', ')}
+                renderValue={(selected) => selected.join(", ")}
               >
                 {coAuthorsOptions.map((author) => (
                   <MenuItem key={author} value={author}>
@@ -174,7 +183,7 @@ const PostIdeaPage = () => {
                 multiple
                 value={field.value}
                 onChange={(e) => setValue(field.name, e.target.value)}
-                renderValue={(selected) => selected.join(', ')}
+                renderValue={(selected) => selected.join(", ")}
               >
                 {tagsOptions.map((tag) => (
                   <MenuItem key={tag} value={tag}>
