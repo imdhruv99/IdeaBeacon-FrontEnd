@@ -10,6 +10,7 @@ import ProtectedRoutes from "./ProtectedRoutes.js";
 import Dashboard from "../Screens/dashboard/index.js";
 import PostIdea from "../Screens/postIdea/index.js";
 import Ideas from "../Screens/ideaList/index.js";
+import IdeaDetail from "../Screens/ideaDetail/index.js";
 
 const Web = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -23,6 +24,8 @@ const Web = () => {
             <Route key={"/dashboard"} path="/dashboard" exact={true} element={<Dashboard />} />
             <Route key={"/post-idea"} path="/post-idea" exact={true} element={<PostIdea />} />
             <Route key={"/ideas"} path="/ideas" exact={true} element={<Ideas />} />
+            <Route key={"/ideas"} path="/ideas" exact={true} element={<Ideas />} />
+            <Route key={"/idea-details/:id"} path="/idea-details/:id" exact={true} element={<IdeaDetail />} />
           </Route>
 
           <Route path={"/"} exact={true} element={<Login />} />
