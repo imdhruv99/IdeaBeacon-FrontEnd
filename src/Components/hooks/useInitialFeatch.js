@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { getAllCategory, getAllFunctions, getAllStages } from "../Redux/api/comonAPI";
+import { getAllCategory, getAllFunctions, getAllStages, getAllUserList } from "../Redux/api/comonAPI";
 
 const useInitialFeatch = () => {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ const useInitialFeatch = () => {
     Promises.push(dispatch(getAllStages()));
     Promises.push(dispatch(getAllCategory()));
     Promises.push(dispatch(getAllFunctions()));
+    Promises.push(dispatch(getAllUserList()));
 
     await Promise.all(Promises);
   };

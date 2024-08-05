@@ -5,7 +5,7 @@ import { COMMON_APIS } from "../apiConstants";
 
 export const getAllStages = createAsyncThunk("getAllStages", async (data, { rejectWithValue }) => {
   try {
-    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_STAGES}`, data);
+    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_STAGES}`, {});
 
     return response.data.data;
   } catch (error) {
@@ -16,7 +16,7 @@ export const getAllStages = createAsyncThunk("getAllStages", async (data, { reje
 
 export const getAllCategory = createAsyncThunk("getAllCategory", async (data, { rejectWithValue }) => {
   try {
-    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_CATEGORIES}`, data);
+    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_CATEGORIES}`, {});
 
     return response.data.data;
   } catch (error) {
@@ -27,7 +27,7 @@ export const getAllCategory = createAsyncThunk("getAllCategory", async (data, { 
 
 export const getAllFunctions = createAsyncThunk("getAllFunctions", async (data, { rejectWithValue }) => {
   try {
-    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_FUNCTIONS}`, data);
+    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_FUNCTIONS}`, {});
 
     return response.data.data;
   } catch (error) {
@@ -39,10 +39,21 @@ export const getAllFunctions = createAsyncThunk("getAllFunctions", async (data, 
 export const getAllSubDivByFunId = createAsyncThunk("getAllSubDivByFunId", async (data, { rejectWithValue }) => {
   try {
     const response = await Webservice.GET(`${COMMON_APIS.GET_SUBDIVISION_BY_FUNCTION_ID}${data}`, {});
-    console.log(response);
+
     return response.data.data;
   } catch (error) {
-    console.log(`${COMMON_APIS.GET_ALL_FUNCTIONS}`, error);
+    console.log(`${COMMON_APIS.GET_SUBDIVISION_BY_FUNCTION_ID}`, error);
+    return rejectWithValue(error.response.data.data);
+  }
+});
+
+export const getAllUserList = createAsyncThunk("getAllUserList", async (data, { rejectWithValue }) => {
+  try {
+    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_USER}`, {});
+
+    return response.data.data;
+  } catch (error) {
+    console.log(`${COMMON_APIS.GET_ALL_USER}`, error);
     return rejectWithValue(error.response.data.data);
   }
 });

@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getAllCategory, getAllFunctions, getAllStages, getAllSubDivByFunId } from "../api/comonAPI";
+import { getAllCategory, getAllFunctions, getAllStages, getAllSubDivByFunId, getAllUserList } from "../api/comonAPI";
 
 const initialState = {
   stages: [],
   categories: [],
   functions: [],
   subdivisions: [],
+  userList: [],
 };
 
 export const commonSlice = createSlice({
@@ -56,6 +57,17 @@ export const commonSlice = createSlice({
 
     builder.addCase(getAllSubDivByFunId.rejected, (state, action) => {
       console.log("🚀 ~ rejected ~ getAllSubDivByFunId:", action);
+    });
+
+    // fetch all users list
+    builder.addCase(getAllUserList.fulfilled, (state, action) => {
+      const data = action.payload;
+
+      state.userList = data;
+    });
+
+    builder.addCase(getAllUserList.rejected, (state, action) => {
+      console.log("🚀 ~ rejected ~ getAllUserList:", action);
     });
   },
 });
