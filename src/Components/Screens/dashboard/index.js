@@ -29,10 +29,7 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
-  const { functions, subdivisions, stages, categories } = useSelector((state) => state.comon);
-
-  console.log(categories);
-  
+  const { functions, subdivisions, stages, categories } = useSelector((state) => state.comon);  
 
   useEffect(() => {
     if(!stages) {
