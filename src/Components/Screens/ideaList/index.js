@@ -1,78 +1,34 @@
-import React, { useState } from "react";
-import { MenuItem, Select, TextField, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import "./IdeasPage.css";
 
-// Dummy data for ideas
-const dummyIdeas = [
-  {
-    id: 1,
-    stage: "Idea",
-    createdDate: "2024-07-01",
-    synopsis: "This is a brief synopsis of the first idea that provides an overview of the concept and its objectives.",
-    author: "Alice Johnson",
-    likes: 120,
-    comments: 30,
-  },
-  {
-    id: 2,
-    stage: "Brainstorm",
-    createdDate: "2024-07-05",
-    synopsis: "A synopsis of the second idea with some insights into the brainstorming process and initial thoughts.",
-    author: "Bob Smith",
-    likes: 75,
-    comments: 15,
-  },
-  {
-    id: 3,
-    stage: "Selected",
-    createdDate: "2024-07-10",
-    synopsis: "Details about the third idea that has been selected for further development and evaluation.",
-    author: "Carol Lee",
-    likes: 200,
-    comments: 45,
-  },
-  {
-    id: 4,
-    stage: "Implemented",
-    createdDate: "2024-07-15",
-    synopsis: "Synopsis of the fourth idea which has been implemented and is now being reviewed for feedback.",
-    author: "David Brown",
-    likes: 90,
-    comments: 25,
-  },
-  {
-    id: 5,
-    stage: "Idea",
-    createdDate: "2024-07-20",
-    synopsis: "Another example synopsis for an idea that demonstrates how it is handled in the system.",
-    author: "Emma White",
-    likes: 50,
-    comments: 10,
-  },
-  {
-    id: 6,
-    stage: "Selected",
-    createdDate: "2024-07-25",
-    synopsis: "This synopsis shows the information for an idea that has been selected for implementation.",
-    author: "Frank Green",
-    likes: 65,
-    comments: 20,
-  },
-];
+import React, { useEffect, useState } from "react";
+import { MenuItem, Select, TextField, Button, FormControl } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment-timezone";
+
+import { getAllFilteredIdeas } from "../../Redux/api/ideaAPI";
+import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
 
 const IdeasPage = () => {
+  const dispatch = useDispatch();
+
+  const { stages, categories, functions, subdivisions, userList } = useSelector((state) => state.comon);
+  const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
+
   const [filters, setFilters] = useState({
-    stage: "",
-    category: "",
-    author: "",
-    function: "",
-    subDivision: "",
+    stageId: "",
+    categoryId: "",
+    authorId: "",
+    functionId: "",
+    subdivisionId: "",
     month: "",
     year: "",
-    quickFilter: "",
   });
   const navigate = useNavigate(); // Use useNavigate instead of useHistory
+
+  const handleOnFunctionClick = (functionId) => {
+    dispatch(getAllSubDivByFunId(functionId));
+  };
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
@@ -80,7 +36,9 @@ const IdeasPage = () => {
       ...prevFilters,
       [name]: value,
     }));
+
     // Fetch and update ideas based on filters here
+    if (name === "functionId") handleOnFunctionClick(value);
   };
 
   const handleQuickFilterChange = (filterType) => {
@@ -93,14 +51,13 @@ const IdeasPage = () => {
 
   const resetFilters = () => {
     setFilters({
-      stage: "",
-      category: "",
-      author: "",
-      function: "",
-      subDivision: "",
+      stageId: "",
+      categoryId: "",
+      authorId: "",
+      functionId: "",
+      subdivisionId: "",
       month: "",
       year: "",
-      quickFilter: "",
     });
     // Fetch and update ideas to show all
   };
@@ -109,6 +66,14 @@ const IdeasPage = () => {
     navigate(`/idea-details/${id}`); // Use navigate instead of history.push
   };
 
+  const fetchIdeaList = async () => {
+    await dispatch(getAllFilteredIdeas(filters));
+  };
+
+  useEffect(() => {
+    if (!isFetchingIdeas) fetchIdeaList();
+  }, [filters]);
+
   return (
     <div className="ideas-page">
       <h1 className="page-title">Ideas</h1>
@@ -116,76 +81,102 @@ const IdeasPage = () => {
         <TextField variant="outlined" label="Search Ideas" fullWidth />
       </div>
       <div className="filters">
-        <div className="filter-dropdown">
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
-            name="stage"
-            value={filters.stage}
+            name="stageId"
+            value={filters.stageId}
             onChange={handleFilterChange}
             displayEmpty
             inputProps={{ "aria-label": "All Stages" }}
           >
-            <MenuItem value="">All Stages</MenuItem>
-            <MenuItem value="Idea">Idea</MenuItem>
-            <MenuItem value="Brainstorm">Brainstorm</MenuItem>
-            <MenuItem value="Selected">Selected</MenuItem>
-            <MenuItem value="Implemented">Implemented</MenuItem>
+            <MenuItem value="">
+              <em>{"All Stages"}</em>
+            </MenuItem>
+            {stages.map((func) => (
+              <MenuItem key={func._id} value={func._id}>
+                {func.stageName}
+              </MenuItem>
+            ))}
           </Select>
-        </div>
-        <div className="filter-dropdown">
+        </FormControl>
+
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
-            name="category"
-            value={filters.category}
+            name="categoryId"
+            value={filters.categoryId}
             onChange={handleFilterChange}
             displayEmpty
             inputProps={{ "aria-label": "All Categories" }}
           >
-            <MenuItem value="">All Categories</MenuItem>
-            <MenuItem value="Tools & Technologies">Tools & Technologies</MenuItem>
-            <MenuItem value="Process & Documentation">Process & Documentation</MenuItem>
-            <MenuItem value="Work Life Integration">Work Life Integration</MenuItem>
-            <MenuItem value="Others">Others</MenuItem>
+            <MenuItem value="">
+              <em>{"All Categories"}</em>
+            </MenuItem>
+            {categories.map((func) => (
+              <MenuItem key={func._id} value={func._id}>
+                {func.categoryName}
+              </MenuItem>
+            ))}
           </Select>
-        </div>
-        <div className="filter-dropdown">
+        </FormControl>
+
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
-            name="author"
-            value={filters.author}
+            name="authorId"
+            value={filters.authorId}
             onChange={handleFilterChange}
             displayEmpty
             inputProps={{ "aria-label": "All Authors" }}
           >
-            <MenuItem value="">All Authors</MenuItem>
-            <MenuItem value="Alice Johnson">Alice Johnson</MenuItem>
-            <MenuItem value="Bob Smith">Bob Smith</MenuItem>
-            <MenuItem value="Carol Lee">Carol Lee</MenuItem>
-            <MenuItem value="David Brown">David Brown</MenuItem>
+            <MenuItem value="">
+              <em>{"All Authors"}</em>
+            </MenuItem>
+            {userList.map((user) => (
+              <MenuItem key={user._id} value={user.name}>
+                {user.name}
+              </MenuItem>
+            ))}
           </Select>
-        </div>
-        <div className="filter-dropdown">
+        </FormControl>
+
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
-            name="function"
-            value={filters.function}
+            name="functionId"
+            value={filters.functionId}
             onChange={handleFilterChange}
             displayEmpty
             inputProps={{ "aria-label": "All Functions" }}
           >
-            <MenuItem value="">All Functions</MenuItem>
-            {/* Add options here */}
+            <MenuItem value="">
+              <em>{"All Functions"}</em>
+            </MenuItem>
+            {functions.map((func) => (
+              <MenuItem key={func._id} value={func._id}>
+                {func.functionName}
+              </MenuItem>
+            ))}
           </Select>
-        </div>
-        <div className="filter-dropdown">
+        </FormControl>
+
+        <FormControl sx={{ m: 1, minWidth: 120 }} disabled={!filters.functionId}>
           <Select
-            name="subDivision"
-            value={filters.subDivision}
+            name="subdivisionId"
+            value={filters.subdivisionId}
             onChange={handleFilterChange}
             displayEmpty
             inputProps={{ "aria-label": "All Sub Divisions" }}
           >
-            <MenuItem value="">All Sub Divisions</MenuItem>
-            {/* Add options here */}
+            <MenuItem value="">
+              <em>{"All Sub Divisions"}</em>
+            </MenuItem>
+            {subdivisions.map((sub) => (
+              <MenuItem key={sub._id} value={sub._id}>
+                {sub.subdivisionName}
+              </MenuItem>
+            ))}
           </Select>
-        </div>
-        <div className="filter-dropdown">
+        </FormControl>
+
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
             name="month"
             value={filters.month}
@@ -196,8 +187,9 @@ const IdeasPage = () => {
             <MenuItem value="">All Months</MenuItem>
             {/* Add options here */}
           </Select>
-        </div>
-        <div className="filter-dropdown">
+        </FormControl>
+
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
             name="year"
             value={filters.year}
@@ -208,7 +200,7 @@ const IdeasPage = () => {
             <MenuItem value="">All Years</MenuItem>
             {/* Add options here */}
           </Select>
-        </div>
+        </FormControl>
       </div>
       <div className="quick-filters">
         <Button
@@ -241,21 +233,21 @@ const IdeasPage = () => {
       </div>
 
       <div className="idea-cards">
-        {dummyIdeas.map((idea) => (
-          <div className="idea-card" key={idea.id} onClick={() => handleCardClick(idea.id)}>
+        {allFilteredIdeas.map((idea) => (
+          <div className="idea-card" key={idea._id} onClick={() => handleCardClick(idea._id)}>
             <div className="card-header">
-              <span>{idea.stage}</span>
-              <span>{idea.createdDate}</span>
+              <span>{idea?.ideaStageId.stageName}</span>
+              <span>{moment(idea?.createdAt).format("YYYY-MM-DD")}</span>
             </div>
             <div className="card-body">
-              <p>{idea.synopsis.length > 100 ? `${idea.synopsis.substring(0, 100)}...` : idea.synopsis}</p>
+              <p>{idea.title.length > 100 ? `${idea.title.substring(0, 100)}...` : idea.title}</p>
               <p>
-                <strong>Author:</strong> {idea.author}
+                <strong>Author:</strong> {idea?.createdBy?.name}
               </p>
             </div>
             <div className="card-footer">
-              <span>{idea.likes} Likes</span>
-              <span>{idea.comments} Comments</span>
+              <span>{idea?.likes} Likes</span>
+              <span>{idea?.comments} Comments</span>
             </div>
           </div>
         ))}
