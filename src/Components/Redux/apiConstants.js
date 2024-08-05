@@ -15,4 +15,6 @@ export const AUTH_APIS = {
 //auth endpoint
 export const IDEA_APIS = {
   CREATE_IDEA: "/idea/v1/create-idea",
+  GET_ALL_FILTERED_IDEAS: "/idea/v1/filter",
+  GET_IDEA_DETAIL: "/idea/v1/get-idea",
 };

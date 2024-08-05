@@ -31,7 +31,6 @@ const PostIdeaPage = () => {
   const selectedFunction = watch("functionId");
 
   const handleOnFunctionClick = (functionId) => {
-    console.log(functionId);
     dispatch(getAllSubDivByFunId(functionId));
   };
 
