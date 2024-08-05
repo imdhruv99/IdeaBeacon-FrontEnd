@@ -13,7 +13,6 @@ const IdeaDetailsPage = () => {
   const { id } = useParams();
 
   const { isFetchingIdeaDetail, idea } = useSelector((state) => state.idea);
-  console.log(idea);
 
   const fetchIdeaDetails = async () => {
     await dispatch(getIdeaDetail(id));
