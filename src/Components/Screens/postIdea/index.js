@@ -1,3 +1,6 @@
+import "./PostIdeaPage.css";
+import "react-quill/dist/quill.snow.css";
+
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
@@ -11,28 +14,38 @@ import {
   FormControl,
 } from "@mui/material";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import "./PostIdeaPage.css";
-import { createIdea } from "../../Redux/api/ideaAPI";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-// Example options
-const categories = ["Tech", "Science", "Art"];
-const functions = ["Function 1", "Function 2"];
-const subdivisions = ["Sub 1", "Sub 2"];
+import { createIdea } from "../../Redux/api/ideaAPI";
+import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
+
 const coAuthorsOptions = ["Author 1", "Author 2", "Author 3"];
 const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
 
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
 
-  const { control, handleSubmit, watch, setValue } = useForm();
-  const selectedFunction = watch("function");
+  const { categories, functions, subdivisions, userList } = useSelector((state) => state.comon);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const { control, handleSubmit, watch, setValue, reset } = useForm();
+  const selectedFunction = watch("functionId");
 
-    // dispatch(createIdea());
+  const handleOnFunctionClick = (functionId) => {
+    console.log(functionId);
+    dispatch(getAllSubDivByFunId(functionId));
+  };
+
+  const onSubmit = async (data) => {
+    data["isActive"] = true;
+
+    if (data.coauthors.length > 0) {
+      const selectedUserIds = userList.filter((user) => data.coauthors.includes(user.name)).map((user) => user._id);
+
+      data.coauthors = selectedUserIds;
+    }
+
+    await dispatch(createIdea(data));
+    reset();
   };
 
   const modules = {
@@ -49,32 +62,44 @@ const PostIdeaPage = () => {
     <div className="post-idea-page">
       <h1>Post Your Idea</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Idea Category</InputLabel>
+        <div className="flex-row">
+          <FormControl fullWidth margin="normal" className="flex-item">
+            <InputLabel>Idea Category</InputLabel>
+            <Controller
+              name="ideaCategoryId"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <Select {...field} label="Idea Category">
+                  {categories.map((category) => (
+                    <MenuItem key={category._id} value={category._id}>
+                      {category.categoryName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            />
+          </FormControl>
+
           <Controller
-            name="ideaCategory"
+            name="title"
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <Select {...field} label="Idea Category">
-                {categories.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category}
-                  </MenuItem>
-                ))}
-              </Select>
+              <TextField
+                {...field}
+                label="Synopsis"
+                fullWidth
+                margin="normal"
+                multiline
+                rows={1}
+                className="flex-item flex-grow"
+              />
             )}
           />
-        </FormControl>
+        </div>
 
-        <Controller
-          name="synopsis"
-          control={control}
-          defaultValue=""
-          render={({ field }) => <TextField {...field} label="Synopsis" fullWidth margin="normal" multiline rows={1} />}
-        />
-
-        {["description", "advantages", "proposedSolution", "existingSolution"].map((field) => (
+        {["problemStatement", "advantage", "proposedSolution", "existingSolution"].map((field) => (
           <div className="quill-wrapper" key={field}>
             <InputLabel>{field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}</InputLabel>
             <Controller
@@ -86,113 +111,116 @@ const PostIdeaPage = () => {
           </div>
         ))}
 
-        <br />
-
-        <Controller
-          name="presentableDate"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Presentable Date"
-              type="date"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{ shrink: true }}
-            />
-          )}
-        />
-
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Function</InputLabel>
+        <div className="flex-row">
           <Controller
-            name="function"
+            name="presentableDate"
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <Select {...field} label="Function">
-                {functions.map((func) => (
-                  <MenuItem key={func} value={func}>
-                    {func}
-                  </MenuItem>
-                ))}
-              </Select>
+              <TextField
+                {...field}
+                label="Presentable Date"
+                type="date"
+                fullWidth
+                margin="normal"
+                InputLabelProps={{ shrink: true }}
+                className="flex-item"
+              />
             )}
           />
-        </FormControl>
 
-        {selectedFunction && (
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Sub Division</InputLabel>
+          <FormControl fullWidth margin="normal" className="flex-item">
+            <InputLabel>Function</InputLabel>
             <Controller
-              name="subDivision"
+              name="functionId"
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <Select {...field} label="Sub Division">
-                  {subdivisions.map((sub) => (
-                    <MenuItem key={sub} value={sub}>
-                      {sub}
+                <Select {...field} label="Function" onClick={() => handleOnFunctionClick(field.value)}>
+                  {functions.map((func) => (
+                    <MenuItem key={func._id} value={func._id}>
+                      {func.functionName}
                     </MenuItem>
                   ))}
                 </Select>
               )}
             />
           </FormControl>
-        )}
+
+          {selectedFunction && (
+            <FormControl fullWidth margin="normal" className="flex-item" disabled={!subdivisions.length > 0}>
+              <InputLabel>Sub Division</InputLabel>
+              <Controller
+                name="subdivisionId"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <Select {...field} label="Sub Division">
+                    {subdivisions.map((sub) => (
+                      <MenuItem key={sub._id} value={sub._id}>
+                        {sub.subdivisionName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+            </FormControl>
+          )}
+        </div>
+
+        <div className="flex-row">
+          <Controller
+            name="coauthors"
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
+              <FormControl fullWidth margin="normal" className="flex-item">
+                <InputLabel>Co-Authors</InputLabel>
+                <Select
+                  multiple
+                  value={field.value}
+                  onChange={(e) => setValue(field.name, e.target.value)}
+                  renderValue={(selected) => selected.join(", ")}
+                >
+                  {userList.map((author) => (
+                    <MenuItem key={author._id} value={author.name}>
+                      {author.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+          />
+
+          <Controller
+            name="tags"
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
+              <FormControl fullWidth margin="normal" className="flex-item">
+                <InputLabel>Tags</InputLabel>
+                <Select
+                  multiple
+                  value={field.value}
+                  onChange={(e) => setValue(field.name, e.target.value)}
+                  renderValue={(selected) => selected.join(", ")}
+                >
+                  {tagsOptions.map((tag) => (
+                    <MenuItem key={tag} value={tag}>
+                      {tag}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+          />
+        </div>
 
         <Controller
           name="isPrivate"
           control={control}
           defaultValue={false}
           render={({ field }) => <FormControlLabel control={<Checkbox {...field} />} label="Private" />}
-        />
-
-        <Controller
-          name="coAuthors"
-          control={control}
-          defaultValue={[]}
-          render={({ field }) => (
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Co-Authors</InputLabel>
-              <Select
-                multiple
-                value={field.value}
-                onChange={(e) => setValue(field.name, e.target.value)}
-                renderValue={(selected) => selected.join(", ")}
-              >
-                {coAuthorsOptions.map((author) => (
-                  <MenuItem key={author} value={author}>
-                    {author}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
-        />
-
-        <Controller
-          name="tags"
-          control={control}
-          defaultValue={[]}
-          render={({ field }) => (
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Tags</InputLabel>
-              <Select
-                multiple
-                value={field.value}
-                onChange={(e) => setValue(field.name, e.target.value)}
-                renderValue={(selected) => selected.join(", ")}
-              >
-                {tagsOptions.map((tag) => (
-                  <MenuItem key={tag} value={tag}>
-                    {tag}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
         />
 
         <div className="form-actions">

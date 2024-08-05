@@ -16,7 +16,7 @@
 }
 
 .quill-wrapper {
-  margin-bottom: 20px;
+  margin-top: 1.5rem;
 }
 
 .quill-editor {
@@ -51,29 +51,4 @@
 
 .MuiButton-root {
   font-family: 'Libre Baskerville', serif;
-}
-
-.flex-row {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.flex-item {
-  flex: 1;
-}
-
-.flex-grow {
-  flex: 2;
-}
-
-@media (max-width: 768px) {
-  .flex-row {
-    flex-direction: column;
-  }
-
-  .flex-item,
-  .flex-grow {
-    flex: none;
-  }
 }

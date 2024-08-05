@@ -14,9 +14,6 @@ export const ideaSlice = createSlice({
       state.isIdeaCreating = true;
     });
     builder.addCase(createIdea.fulfilled, (state, action) => {
-      const data = action.payload;
-      // console.log("data ->", JSON.stringify(data));
-
       state.isIdeaCreating = false;
     });
 
