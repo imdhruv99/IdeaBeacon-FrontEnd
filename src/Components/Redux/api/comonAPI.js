@@ -14,7 +14,7 @@ export const getAllStages = createAsyncThunk("getAllStages", async (data, { reje
   }
 });
 
-export const getAllCategory = createAsyncThunk("getAllStages", async (data, { rejectWithValue }) => {
+export const getAllCategory = createAsyncThunk("getAllCategory", async (data, { rejectWithValue }) => {
   try {
     const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_CATEGORIES}`, data);
 
@@ -36,10 +36,10 @@ export const getAllFunctions = createAsyncThunk("getAllFunctions", async (data, 
   }
 });
 
-export const getAllSubdivisionById = createAsyncThunk("getAllSubdivisionById", async (data, { rejectWithValue }) => {
+export const getAllSubDivByFunId = createAsyncThunk("getAllSubDivByFunId", async (data, { rejectWithValue }) => {
   try {
-    const response = await Webservice.GET(`${COMMON_APIS.GET_SUBDIVISION_BY_FUNCTION_ID}`, data);
-
+    const response = await Webservice.GET(`${COMMON_APIS.GET_SUBDIVISION_BY_FUNCTION_ID}${data}`, {});
+    console.log(response);
     return response.data.data;
   } catch (error) {
     console.log(`${COMMON_APIS.GET_ALL_FUNCTIONS}`, error);

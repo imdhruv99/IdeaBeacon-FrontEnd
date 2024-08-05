@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getAllCategory, getAllFunctions, getAllStages } from "../api/comonAPI";
+import { getAllCategory, getAllFunctions, getAllStages, getAllSubDivByFunId } from "../api/comonAPI";
 
 const initialState = {
   stages: [],
@@ -17,7 +17,6 @@ export const commonSlice = createSlice({
     // fetch all stages
     builder.addCase(getAllStages.fulfilled, (state, action) => {
       const data = action.payload;
-      // console.log("data ->", JSON.stringify(data));
 
       state.stages = data;
     });
@@ -29,7 +28,6 @@ export const commonSlice = createSlice({
     // fetch all categories
     builder.addCase(getAllCategory.fulfilled, (state, action) => {
       const data = action.payload;
-      // console.log("data ->", JSON.stringify(data));
 
       state.categories = data;
     });
@@ -41,7 +39,6 @@ export const commonSlice = createSlice({
     // fetch all functions
     builder.addCase(getAllFunctions.fulfilled, (state, action) => {
       const data = action.payload;
-      // console.log("data ->", JSON.stringify(data));
 
       state.functions = data;
     });
@@ -51,15 +48,14 @@ export const commonSlice = createSlice({
     });
 
     // fetch all subdivisions by function id
-    builder.addCase(getAllSubdivisionById.fulfilled, (state, action) => {
+    builder.addCase(getAllSubDivByFunId.fulfilled, (state, action) => {
       const data = action.payload;
-      // console.log("data ->", JSON.stringify(data));
 
       state.subdivisions = data;
     });
 
-    builder.addCase(getAllSubdivisionById.rejected, (state, action) => {
-      console.log("🚀 ~ rejected ~ getAllSubdivisionById:", action);
+    builder.addCase(getAllSubDivByFunId.rejected, (state, action) => {
+      console.log("🚀 ~ rejected ~ getAllSubDivByFunId:", action);
     });
   },
 });
