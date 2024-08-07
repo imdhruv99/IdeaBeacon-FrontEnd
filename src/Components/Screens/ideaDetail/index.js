@@ -12,7 +12,7 @@ const IdeaDetailsPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const { isFetchingIdeaDetail, idea } = useSelector((state) => state.idea);
+  const { isFetchingIdeaDetail, idea, ideaAuditLogData } = useSelector((state) => state.idea);
 
   const fetchIdeaDetails = async () => {
     await dispatch(getIdeaDetail(id));
@@ -22,6 +22,8 @@ const IdeaDetailsPage = () => {
     fetchIdeaDetails();
   }, [id]);
 
+  console.log("Audit Log:", ideaAuditLogData);
+  
   return isFetchingIdeaDetail ? (
     <div className="idea-details-page">Loading...</div>
   ) : (
@@ -35,7 +37,9 @@ const IdeaDetailsPage = () => {
         </Button>
       </div>
       <div className="idea-content">
-        <h2>Idea Synopsis</h2>
+        <p>
+        <strong>Idea Synopsis: </strong> {idea?.title}
+        </p>
         <p>
           <strong>Author:</strong> {idea?.createdBy.name}
         </p>
@@ -93,11 +97,11 @@ const IdeaDetailsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {idea?.trackStatus?.map((event, index) => (
+            {ideaAuditLogData?.map((event, index) => (
               <tr key={index}>
-                <td>{event.event}</td>
+                <td>{event.eventName}</td>
                 <td>{event.details}</td>
-                <td>{event.timestamp}</td>
+                <td>{moment(event.createdAt).format("YYYY-MM-DD")}</td>
               </tr>
             ))}
           </tbody>

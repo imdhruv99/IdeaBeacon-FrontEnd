@@ -7,6 +7,7 @@ const initialState = {
   isFetchingIdeaDetail: false,
   allFilteredIdeas: [],
   idea: undefined,
+  ideaAuditLogData: undefined,
 };
 
 export const ideaSlice = createSlice({
@@ -47,8 +48,9 @@ export const ideaSlice = createSlice({
     });
     builder.addCase(getIdeaDetail.fulfilled, (state, action) => {
       const data = action.payload;
-
-      state.idea = data;
+      
+      state.idea = data.ideaData;
+      state.ideaAuditLogData = data.ideaAuditLogData;
       state.isFetchingIdeaDetail = false;
     });
     builder.addCase(getIdeaDetail.rejected, (state, action) => {
