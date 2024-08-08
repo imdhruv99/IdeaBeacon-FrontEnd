@@ -1,49 +1,182 @@
 .idea-details-page {
     padding: 20px;
     font-family: 'Libre Baskerville', serif;
-  }
-  
-  .idea-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .idea-content h2 {
-    font-size: 1.5rem;
-    margin-top: 20px;
-  }
-  
-  .idea-content p {
-    margin: 5px 0;
-  }
-  
-  .track-status-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .track-status-table th, .track-status-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .comments-section {
-    margin-top: 20px;
-  }
-  
-  .comment {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-  }
-  
-  .comment-input {
-    margin-top: 20px;
-  }
-  
-  .comment-input TextField {
-    margin-right: 10px;
-  }
-  
+}
+
+/* Idea Header design */
+.idea-header {
+  display: flex;
+  justify-content: flex-end; 
+  margin-bottom: 20px;
+}
+
+/* Icon container */
+.icon-container {
+  display: flex;
+  gap: 15px;
+}
+
+/* Share icon design */
+.icon-share {
+  cursor: pointer; 
+  font-size: 1.5rem;
+  color: #014686;
+}
+
+/* Edit icon design */
+.icon-edit {
+  cursor: pointer; 
+  font-size: 1.5rem;
+  color: #007523;
+}
+
+/* Idea Synopsis Design */
+.idea-synopsis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  font-size: 1.5rem;
+}
+
+/* Grid design */
+.idea-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Grid item design */
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+/* Space between items in grid */
+.grid-item > div {
+  margin-bottom: 5px; 
+}
+
+/* Space between each details sections */
+.details-section {
+  margin-top: 20px;
+}
+
+/* Details box design */
+.details-box {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+/* Space between title and content */
+.details-box > div {
+  margin-top: 5px; 
+}
+
+/* Center the heading for Track Status */
+.track-status-section {
+  margin-top: 20px;
+  text-align: center; 
+}
+
+/* Center the heading for Track Status*/
+.track-status-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Track Status container design*/
+.track-status-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  overflow: hidden;
+}
+
+/* Track Status header/row design*/
+.track-status-header,
+.track-status-row {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Track Status header design*/
+.track-status-header {
+  font-weight: bold;
+  padding: 5px;
+  background-color: #f0f0f0;
+}
+
+/* Track Status cell design*/
+.track-status-cell {
+  flex: 1;
+  padding: 5px;
+  text-align: left;
+  border-right: 1px solid #ddd;
+}
+
+/* Remove border on the last cell */
+.track-status-cell:last-child {
+  border-right: none; 
+}
+
+.track-status-body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Horizontal Line */
+.comments-separator {
+  border-top: 2px solid #ddd; 
+  margin: 20px 0; 
+}
+
+.comments-section {
+  margin-top: 20px;
+}
+
+/* Border between comments */
+.comment {
+  border-bottom: 1px solid #ddd; 
+  padding: 10px 0;
+}
+
+/* Space between author and date */
+.comment-text {
+  margin-bottom: 5px; 
+}
+
+/* Comment Date Design */
+.comment-date {
+  font-style: italic; 
+  color: #666;
+}
+
+/* Comment input box Design */
+.comment-input {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.comment-textfield {
+  width: 500px;
+  height: auto;
+  font-size: 0.875rem;
+}
+
+/* Space between text field and button */
+.comment-input .MuiTextField-root {
+  margin-bottom: 10px; 
+}
+
+/* Align button to the start of the container */
+.comment-input Button {
+  align-self: flex-start; 
+}
