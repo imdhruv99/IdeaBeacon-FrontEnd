@@ -10,6 +10,7 @@ export const COMMON_APIS = {
 //auth endpoint
 export const AUTH_APIS = {
   LOGIN: "/auth/v1/login",
+  CREATE_USER: "/user/v1/create-user",
 };
 
 //auth endpoint

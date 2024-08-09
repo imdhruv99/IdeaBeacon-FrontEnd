@@ -7,6 +7,7 @@ import { useMsal } from "@azure/msal-react";
 
 import { setAccessToken, setIsLoggedIn } from "../../Redux/slice/auth-slice";
 import { loginRequest } from "../../../authConfig";
+import { createUser } from "../../Redux/api/authAPI";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -24,8 +25,15 @@ const Login = () => {
     if (accounts.length > 0) {
       if (accounts[0].idToken !== "") {
         dispatch(setAccessToken(accounts[0].idToken));
-        dispatch(setIsLoggedIn(true));
-        navigate("/dashboard");
+        let response = await dispatch(createUser({
+          preferredUsername: accounts[0].idTokenClaims.preferred_username,
+          name: accounts[0].idTokenClaims.name,
+          oid: accounts[0].idTokenClaims.oid,
+        }));
+        if (response.status !== 500) {
+          dispatch(setIsLoggedIn(true));
+          navigate("/dashboard");
+        }
       }
     }
   };
