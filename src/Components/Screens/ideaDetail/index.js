@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 import { getIdeaDetail } from "../../Redux/api/ideaAPI";
 import moment from "moment-timezone";
@@ -13,6 +14,7 @@ import moment from "moment-timezone";
 const IdeaDetailsPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [liked, setLiked] = useState(false);
 
   const { isFetchingIdeaDetail, idea, ideaAuditLogData } = useSelector((state) => state.idea);
 
@@ -20,11 +22,14 @@ const IdeaDetailsPage = () => {
     await dispatch(getIdeaDetail(id));
   };
 
+  const handleLikeClick = async () => {
+    setLiked(!liked);
+    // await dispatch(likeIdea(id)); // Trigger the like API call
+  };
+
   useEffect(() => {
     fetchIdeaDetails();
   }, [id]);
-
-  console.log("Audit Log:", ideaAuditLogData);
   
   return isFetchingIdeaDetail ? (
     <div className="idea-details-page">Loading...</div>
@@ -32,6 +37,10 @@ const IdeaDetailsPage = () => {
     <div className="idea-details-page">
       <div className="idea-header">
         <div className="icon-container">
+          <ThumbUpIcon 
+            className={`icon-like ${liked ? 'liked' : ''}`} 
+            onClick={handleLikeClick}
+          />
           <ShareIcon className="icon-share" />
           <EditIcon className="icon-edit" />
         </div>
@@ -42,7 +51,7 @@ const IdeaDetailsPage = () => {
         </div>
         <div className="idea-details-grid">
       <div className="grid-item">
-        <div><strong>Author:</strong> {idea?.createdBy.name}</div>
+        <div><strong>Author:</strong> {idea?.createdBy?.name}</div>
         <div><strong>Stage:</strong> {idea?.ideaStageId.stageName}</div>
         <div><strong>Category:</strong> {idea?.ideaCategoryId.categoryName}</div>
       </div>
