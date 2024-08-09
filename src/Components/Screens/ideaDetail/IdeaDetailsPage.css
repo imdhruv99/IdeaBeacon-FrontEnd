@@ -128,6 +128,8 @@
 .track-status-row {
   display: flex;
   border-bottom: 1px solid #ddd;
+  padding: 10px;
+  line-height: 25px;
 }
 
 /* Track Status header design*/
@@ -140,7 +142,6 @@
 /* Track Status cell design*/
 .track-status-cell {
   flex: 1;
-  padding: 5px;
   text-align: left;
   border-right: 1px solid #ddd;
 }

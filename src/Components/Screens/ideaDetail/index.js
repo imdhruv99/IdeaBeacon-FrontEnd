@@ -51,7 +51,7 @@ const IdeaDetailsPage = () => {
         </div>
         <div className="idea-details-grid">
       <div className="grid-item">
-        <div><strong>Author:</strong> {idea?.createdBy.name}</div>
+        <div><strong>Author:</strong> {idea?.createdBy?.name}</div>
         <div><strong>Stage:</strong> {idea?.ideaStageId.stageName}</div>
         <div><strong>Category:</strong> {idea?.ideaCategoryId.categoryName}</div>
       </div>
