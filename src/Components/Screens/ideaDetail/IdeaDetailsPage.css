@@ -30,6 +30,18 @@
   color: #007523;
 }
 
+/* Like icon design */
+.icon-like {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #888;
+  transition: color 0.3s;
+}
+
+.icon-like.liked {
+  color: #0046a9; /* Color when liked */
+}
+
 /* Idea Synopsis Design */
 .idea-synopsis {
   display: flex;
@@ -39,6 +51,9 @@
   border: 1px solid #ddd;
   margin: 10px 0;
   font-size: 1.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 /* Grid design */
@@ -55,6 +70,9 @@
   flex-direction: column;
   border: 1px solid #ddd;
   padding: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 /* Space between items in grid */
@@ -72,6 +90,9 @@
   border: 1px solid #ddd;
   padding: 15px;
   margin-bottom: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 /* Space between title and content */
@@ -97,6 +118,9 @@
   flex-direction: column;
   border: 1px solid #ddd;
   overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 /* Track Status header/row design*/
