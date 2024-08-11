@@ -1,19 +1,22 @@
 import "./LoginPage.css";
 
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 
 import { setAccessToken, setIsLoggedIn } from "../../Redux/slice/auth-slice";
 import { loginRequest } from "../../../authConfig";
 import { createUser } from "../../Redux/api/authAPI";
+import Loader from "../../Common/Loader/index.js";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { instance, accounts } = useMsal();
+
+  const { isCreatingUser } = useSelector(state => state.auth);
 
   const handleAzureLogin = async () => {
     await instance.loginRedirect(loginRequest).catch((e) => {
@@ -52,6 +55,7 @@ const Login = () => {
           Login
         </button>
       </div>
+      {isCreatingUser && <Loader />}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import "./IdeasPage.css";
+import "./myIdeaList.css";
 
 import React, { useEffect, useState } from "react";
 import { MenuItem, Select, TextField, Button, FormControl } from "@mui/material";
@@ -9,22 +9,22 @@ import moment from "moment-timezone";
 import { getAllFilteredIdeas } from "../../Redux/api/ideaAPI";
 import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
 
-const IdeasPage = () => {
+const MyIdeaPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { stages, categories, functions, subdivisions, userList } = useSelector((state) => state.comon);
+  const { stages, categories, functions, subdivisions, userList, currentUser } = useSelector((state) => state.comon);
   const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
 
   const [filters, setFilters] = useState({
     stageId: "",
     categoryId: "",
-    authorId: "",
+    authorId: currentUser._id,
     functionId: "",
     subdivisionId: "",
     month: "",
     year: "",
   });
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
   const handleOnFunctionClick = (functionId) => {
     dispatch(getAllSubDivByFunId(functionId));
@@ -48,18 +48,18 @@ const IdeasPage = () => {
     }));
     // Fetch and update ideas based on quick filter here
   };
-
+  
   const resetFilters = () => {
     setFilters({
       stageId: "",
       categoryId: "",
-      authorId: "",
+      authorId: currentUser._id,
       functionId: "",
       subdivisionId: "",
       month: "",
       year: "",
     });
-    // Fetch and update ideas to show all
+
   };
 
   const handleCardClick = (id) => {
@@ -67,7 +67,7 @@ const IdeasPage = () => {
   };
 
   const fetchIdeaList = async () => {
-    filters.isPrivate= false
+    filters.isPrivate= true
     await dispatch(getAllFilteredIdeas(filters));
   };
 
@@ -115,25 +115,6 @@ const IdeasPage = () => {
             {categories.map((func) => (
               <MenuItem key={func._id} value={func._id}>
                 {func.categoryName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <Select
-            name="authorId"
-            value={filters.authorId}
-            onChange={handleFilterChange}
-            displayEmpty
-            inputProps={{ "aria-label": "All Authors" }}
-          >
-            <MenuItem value="">
-              <em>{"All Authors"}</em>
-            </MenuItem>
-            {userList.map((user) => (
-              <MenuItem key={user._id} value={user._id}>
-                {user.name}
               </MenuItem>
             ))}
           </Select>
@@ -257,4 +238,4 @@ const IdeasPage = () => {
   );
 };
 
-export default IdeasPage;
+export default MyIdeaPage;

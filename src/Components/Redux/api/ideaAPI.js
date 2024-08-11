@@ -17,7 +17,7 @@ export const createIdea = createAsyncThunk("createIdea", async (data, { rejectWi
 export const getAllFilteredIdeas = createAsyncThunk("getAllFilteredIdeas", async (data, { rejectWithValue }) => {
   try {
     const response = await Webservice.POST(`${IDEA_APIS.GET_ALL_FILTERED_IDEAS}`, data);
-
+    
     return response.data.data;
   } catch (error) {
     console.log(`${IDEA_APIS.GET_ALL_FILTERED_IDEAS}`, error);
@@ -27,7 +27,6 @@ export const getAllFilteredIdeas = createAsyncThunk("getAllFilteredIdeas", async
 
 export const getIdeaDetail = createAsyncThunk("getIdeaDetail", async (data, { rejectWithValue }) => {
   try {
-    console.log(data);
     const response = await Webservice.GET(`${IDEA_APIS.GET_IDEA_DETAIL}/${data}`, {});
 
     return response.data.data;
