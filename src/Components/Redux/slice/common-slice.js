@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { getAllCategory, getAllFunctions, getAllStages, getAllSubDivByFunId, getAllUserList } from "../api/comonAPI";
+import { createUser } from "../api/authAPI";
 
 const initialState = {
   stages: [],
@@ -8,6 +9,7 @@ const initialState = {
   functions: [],
   subdivisions: [],
   userList: [],
+  currentUser: undefined,
 };
 
 export const commonSlice = createSlice({
@@ -15,6 +17,12 @@ export const commonSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+
+    builder.addCase(createUser.fulfilled, (state, action) => {
+      const data = action.payload.data;
+      state.currentUser = data;
+    });
+
     // fetch all stages
     builder.addCase(getAllStages.fulfilled, (state, action) => {
       const data = action.payload;
@@ -62,8 +70,8 @@ export const commonSlice = createSlice({
     // fetch all users list
     builder.addCase(getAllUserList.fulfilled, (state, action) => {
       const data = action.payload;
-
-      state.userList = data;
+      const updatedUserList = data.filter(user => user.oid !== state.currentUser.oid);
+      state.userList = updatedUserList;
     });
 
     builder.addCase(getAllUserList.rejected, (state, action) => {
