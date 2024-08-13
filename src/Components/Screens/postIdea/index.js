@@ -15,18 +15,40 @@ import {
 } from "@mui/material";
 import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment-timezone";
+import { useNavigate } from "react-router-dom";
 
-import { createIdea } from "../../Redux/api/ideaAPI";
+import { createIdea, updateIdea } from "../../Redux/api/ideaAPI";
 import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
+import { setIsUpdatingIdea } from "../../Redux/slice/idea-slice";
 
 const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
 
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { categories, functions, subdivisions, userList } = useSelector((state) => state.comon);
+  const { idea, isUpdatingIdea } = useSelector((state) => state.idea);
+  console.log(idea);
 
-  const { control, handleSubmit, watch, setValue, reset } = useForm();
+  const { control, handleSubmit, watch, setValue, reset } = useForm({
+    defaultValues: {
+      ideaCategoryId: idea?.ideaCategoryId._id || "",
+      title: idea?.title || "",
+      problemStatement: idea?.problemStatement || "",
+      advantage: idea?.advantage || "",
+      proposedSolution: idea?.proposedSolution || "",
+      existingSolution: idea?.existingSolution || "",
+      presentableDate: moment(idea?.presentableDate).format("YYYY-MM-DD") || "",
+      functionId: idea?.functionId._id || "",
+      subdivisionId: idea?.subdivisionId._id || "",
+      coauthors: idea?.coauthors.map((author) => author.name) || [],
+      tags: idea?.tags || [],
+      isPrivate: idea?.isPrivate || false,
+    },
+  });
+
   const selectedFunction = watch("functionId");
 
   const handleOnFunctionClick = (functionId) => {
@@ -42,7 +64,16 @@ const PostIdeaPage = () => {
       data.coauthors = selectedUserIds;
     }
 
-    await dispatch(createIdea(data));
+    if (isUpdatingIdea) {
+      data.id = idea._id;
+      await dispatch(updateIdea(data));
+      navigate(`/idea-details/${idea._id}`);
+    } else {
+      await dispatch(createIdea(data));
+      navigate("/ideas");
+    }
+
+    dispatch(setIsUpdatingIdea(false));
     reset();
   };
 
@@ -63,9 +94,21 @@ const PostIdeaPage = () => {
     if (selectedFunction) handleOnFunctionClick(selectedFunction);
   }, [selectedFunction]);
 
+  useEffect(() => {
+    if (isUpdatingIdea) {
+      handleOnFunctionClick(idea.functionId._id);
+    }
+  }, [isUpdatingIdea]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setIsUpdatingIdea(false));
+    };
+  }, []);
+
   return (
     <div className="post-idea-page">
-      <h1>Post Your Idea</h1>
+      <h1>{`${isUpdatingIdea ? "Update" : "Post"} Your Idea`}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-row">
           <div className="card" style={{ width: "30%" }}>
@@ -247,7 +290,7 @@ const PostIdeaPage = () => {
 
         <div className="form-actions card">
           <Button type="submit" variant="contained" color="primary">
-            Publish
+            {isUpdatingIdea ? "Update" : "Publish"}
           </Button>
         </div>
       </form>
