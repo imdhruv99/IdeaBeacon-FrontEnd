@@ -17,9 +17,8 @@ export const commonSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-
     builder.addCase(createUser.fulfilled, (state, action) => {
-      const data = action.payload.data;
+      const data = action.payload?.data;
       state.currentUser = data;
     });
 
@@ -70,7 +69,7 @@ export const commonSlice = createSlice({
     // fetch all users list
     builder.addCase(getAllUserList.fulfilled, (state, action) => {
       const data = action.payload;
-      const updatedUserList = data.filter(user => user.oid !== state.currentUser.oid);
+      const updatedUserList = data.filter((user) => user.oid !== state.currentUser.oid);
       state.userList = updatedUserList;
     });
 
@@ -81,6 +80,6 @@ export const commonSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {} = commonSlice.actions;
+// export const {} = commonSlice.actions;
 
 export default commonSlice.reducer;

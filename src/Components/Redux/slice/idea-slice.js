@@ -48,7 +48,7 @@ export const ideaSlice = createSlice({
     });
     builder.addCase(getIdeaDetail.fulfilled, (state, action) => {
       const data = action.payload;
-      
+
       state.idea = data.ideaData;
       state.ideaAuditLogData = data.ideaAuditLogData;
       state.isFetchingIdeaDetail = false;
@@ -61,6 +61,6 @@ export const ideaSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {} = ideaSlice.actions;
+// export const {} = ideaSlice.actions;
 
 export default ideaSlice.reducer;
