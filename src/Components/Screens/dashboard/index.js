@@ -8,7 +8,6 @@ import { initialStages, initialCategories } from "../../Helpers/Constants.js";
 import useInitialFeatch from "../../hooks/useInitialFeatch";
 import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
 
-
 // importing images
 import ideaIcon from "../../../Assets/icons/idea-icon.png";
 import brainstormIcon from "../../../Assets/icons/brainstorm-icon.png";
@@ -29,42 +28,51 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
-  const { functions, subdivisions, stages, categories } = useSelector((state) => state.comon);  
+  const { functions, subdivisions, stages, categories } = useSelector((state) => state.comon);
 
   useEffect(() => {
-    if(!stages) {
-      return null
+    if (!stages) {
+      return null;
     }
-    let updatedStages = stages.filter(stage => stage.stageName !== "Archived")
-    let filteredStages = updatedStages.map(stage => { 
-        return {
-          name:  stage.stageName,
-          count: 0,
-          icon: stage.stageName === "Idea" ? ideaIcon : ( stage.stageName === "Brainstorm" ? brainstormIcon : (stage.stageName === "Selected" ? selectedIcon: implementedIcon ))
-        }
-      }
-    );
+    let updatedStages = stages.filter((stage) => stage.stageName !== "Archived");
+    let filteredStages = updatedStages.map((stage) => {
+      return {
+        name: stage.stageName,
+        count: 0,
+        icon:
+          stage.stageName === "Idea"
+            ? ideaIcon
+            : stage.stageName === "Brainstorm"
+            ? brainstormIcon
+            : stage.stageName === "Selected"
+            ? selectedIcon
+            : implementedIcon,
+      };
+    });
 
     setStages(filteredStages);
 
     if (!categories) {
-      return null
+      return null;
     }
 
-    let filteredCategories = categories.map(category => {
+    let filteredCategories = categories.map((category) => {
       return {
         name: category.categoryName,
         count: 0,
-        icon: category.categoryName === "Tools & Technology" ? toolsAndTechnologyIcon : (category.categoryName === "Process & Documentation" ? processIcon : (category.categoryName === "Work Life Integrations" ? workLifeIcon : otherIcon))
-      }
+        icon:
+          category.categoryName === "Tools & Technology"
+            ? toolsAndTechnologyIcon
+            : category.categoryName === "Process & Documentation"
+            ? processIcon
+            : category.categoryName === "Work Life Integrations"
+            ? workLifeIcon
+            : otherIcon,
+      };
     });
     setCategories(filteredCategories);
-
   }, [stages, categories]);
 
-
-
-  
   const { control, watch } = useForm();
   const [ideaStages, setStages] = useState(initialStages);
   const [ideaCategories, setCategories] = useState(initialCategories);
@@ -84,81 +92,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-page">
-      <div className="dashboard-logo">{ <img src={jnprImage} alt="Juniper Networks" /> }</div>
-
-      <div className="dashboard-filters">
-        <FormControl margin="normal">
-          <InputLabel>All Functions</InputLabel>
-          <Controller
-            name="function"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <Select {...field} label="All Functions">
-                {functions.map((func) => (
-                  <MenuItem key={func._id} value={func._id}>
-                    {func.functionName}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
-          />
-        </FormControl>
-
-        <FormControl margin="normal" disabled={!selectedFunction}>
-          <InputLabel>All Sub Divisions</InputLabel>
-          <Controller
-            name="subDivision"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <Select {...field} label="All Sub Divisions">
-                {subdivisions.map((sub) => (
-                  <MenuItem key={sub._id} value={sub._id}>
-                    {sub.subdivisionName}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
-          />
-        </FormControl>
-
-        <FormControl margin="normal" disabled={true}>
-          <InputLabel>All Months</InputLabel>
-          <Controller
-            name="month"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <Select {...field} label="All Months">
-                {months.map((month) => (
-                  <MenuItem key={month} value={month}>
-                    {month}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
-          />
-        </FormControl>
-
-        <FormControl margin="normal" disabled={true}>
-          <InputLabel>All Years</InputLabel>
-          <Controller
-            name="year"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <Select {...field} label="All Years">
-                {years.map((year) => (
-                  <MenuItem key={year} value={year}>
-                    {year}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
-          />
-        </FormControl>
-      </div>
+      <div className="dashboard-logo">{<img src={jnprImage} alt="Juniper Networks" />}</div>
 
       <div className="dashboard-cards">
         <Typography variant="h5" className="section-header">
@@ -167,7 +101,7 @@ const Dashboard = () => {
         <Grid container spacing={2}>
           {ideaStages.map((stage) => (
             <Grid item xs={12} sm={6} md={3} key={stage.name}>
-              <div className="card">
+              <div className="cards">
                 <div className="card-icon">
                   <img src={stage.icon} alt={`${stage.name} icon`} />
                 </div>
@@ -187,7 +121,7 @@ const Dashboard = () => {
         <Grid container spacing={2} className="category-cards">
           {ideaCategories.map((category) => (
             <Grid item xs={12} sm={6} md={3} key={category.name}>
-              <div className="card">
+              <div className="cards">
                 <div className="card-icon">
                   <img src={category.icon} alt={`${category.name} icon`} />
                 </div>

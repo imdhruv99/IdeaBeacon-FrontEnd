@@ -3,7 +3,12 @@
 .dashboard-page {
     padding: 2rem;
     font-family: 'Libre Baskerville', serif;
-    height: 83vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow: hidden;
 }
 
 .dashboard-logo {
@@ -34,13 +39,20 @@
     font-size: 1.5rem;
   }
 
-.dashboard-cards .card {
+.dashboard-cards .cards{
     background: #f9f9f9;
     border-radius: 8px;
     padding: 1rem;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10rem
 }
+
 
 .card-icon {
     font-size: 2rem;
