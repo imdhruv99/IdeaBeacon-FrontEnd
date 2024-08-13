@@ -1,0 +1,97 @@
+.post-idea-page {
+  font-family: 'Libre Baskerville', serif;
+}
+
+.post-idea-page h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-idea-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: -webkit-fill-available;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.quill-custom-label {
+  padding: 0rem 0rem 0.7rem 0rem;
+  font-family: 'Libre Baskerville', serif;
+}
+
+.quill-wrapper {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.quill-editor {
+  height: 200px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.ql-container {
+  border: none !important;
+  border-radius: 4px  
+}
+
+.ql-editor {
+  min-height: 200px;
+}
+
+.MuiFormControl-root {
+  margin-top: 1.5rem;
+  position: relative;
+  /* Ensure it is positioned relative for correct alignment */
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.MuiButton-root {
+  font-family: 'Libre Baskerville', serif;
+}
+
+.flex-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.flex-item {
+  flex: 1;
+}
+
+.flex-grow {
+  flex: 2;
+}
+
+@media (max-width: 768px) {
+  .flex-row {
+    flex-direction: column;
+  }
+
+  .flex-item,
+  .flex-grow {
+    flex: none;
+  }
+}

@@ -17,7 +17,7 @@ export const createIdea = createAsyncThunk("createIdea", async (data, { rejectWi
 export const getAllFilteredIdeas = createAsyncThunk("getAllFilteredIdeas", async (data, { rejectWithValue }) => {
   try {
     const response = await Webservice.POST(`${IDEA_APIS.GET_ALL_FILTERED_IDEAS}`, data);
-    
+
     return response.data.data;
   } catch (error) {
     console.log(`${IDEA_APIS.GET_ALL_FILTERED_IDEAS}`, error);
@@ -32,6 +32,17 @@ export const getIdeaDetail = createAsyncThunk("getIdeaDetail", async (data, { re
     return response.data.data;
   } catch (error) {
     console.log(`${IDEA_APIS.GET_IDEA_DETAIL}`, error);
+    return rejectWithValue(error.response.data.data);
+  }
+});
+
+export const updateIdea = createAsyncThunk("updateIdea", async (data, { rejectWithValue }) => {
+  try {
+    const response = await Webservice.PUT(`${IDEA_APIS.UPDATE_IDEA_DETAIL}/${data.id}`, data);
+
+    return response.data.data;
+  } catch (error) {
+    console.log(`${IDEA_APIS.UPDATE_IDEA_DETAIL}`, error);
     return rejectWithValue(error.response.data.data);
   }
 });

@@ -67,7 +67,7 @@ const IdeasPage = () => {
   };
 
   const fetchIdeaList = async () => {
-    filters.isPrivate= false
+    filters.isPrivate = false;
     await dispatch(getAllFilteredIdeas(filters));
   };
 
@@ -203,6 +203,7 @@ const IdeasPage = () => {
           </Select>
         </FormControl>
       </div>
+
       <div className="quick-filters">
         <Button
           variant="outlined"
