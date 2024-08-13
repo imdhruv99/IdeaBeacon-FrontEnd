@@ -19,7 +19,7 @@ const Web = () => {
   return (
     <div className="App">
       {isLoggedIn && <Navbar />}
-      <div className="App">
+      <div className="App" style={{ padding: "5rem 2rem 5rem 2rem" }}>
         <Routes>
           <Route exact={true} element={<ProtectedRoutes />}>
             <Route key={"/dashboard"} path="/dashboard" exact={true} element={<Dashboard />} />
