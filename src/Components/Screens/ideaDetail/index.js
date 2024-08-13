@@ -19,7 +19,7 @@ const IdeaDetailsPage = () => {
   const { id } = useParams();
   const [liked, setLiked] = useState(false);
 
-  const { isFetchingIdeaDetail, idea, ideaAuditLogData } = useSelector((state) => state.idea);
+  const { idea, ideaAuditLogData } = useSelector((state) => state.idea);
 
   const fetchIdeaDetails = async () => {
     await dispatch(getIdeaDetail(id));
@@ -31,7 +31,6 @@ const IdeaDetailsPage = () => {
   };
 
   const handleEditClick = () => {
-    dispatch(setIsUpdatingIdea(true));
     navigate("/update-idea");
   };
 
@@ -39,9 +38,7 @@ const IdeaDetailsPage = () => {
     fetchIdeaDetails();
   }, [id]);
 
-  return isFetchingIdeaDetail ? (
-    <div className="idea-details-page">Loading...</div>
-  ) : (
+  return (
     <div className="idea-details-page">
       <div className="idea-header">
         <div className="icon-container">
@@ -131,23 +128,25 @@ const IdeaDetailsPage = () => {
           </div>
         </div>
         <div className="comments-separator"></div> {/* Horizontal line */}
-        <h3>Comments</h3>
-        <div className="comments-section">
-          {idea?.comments?.map((comment, index) => (
-            <div key={index} className="comment">
-              <div className="comment-text">
-                <strong>{comment.author}:</strong> {comment.text}
+        <div className="grid-item">
+          <h3>Comments</h3>
+          <div className="comments-section">
+            {idea?.comments?.map((comment, index) => (
+              <div key={index} className="comment">
+                <div className="comment-text">
+                  <strong>{comment.author}:</strong> {comment.text}
+                </div>
+                <div className="comment-date">
+                  <em>{comment.date}</em>
+                </div>
               </div>
-              <div className="comment-date">
-                <em>{comment.date}</em>
-              </div>
+            ))}
+            <div className="comment-input">
+              <TextField className="comment-textfield" label="Add a Comment" variant="outlined" multiline rows={2} />
+              <Button variant="contained" color="primary">
+                Comment
+              </Button>
             </div>
-          ))}
-          <div className="comment-input">
-            <TextField className="comment-textfield" label="Add a Comment" variant="outlined" multiline rows={2} />
-            <Button variant="contained" color="primary">
-              Comment
-            </Button>
           </div>
         </div>
       </div>

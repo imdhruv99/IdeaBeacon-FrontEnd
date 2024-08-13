@@ -38,8 +38,6 @@ export const getIdeaDetail = createAsyncThunk("getIdeaDetail", async (data, { re
 
 export const updateIdea = createAsyncThunk("updateIdea", async (data, { rejectWithValue }) => {
   try {
-    console.log(data);
-
     const response = await Webservice.PUT(`${IDEA_APIS.UPDATE_IDEA_DETAIL}/${data.id}`, data);
 
     return response.data.data;
