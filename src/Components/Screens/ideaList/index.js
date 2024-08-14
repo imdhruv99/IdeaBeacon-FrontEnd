@@ -78,8 +78,10 @@ const IdeasPage = () => {
   return (
     <div className="ideas-page">
       <h1 className="page-title">Ideas</h1>
-      <div className="search-bar">
-        <TextField variant="outlined" label="Search Ideas" fullWidth />
+      <div className="background-card">
+        <div className="search-bar">
+          <TextField variant="outlined" label="Search Ideas" fullWidth />
+        </div>
       </div>
       <div className="filters">
         <FormControl sx={{ m: 1, minWidth: 120 }}>

@@ -1,12 +1,12 @@
 .idea-details-page {
-    padding: 20px;
-    font-family: 'Libre Baskerville', serif;
+  padding: 5rem 2rem 5rem 2rem;
+  font-family: 'Libre Baskerville', serif;
 }
 
 /* Idea Header design */
 .idea-header {
   display: flex;
-  justify-content: flex-end; 
+  justify-content: flex-end;
   margin-bottom: 20px;
 }
 
@@ -18,14 +18,14 @@
 
 /* Share icon design */
 .icon-share {
-  cursor: pointer; 
+  cursor: pointer;
   font-size: 1.5rem;
   color: #014686;
 }
 
 /* Edit icon design */
 .icon-edit {
-  cursor: pointer; 
+  cursor: pointer;
   font-size: 1.5rem;
   color: #007523;
 }
@@ -39,7 +39,8 @@
 }
 
 .icon-like.liked {
-  color: #0046a9; /* Color when liked */
+  color: #0046a9;
+  /* Color when liked */
 }
 
 /* Idea Synopsis Design */
@@ -76,8 +77,8 @@
 }
 
 /* Space between items in grid */
-.grid-item > div {
-  margin-bottom: 5px; 
+.grid-item>div {
+  margin-bottom: 5px;
 }
 
 /* Space between each details sections */
@@ -96,14 +97,14 @@
 }
 
 /* Space between title and content */
-.details-box > div {
-  margin-top: 5px; 
+.details-box>div {
+  margin-top: 5px;
 }
 
 /* Center the heading for Track Status */
 .track-status-section {
   margin-top: 20px;
-  text-align: center; 
+  text-align: center;
 }
 
 /* Center the heading for Track Status*/
@@ -148,7 +149,7 @@
 
 /* Remove border on the last cell */
 .track-status-cell:last-child {
-  border-right: none; 
+  border-right: none;
 }
 
 .track-status-body {
@@ -158,8 +159,8 @@
 
 /* Horizontal Line */
 .comments-separator {
-  border-top: 2px solid #ddd; 
-  margin: 20px 0; 
+  border-top: 2px solid #ddd;
+  margin: 20px 0;
 }
 
 .comments-section {
@@ -168,18 +169,18 @@
 
 /* Border between comments */
 .comment {
-  border-bottom: 1px solid #ddd; 
+  border-bottom: 1px solid #ddd;
   padding: 10px 0;
 }
 
 /* Space between author and date */
 .comment-text {
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
 }
 
 /* Comment Date Design */
 .comment-date {
-  font-style: italic; 
+  font-style: italic;
   color: #666;
 }
 
@@ -198,10 +199,10 @@
 
 /* Space between text field and button */
 .comment-input .MuiTextField-root {
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 /* Align button to the start of the container */
 .comment-input Button {
-  align-self: flex-start; 
+  align-self: flex-start;
 }
