@@ -7,11 +7,11 @@
   background-size: cover;
   font-family: 'Libre Baskerville', serif;
   padding: 0 2rem;
-  color: #fff; 
+  color: #fff;
 }
 
 .landing-content {
-  max-width: 700px;
+  max-width: 43.75rem;
   margin-bottom: 12rem;
 }
 

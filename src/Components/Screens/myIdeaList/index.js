@@ -48,7 +48,7 @@ const MyIdeaPage = () => {
     }));
     // Fetch and update ideas based on quick filter here
   };
-  
+
   const resetFilters = () => {
     setFilters({
       stageId: "",
@@ -67,7 +67,7 @@ const MyIdeaPage = () => {
   };
 
   const fetchIdeaList = async () => {
-    filters.isPrivate= true
+    filters.isPrivate = true
     await dispatch(getAllFilteredIdeas(filters));
   };
 
@@ -77,9 +77,11 @@ const MyIdeaPage = () => {
 
   return (
     <div className="ideas-page">
-      <h1 className="page-title">Ideas</h1>
-      <div className="search-bar">
-        <TextField variant="outlined" label="Search Ideas" fullWidth />
+      <h1 className="page-title">My Ideas</h1>
+      <div className="background-card">
+        <div className="search-bar">
+          <TextField variant="outlined" label="Search Ideas" fullWidth />
+        </div>
       </div>
       <div className="filters">
         <FormControl sx={{ m: 1, minWidth: 120 }}>
