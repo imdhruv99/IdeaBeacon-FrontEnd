@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { getAllCategory, getAllFunctions, getAllStages, getAllUserList } from "../Redux/api/commonAPI";
+import { getAllVerticals, getAllFunctions, getAllStages, getAllUserList } from "../Redux/api/commonAPI";
 
 const useInitialFeatch = () => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const useInitialFeatch = () => {
     let Promises = [];
 
     Promises.push(dispatch(getAllStages()));
-    Promises.push(dispatch(getAllCategory()));
+    Promises.push(dispatch(getAllVerticals()));
     Promises.push(dispatch(getAllFunctions()));
     Promises.push(dispatch(getAllUserList()));
 

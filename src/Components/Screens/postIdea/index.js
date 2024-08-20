@@ -24,7 +24,7 @@ const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
 
-  const { categories, functions, subdivisions, userList } = useSelector((state) => state.common);
+  const { verticals, functions, subdivisions, userList } = useSelector((state) => state.common);
 
   const { control, handleSubmit, watch, setValue, reset } = useForm();
   const selectedFunction = watch("functionId");
@@ -70,16 +70,16 @@ const PostIdeaPage = () => {
         <div className="flex-row">
           <div className="card" style={{ width: "30%" }}>
             <FormControl fullWidth margin="normal" className="flex-item">
-              <InputLabel>Idea Category</InputLabel>
+              <InputLabel>Idea Vertical</InputLabel>
               <Controller
-                name="ideaCategoryId"
+                name="ideaVerticalId"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <Select {...field} label="Idea Category" inputProps={{ id: "ideaCategoryId" }}>
-                    {categories.map((category) => (
-                      <MenuItem key={category._id} value={category._id}>
-                        {category.categoryName}
+                  <Select {...field} label="Idea Vertical" inputProps={{ id: "ideaVerticalId" }}>
+                    {verticals.map((vertical) => (
+                      <MenuItem key={vertical._id} value={vertical._id}>
+                        {vertical.verticalName}
                       </MenuItem>
                     ))}
                   </Select>

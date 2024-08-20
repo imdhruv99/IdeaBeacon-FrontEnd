@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getAllCategory, getAllFunctions, getAllStages, getAllSubDivByFunId, getAllUserList } from "../api/commonAPI";
+import { getAllVerticals, getAllFunctions, getAllStages, getAllSubDivByFunId, getAllUserList } from "../api/commonAPI";
 import { createUser } from "../api/authAPI";
 
 const initialState = {
   stages: [],
-  categories: [],
+  verticals: [],
   functions: [],
   subdivisions: [],
   userList: [],
@@ -33,15 +33,15 @@ export const commonSlice = createSlice({
       console.log("🚀 ~ rejected ~ getAllStages:", action);
     });
 
-    // fetch all categories
-    builder.addCase(getAllCategory.fulfilled, (state, action) => {
+    // fetch all verticals
+    builder.addCase(getAllVerticals.fulfilled, (state, action) => {
       const data = action.payload;
 
-      state.categories = data;
+      state.verticals = data;
     });
 
-    builder.addCase(getAllCategory.rejected, (state, action) => {
-      console.log("🚀 ~ rejected ~ getAllCategory:", action);
+    builder.addCase(getAllVerticals.rejected, (state, action) => {
+      console.log("🚀 ~ rejected ~ getAllVertical:", action);
     });
 
     // fetch all functions

@@ -12,12 +12,12 @@ import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 const IdeasPage = () => {
   const dispatch = useDispatch();
 
-  const { stages, categories, functions, subdivisions, userList } = useSelector((state) => state.common);
+  const { stages, verticals, functions, subdivisions, userList } = useSelector((state) => state.common);
   const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
 
   const [filters, setFilters] = useState({
     stageId: "",
-    categoryId: "",
+    verticalId: "",
     authorId: "",
     functionId: "",
     subdivisionId: "",
@@ -52,7 +52,7 @@ const IdeasPage = () => {
   const resetFilters = () => {
     setFilters({
       stageId: "",
-      categoryId: "",
+      verticalId: "",
       authorId: "",
       functionId: "",
       subdivisionId: "",
@@ -105,18 +105,18 @@ const IdeasPage = () => {
 
         <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
-            name="categoryId"
-            value={filters.categoryId}
+            name="verticalId"
+            value={filters.verticalId}
             onChange={handleFilterChange}
             displayEmpty
-            inputProps={{ "aria-label": "All Categories" }}
+            inputProps={{ "aria-label": "All Verticals" }}
           >
             <MenuItem value="">
-              <em>{"All Categories"}</em>
+              <em>{"All Verticals"}</em>
             </MenuItem>
-            {categories.map((func) => (
+            {verticals.map((func) => (
               <MenuItem key={func._id} value={func._id}>
-                {func.categoryName}
+                {func.verticalName}
               </MenuItem>
             ))}
           </Select>

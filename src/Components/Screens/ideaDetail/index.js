@@ -58,7 +58,7 @@ const IdeaDetailsPage = () => {
               <strong>Stage:</strong> {idea?.ideaStageId.stageName}
             </div>
             <div>
-              <strong>Category:</strong> {idea?.ideaCategoryId.categoryName}
+              <strong>Vertical:</strong> {idea?.ideaVerticalId.verticalName}
             </div>
           </div>
           <div className="grid-item">

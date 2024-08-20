@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { MenuItem, Select, InputLabel, FormControl, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { initialStages, initialCategories } from "../../Helpers/Constants.js";
+import { initialStages, initialVerticals } from "../../Helpers/Constants.js";
 import useInitialFeatch from "../../hooks/useInitialFeatch";
 import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 
@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
-  const { functions, subdivisions, stages, categories } = useSelector((state) => state.common);
+  const { functions, subdivisions, stages, verticals } = useSelector((state) => state.common);
 
   useEffect(() => {
     if (!stages) {
@@ -52,30 +52,30 @@ const Dashboard = () => {
 
     setStages(filteredStages);
 
-    if (!categories) {
+    if (!verticals) {
       return null;
     }
 
-    let filteredCategories = categories.map((category) => {
+    let filteredVerticals = verticals.map((vertical) => {
       return {
-        name: category.categoryName,
+        name: vertical.verticalName,
         count: 0,
         icon:
-          category.categoryName === "Tools & Technology"
+          vertical.verticalName === "Routing"
             ? toolsAndTechnologyIcon
-            : category.categoryName === "Process & Documentation"
+            : vertical.verticalName === "Switching"
               ? processIcon
-              : category.categoryName === "Work Life Integrations"
+              : vertical.verticalName === "Security"
                 ? workLifeIcon
                 : otherIcon,
       };
     });
-    setCategories(filteredCategories);
-  }, [stages, categories]);
+    setVerticals(filteredVerticals);
+  }, [stages, verticals]);
 
   const { control, watch } = useForm();
   const [ideaStages, setStages] = useState(initialStages);
-  const [ideaCategories, setCategories] = useState(initialCategories);
+  const [ideaVerticals, setVerticals] = useState(initialVerticals);
 
   const selectedFunction = watch("function");
   const selectedSubDivision = watch("subDivision");
@@ -116,18 +116,18 @@ const Dashboard = () => {
         <br />
         <br />
         <Typography variant="h5" className="section-header">
-          Idea Categories
+          Idea Verticals
         </Typography>
-        <Grid container spacing={2} className="category-cards">
-          {ideaCategories.map((category) => (
-            <Grid item xs={12} sm={6} md={3} key={category.name}>
+        <Grid container spacing={2} className="vertical-cards">
+          {ideaVerticals.map((vertical) => (
+            <Grid item xs={12} sm={6} md={3} key={vertical.name}>
               <div className="cards">
                 <div className="card-icon">
-                  <img src={category.icon} alt={`${category.name} icon`} />
+                  <img src={vertical.icon} alt={`${vertical.name} icon`} />
                 </div>
                 <div className="card-content">
-                  <h3>{category.name}</h3>
-                  <p>{category.count}</p>
+                  <h3>{vertical.name}</h3>
+                  <p>{vertical.count}</p>
                 </div>
               </div>
             </Grid>
