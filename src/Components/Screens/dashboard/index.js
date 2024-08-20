@@ -6,7 +6,7 @@ import { MenuItem, Select, InputLabel, FormControl, Grid, Typography } from "@mu
 import { useDispatch, useSelector } from "react-redux";
 import { initialStages, initialCategories } from "../../Helpers/Constants.js";
 import useInitialFeatch from "../../hooks/useInitialFeatch";
-import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
+import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 
 // importing images
 import ideaIcon from "../../../Assets/icons/idea-icon.png";
@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
-  const { functions, subdivisions, stages, categories } = useSelector((state) => state.comon);
+  const { functions, subdivisions, stages, categories } = useSelector((state) => state.common);
 
   useEffect(() => {
     if (!stages) {
@@ -43,10 +43,10 @@ const Dashboard = () => {
           stage.stageName === "Idea"
             ? ideaIcon
             : stage.stageName === "Brainstorm"
-            ? brainstormIcon
-            : stage.stageName === "Selected"
-            ? selectedIcon
-            : implementedIcon,
+              ? brainstormIcon
+              : stage.stageName === "Selected"
+                ? selectedIcon
+                : implementedIcon,
       };
     });
 
@@ -64,10 +64,10 @@ const Dashboard = () => {
           category.categoryName === "Tools & Technology"
             ? toolsAndTechnologyIcon
             : category.categoryName === "Process & Documentation"
-            ? processIcon
-            : category.categoryName === "Work Life Integrations"
-            ? workLifeIcon
-            : otherIcon,
+              ? processIcon
+              : category.categoryName === "Work Life Integrations"
+                ? workLifeIcon
+                : otherIcon,
       };
     });
     setCategories(filteredCategories);

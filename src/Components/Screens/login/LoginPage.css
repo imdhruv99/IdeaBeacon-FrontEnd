@@ -15,11 +15,18 @@
   margin-bottom: 12rem;
 }
 
-.landing-title {
+.demo-day {
   font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  margin: 0;
+  color: #000000;
+}
+
+.landing-title {
+  font-family: 'Meditative', serif;
   font-size: 6rem;
   margin: 0;
-  color: #000;
+  color: #363636;
 }
 
 .landing-content p {

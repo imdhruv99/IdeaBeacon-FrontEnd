@@ -19,7 +19,7 @@ import moment from "moment-timezone";
 import { useNavigate } from "react-router-dom";
 
 import { createIdea, updateIdea } from "../../Redux/api/ideaAPI";
-import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
+import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 import { resetIdea, setIsUpdatingIdea } from "../../Redux/slice/idea-slice";
 
 const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
@@ -28,7 +28,7 @@ const UpdateIdea = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { categories, functions, subdivisions, userList } = useSelector((state) => state.comon);
+  const { categories, functions, subdivisions, userList } = useSelector((state) => state.common);
   const { idea, isUpdatingIdea } = useSelector((state) => state.idea);
 
   const { control, handleSubmit, watch, setValue, reset } = useForm({

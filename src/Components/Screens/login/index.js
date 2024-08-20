@@ -9,6 +9,7 @@ import { setAccessToken, setIsLoggedIn } from "../../Redux/slice/auth-slice";
 import { loginRequest } from "../../../authConfig";
 import { createUser } from "../../Redux/api/authAPI";
 import Loader from "../../Common/Loader/index.js";
+import { toRoman } from "../../utils/utils.js";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -45,9 +46,13 @@ const Login = () => {
     getGraphCall();
   }, [accounts, instance]);
 
+  const currentYear = new Date().getFullYear();
+  const romanNumeral = toRoman(currentYear - 2014);
+
   return (
     <div className="landing-page">
       <div className="landing-content">
+        <h3 className="demo-day">Demo Day {romanNumeral}</h3>
         <h1 className="landing-title">Ideas</h1>
         <h1 className="landing-title">& Innovations</h1>
         <p>Share your ideas and collaborate with other Junivators.</p>

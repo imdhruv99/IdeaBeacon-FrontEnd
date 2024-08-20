@@ -7,13 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 
 import { getAllFilteredIdeas } from "../../Redux/api/ideaAPI";
-import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
+import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 
 const MyIdeaPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { stages, categories, functions, subdivisions, userList, currentUser } = useSelector((state) => state.comon);
+  const { stages, categories, functions, subdivisions, userList, currentUser } = useSelector((state) => state.common);
   const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
 
   const [filters, setFilters] = useState({

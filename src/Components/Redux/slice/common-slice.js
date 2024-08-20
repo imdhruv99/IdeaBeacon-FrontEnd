@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getAllCategory, getAllFunctions, getAllStages, getAllSubDivByFunId, getAllUserList } from "../api/comonAPI";
+import { getAllCategory, getAllFunctions, getAllStages, getAllSubDivByFunId, getAllUserList } from "../api/commonAPI";
 import { createUser } from "../api/authAPI";
 
 const initialState = {

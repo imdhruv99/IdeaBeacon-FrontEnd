@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { getAllCategory, getAllFunctions, getAllStages, getAllUserList } from "../Redux/api/comonAPI";
+import { getAllCategory, getAllFunctions, getAllStages, getAllUserList } from "../Redux/api/commonAPI";
 
 const useInitialFeatch = () => {
   const dispatch = useDispatch();
