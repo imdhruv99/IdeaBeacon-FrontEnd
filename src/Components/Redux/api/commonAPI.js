@@ -14,13 +14,13 @@ export const getAllStages = createAsyncThunk("getAllStages", async (data, { reje
   }
 });
 
-export const getAllCategory = createAsyncThunk("getAllCategory", async (data, { rejectWithValue }) => {
+export const getAllVerticals = createAsyncThunk("getAllVertical", async (data, { rejectWithValue }) => {
   try {
-    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_CATEGORIES}`, {});
+    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_VERTICALS}`, {});
 
     return response.data.data;
   } catch (error) {
-    console.log(`${COMMON_APIS.GET_ALL_CATEGORIES}`, error);
+    console.log(`${COMMON_APIS.GET_ALL_VERTICALS}`, error);
     return rejectWithValue(error.response.data.data);
   }
 });

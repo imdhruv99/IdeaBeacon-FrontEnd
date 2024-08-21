@@ -7,18 +7,18 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 
 import { getAllFilteredIdeas } from "../../Redux/api/ideaAPI";
-import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
+import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 
 const MyIdeaPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { stages, categories, functions, subdivisions, userList, currentUser } = useSelector((state) => state.comon);
+  const { stages, verticals, functions, subdivisions, userList, currentUser } = useSelector((state) => state.common);
   const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
 
   const [filters, setFilters] = useState({
     stageId: "",
-    categoryId: "",
+    verticalId: "",
     authorId: currentUser._id,
     functionId: "",
     subdivisionId: "",
@@ -52,7 +52,7 @@ const MyIdeaPage = () => {
   const resetFilters = () => {
     setFilters({
       stageId: "",
-      categoryId: "",
+      verticalId: "",
       authorId: currentUser._id,
       functionId: "",
       subdivisionId: "",
@@ -105,18 +105,18 @@ const MyIdeaPage = () => {
 
         <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
-            name="categoryId"
-            value={filters.categoryId}
+            name="verticalId"
+            value={filters.verticalId}
             onChange={handleFilterChange}
             displayEmpty
-            inputProps={{ "aria-label": "All Categories" }}
+            inputProps={{ "aria-label": "All Verticals" }}
           >
             <MenuItem value="">
-              <em>{"All Categories"}</em>
+              <em>{"All Verticals"}</em>
             </MenuItem>
-            {categories.map((func) => (
+            {verticals.map((func) => (
               <MenuItem key={func._id} value={func._id}>
-                {func.categoryName}
+                {func.verticalName}
               </MenuItem>
             ))}
           </Select>

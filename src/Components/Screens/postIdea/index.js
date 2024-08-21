@@ -17,14 +17,14 @@ import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
 
 import { createIdea } from "../../Redux/api/ideaAPI";
-import { getAllSubDivByFunId } from "../../Redux/api/comonAPI";
+import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 
 const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
 
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
 
-  const { categories, functions, subdivisions, userList } = useSelector((state) => state.comon);
+  const { verticals, functions, subdivisions, userList } = useSelector((state) => state.common);
 
   const { control, handleSubmit, watch, setValue, reset } = useForm();
   const selectedFunction = watch("functionId");
@@ -70,16 +70,16 @@ const PostIdeaPage = () => {
         <div className="flex-row">
           <div className="card" style={{ width: "30%" }}>
             <FormControl fullWidth margin="normal" className="flex-item">
-              <InputLabel>Idea Category</InputLabel>
+              <InputLabel>Idea Vertical</InputLabel>
               <Controller
-                name="ideaCategoryId"
+                name="ideaVerticalId"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <Select {...field} label="Idea Category" inputProps={{ id: "ideaCategoryId" }}>
-                    {categories.map((category) => (
-                      <MenuItem key={category._id} value={category._id}>
-                        {category.categoryName}
+                  <Select {...field} label="Idea Vertical" inputProps={{ id: "ideaVerticalId" }}>
+                    {verticals.map((vertical) => (
+                      <MenuItem key={vertical._id} value={vertical._id}>
+                        {vertical.verticalName}
                       </MenuItem>
                     ))}
                   </Select>
@@ -188,7 +188,7 @@ const PostIdeaPage = () => {
         <div className="flex-row">
           <div className="card">
             <FormControl fullWidth margin="normal" className="flex-item">
-              <InputLabel id="demo-multiple-name-label">Co-Authors</InputLabel>
+              <InputLabel id="demo-multiple-name-label">Co-Authors/SME</InputLabel>
               <Controller
                 name="coauthors"
                 control={control}
@@ -196,6 +196,7 @@ const PostIdeaPage = () => {
                 render={({ field }) => (
                   <Select
                     {...field}
+                    label="Co-Authors/SME"
                     multiple
                     onChange={(e) => setValue(field.name, e.target.value)}
                     renderValue={(selected) => selected.join(", ")}
@@ -220,6 +221,7 @@ const PostIdeaPage = () => {
                 render={({ field }) => (
                   <Select
                     multiple
+                    label="Tags"
                     value={field.value}
                     onChange={(e) => setValue(field.name, e.target.value)}
                     renderValue={(selected) => selected.join(", ")}
