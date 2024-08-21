@@ -12,7 +12,7 @@ import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 const IdeasPage = () => {
   const dispatch = useDispatch();
 
-  const { stages, verticals, functions, subdivisions, userList } = useSelector((state) => state.common);
+  const { stages, verticals, functions, subdivisions, users } = useSelector((state) => state.common);
   const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
 
   const [filters, setFilters] = useState({
@@ -133,7 +133,7 @@ const IdeasPage = () => {
             <MenuItem value="">
               <em>{"All Authors"}</em>
             </MenuItem>
-            {userList.map((user) => (
+            {users.map((user) => (
               <MenuItem key={user._id} value={user._id}>
                 {user.name}
               </MenuItem>

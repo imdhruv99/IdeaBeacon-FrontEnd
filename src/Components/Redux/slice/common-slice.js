@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getAllVerticals, getAllFunctions, getAllStages, getAllSubDivByFunId, getAllUserList } from "../api/commonAPI";
+import { getAllVerticals, getAllFunctions, getAllStages, getAllSubDivByFunId, getAllUserList, getAllTagsList } from "../api/commonAPI";
 import { createUser } from "../api/authAPI";
 
 const initialState = {
@@ -8,7 +8,8 @@ const initialState = {
   verticals: [],
   functions: [],
   subdivisions: [],
-  userList: [],
+  users: [],
+  tags: [],
   currentUser: undefined,
 };
 
@@ -70,11 +71,21 @@ export const commonSlice = createSlice({
     builder.addCase(getAllUserList.fulfilled, (state, action) => {
       const data = action.payload;
       const updatedUserList = data.filter((user) => user.oid !== state.currentUser.oid);
-      state.userList = updatedUserList;
+      state.users = updatedUserList;
     });
 
     builder.addCase(getAllUserList.rejected, (state, action) => {
       console.log("🚀 ~ rejected ~ getAllUserList:", action);
+    });
+
+    // fetch all tags list
+    builder.addCase(getAllTagsList.fulfilled, (state, action) => {
+      const data = action.payload;
+      state.tags = data;
+    });
+
+    builder.addCase(getAllTagsList.rejected, (state, action) => {
+      console.log("🚀 ~ rejected ~ getAllTagsList:", action);
     });
   },
 });

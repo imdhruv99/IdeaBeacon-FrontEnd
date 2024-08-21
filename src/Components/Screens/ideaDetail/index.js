@@ -77,7 +77,7 @@ const IdeaDetailsPage = () => {
           </div>
           <div className="grid-item">
             <div>
-              <strong>Tags:</strong> {idea?.tags.join(", ")}
+              <strong>Tags:</strong> {idea?.tags.map((tag) => tag.name).join(", ")}
             </div>
             <div>
               <strong>Co-Authors:</strong> {idea?.coauthors.map((coauthor) => coauthor.name).join(", ")}

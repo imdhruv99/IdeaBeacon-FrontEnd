@@ -4,7 +4,8 @@ export const COMMON_APIS = {
   GET_ALL_VERTICALS: "/vertical/v1/get-all-vertical",
   GET_ALL_FUNCTIONS: "/function/v1/get-all-function",
   GET_SUBDIVISION_BY_FUNCTION_ID: "/subdivision/v1/get-all-subdivision-by-function-id/",
-  GET_ALL_USER: "user/v1/get-all-user",
+  GET_ALL_USER: "/user/v1/get-all-user",
+  GET_ALL_TAGS: "/tag/v1/get-all-tag",
 };
 
 //auth endpoint

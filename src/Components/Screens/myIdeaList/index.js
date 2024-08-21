@@ -13,7 +13,7 @@ const MyIdeaPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { stages, verticals, functions, subdivisions, userList, currentUser } = useSelector((state) => state.common);
+  const { stages, verticals, functions, subdivisions, users, currentUser } = useSelector((state) => state.common);
   const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
 
   const [filters, setFilters] = useState({
