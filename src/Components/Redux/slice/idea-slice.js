@@ -7,6 +7,7 @@ const initialState = {
   idea: undefined,
   ideaAuditLogData: undefined,
   isUpdatingIdea: false,
+  selectedIdeaId: undefined,
 };
 
 export const ideaSlice = createSlice({
@@ -19,6 +20,9 @@ export const ideaSlice = createSlice({
     setIsUpdatingIdea(state, action) {
       state.isUpdatingIdea = action.payload;
     },
+    setSelectedIdeaId(state, action) {
+      state.selectedIdeaId = action.payload;
+    }
   },
   extraReducers: (builder) => {
     //Create Idea
@@ -79,6 +83,6 @@ export const ideaSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { resetIdea, setIsUpdatingIdea } = ideaSlice.actions;
+export const { resetIdea, setIsUpdatingIdea, setSelectedIdeaId } = ideaSlice.actions;
 
 export default ideaSlice.reducer;

@@ -19,17 +19,16 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 import { useNavigate } from "react-router-dom";
 
-import { createIdea, updateIdea } from "../../Redux/api/ideaAPI";
+import { updateIdea } from "../../Redux/api/ideaAPI";
 import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
-import { resetIdea, setIsUpdatingIdea } from "../../Redux/slice/idea-slice";
-
-const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
+import { resetIdea, setIsUpdatingIdea, setSelectedIdeaId } from "../../Redux/slice/idea-slice";
 
 const UpdateIdea = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { verticals, functions, subdivisions, users, tags } = useSelector((state) => state.common);
+
   const { idea, isUpdatingIdea } = useSelector((state) => state.idea);
 
   const { control, handleSubmit, watch, setValue, reset } = useForm({
@@ -44,7 +43,7 @@ const UpdateIdea = () => {
       functionId: idea?.functionId._id || "",
       subdivisionId: idea?.subdivisionId._id || "",
       coauthors: idea?.coauthors.map((author) => author.name) || [],
-      tags: idea?.tags || [],
+      tags: idea?.tags.map(item => item.name) || [],
       isPrivate: idea?.isPrivate || false,
     },
   });
@@ -66,10 +65,11 @@ const UpdateIdea = () => {
 
     data.id = idea._id;
     await dispatch(updateIdea(data));
+    const titleSlug = data.title.toLowerCase().replace(/\s+/g, '-')
     dispatch(setIsUpdatingIdea(false));
     dispatch(resetIdea());
-    navigate(`/idea-details/${idea._id}`);
-
+    dispatch(setSelectedIdeaId(idea._id));
+    navigate(`/idea-details/${titleSlug}`);
     reset();
   };
 
@@ -248,7 +248,7 @@ const UpdateIdea = () => {
                   <Autocomplete
                     multiple
                     freeSolo
-                    options={tags.map(tag => tag.name)}
+                    options={tags.map(tag => tag?.name)}
                     value={field.value}
                     onChange={(event, newValue) => setValue(field.name, newValue)}
                     renderInput={(params) => (
@@ -259,7 +259,8 @@ const UpdateIdea = () => {
                       />
                     )}
                   />
-                )}
+                )
+                }
               />
             </FormControl>
           </div>

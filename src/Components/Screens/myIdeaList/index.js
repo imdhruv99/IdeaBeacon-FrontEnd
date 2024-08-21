@@ -8,6 +8,7 @@ import moment from "moment-timezone";
 
 import { getAllFilteredIdeas } from "../../Redux/api/ideaAPI";
 import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
+import { setSelectedIdeaId } from "../../Redux/slice/idea-slice";
 
 const MyIdeaPage = () => {
   const dispatch = useDispatch();
@@ -62,8 +63,10 @@ const MyIdeaPage = () => {
 
   };
 
-  const handleCardClick = (id) => {
-    navigate(`/idea-details/${id}`); // Use navigate instead of history.push
+  const handleCardClick = (idea) => {
+    const titleSlug = idea.title.toLowerCase().replace(/\s+/g, '-')
+    dispatch(setSelectedIdeaId(idea._id));
+    navigate(`/idea-details/${titleSlug}`);
   };
 
   const fetchIdeaList = async () => {
@@ -218,7 +221,7 @@ const MyIdeaPage = () => {
 
       <div className="idea-cards">
         {allFilteredIdeas.map((idea) => (
-          <div className="idea-card" key={idea._id} onClick={() => handleCardClick(idea._id)}>
+          <div className="idea-card" key={idea._id} onClick={() => handleCardClick(idea)}>
             <div className="card-header">
               <span>{idea?.ideaStageId.stageName}</span>
               <span>{moment(idea?.createdAt).format("YYYY-MM-DD")}</span>

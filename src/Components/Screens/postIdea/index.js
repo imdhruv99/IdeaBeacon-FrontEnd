@@ -20,8 +20,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { createIdea } from "../../Redux/api/ideaAPI";
 import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 
-const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
-
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
 
