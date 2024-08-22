@@ -16,13 +16,12 @@ const IdeaDetailsPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { id } = useParams();
   const [liked, setLiked] = useState(false);
 
-  const { idea, ideaAuditLogData } = useSelector((state) => state.idea);
+  const { idea, ideaAuditLogData, selectedIdeaId } = useSelector((state) => state.idea);
 
   const fetchIdeaDetails = async () => {
-    await dispatch(getIdeaDetail(id));
+    await dispatch(getIdeaDetail(selectedIdeaId));
   };
 
   const handleLikeClick = async () => {
@@ -36,7 +35,7 @@ const IdeaDetailsPage = () => {
 
   useEffect(() => {
     fetchIdeaDetails();
-  }, [id]);
+  }, [selectedIdeaId]);
 
   return (
     <div className="idea-details-page">
@@ -77,7 +76,7 @@ const IdeaDetailsPage = () => {
           </div>
           <div className="grid-item">
             <div>
-              <strong>Tags:</strong> {idea?.tags.join(", ")}
+              <strong>Tags:</strong> {idea?.tags.map((tag) => tag.name).join(", ")}
             </div>
             <div>
               <strong>Co-Authors:</strong> {idea?.coauthors.map((coauthor) => coauthor.name).join(", ")}

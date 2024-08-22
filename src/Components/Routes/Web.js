@@ -30,7 +30,7 @@ const Web = () => {
             <Route key={"/update-idea"} path="/update-idea" exact={true} element={<UpdateIdea />} />
             <Route key={"/ideas"} path="/ideas" exact={true} element={<Ideas />} />
             <Route key={"/my-ideas"} path="/my-ideas" exact={true} element={<MyIdeaPage />} />
-            <Route key={"/idea-details/:id"} path="/idea-details/:id" exact={true} element={<IdeaDetail />} />
+            <Route key={"/idea-details/:titleSlug"} path="/idea-details/:titleSlug" exact={true} element={<IdeaDetail />} />
           </Route>
 
           <Route path={"/"} exact={true} element={<Login />} />

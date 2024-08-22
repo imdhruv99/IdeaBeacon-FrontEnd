@@ -8,11 +8,12 @@ import moment from "moment-timezone";
 
 import { getAllFilteredIdeas } from "../../Redux/api/ideaAPI";
 import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
+import { setSelectedIdeaId } from "../../Redux/slice/idea-slice";
 
 const IdeasPage = () => {
   const dispatch = useDispatch();
 
-  const { stages, verticals, functions, subdivisions, userList } = useSelector((state) => state.common);
+  const { stages, verticals, functions, subdivisions, users } = useSelector((state) => state.common);
   const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
 
   const [filters, setFilters] = useState({
@@ -62,8 +63,10 @@ const IdeasPage = () => {
     // Fetch and update ideas to show all
   };
 
-  const handleCardClick = (id) => {
-    navigate(`/idea-details/${id}`); // Use navigate instead of history.push
+  const handleCardClick = (idea) => {
+    const titleSlug = idea.title.toLowerCase().replace(/\s+/g, '-')
+    dispatch(setSelectedIdeaId(idea._id));
+    navigate(`/idea-details/${titleSlug}`);
   };
 
   const fetchIdeaList = async () => {
@@ -133,7 +136,7 @@ const IdeasPage = () => {
             <MenuItem value="">
               <em>{"All Authors"}</em>
             </MenuItem>
-            {userList.map((user) => (
+            {users.map((user) => (
               <MenuItem key={user._id} value={user._id}>
                 {user.name}
               </MenuItem>
@@ -238,7 +241,7 @@ const IdeasPage = () => {
 
       <div className="idea-cards">
         {allFilteredIdeas.map((idea) => (
-          <div className="idea-card" key={idea._id} onClick={() => handleCardClick(idea._id)}>
+          <div className="idea-card" key={idea._id} onClick={() => handleCardClick(idea)}>
             <div className="card-header">
               <span>{idea?.ideaStageId.stageName}</span>
               <span>{moment(idea?.createdAt).format("YYYY-MM-DD")}</span>

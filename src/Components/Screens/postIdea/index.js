@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
+  Autocomplete,
   TextField,
   Button,
   Checkbox,
@@ -19,12 +20,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { createIdea } from "../../Redux/api/ideaAPI";
 import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 
-const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
-
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
 
-  const { verticals, functions, subdivisions, userList } = useSelector((state) => state.common);
+  const { verticals, functions, subdivisions, users, tags } = useSelector((state) => state.common);
 
   const { control, handleSubmit, watch, setValue, reset } = useForm();
   const selectedFunction = watch("functionId");
@@ -37,7 +36,7 @@ const PostIdeaPage = () => {
     data["isActive"] = true;
 
     if (data.coauthors.length > 0) {
-      const selectedUserIds = userList.filter((user) => data.coauthors.includes(user.name)).map((user) => user._id);
+      const selectedUserIds = users.filter((user) => data.coauthors.includes(user.name)).map((user) => user._id);
 
       data.coauthors = selectedUserIds;
     }
@@ -201,7 +200,7 @@ const PostIdeaPage = () => {
                     onChange={(e) => setValue(field.name, e.target.value)}
                     renderValue={(selected) => selected.join(", ")}
                   >
-                    {userList.map((author) => (
+                    {users.map((author) => (
                       <MenuItem key={author._id} value={author.name}>
                         {author.name}
                       </MenuItem>
@@ -213,25 +212,25 @@ const PostIdeaPage = () => {
           </div>
           <div className="card">
             <FormControl fullWidth margin="normal" className="flex-item">
-              <InputLabel>Tags</InputLabel>
               <Controller
                 name="tags"
                 control={control}
                 defaultValue={[]}
                 render={({ field }) => (
-                  <Select
+                  <Autocomplete
                     multiple
-                    label="Tags"
+                    freeSolo
+                    options={tags.map(tag => tag.name)}
                     value={field.value}
-                    onChange={(e) => setValue(field.name, e.target.value)}
-                    renderValue={(selected) => selected.join(", ")}
-                  >
-                    {tagsOptions.map((tag) => (
-                      <MenuItem key={tag} value={tag}>
-                        {tag}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    onChange={(event, newValue) => setValue(field.name, newValue)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Tags"
+                        variant="outlined"
+                      />
+                    )}
+                  />
                 )}
               />
             </FormControl>

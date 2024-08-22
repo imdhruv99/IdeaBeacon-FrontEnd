@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
+  Autocomplete,
   TextField,
   Button,
   Checkbox,
@@ -18,17 +19,16 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 import { useNavigate } from "react-router-dom";
 
-import { createIdea, updateIdea } from "../../Redux/api/ideaAPI";
+import { updateIdea } from "../../Redux/api/ideaAPI";
 import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
-import { resetIdea, setIsUpdatingIdea } from "../../Redux/slice/idea-slice";
-
-const tagsOptions = ["Tag 1", "Tag 2", "Tag 3"];
+import { resetIdea, setIsUpdatingIdea, setSelectedIdeaId } from "../../Redux/slice/idea-slice";
 
 const UpdateIdea = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { verticals, functions, subdivisions, userList } = useSelector((state) => state.common);
+  const { verticals, functions, subdivisions, users, tags } = useSelector((state) => state.common);
+
   const { idea, isUpdatingIdea } = useSelector((state) => state.idea);
 
   const { control, handleSubmit, watch, setValue, reset } = useForm({
@@ -43,7 +43,7 @@ const UpdateIdea = () => {
       functionId: idea?.functionId._id || "",
       subdivisionId: idea?.subdivisionId._id || "",
       coauthors: idea?.coauthors.map((author) => author.name) || [],
-      tags: idea?.tags || [],
+      tags: idea?.tags.map(item => item.name) || [],
       isPrivate: idea?.isPrivate || false,
     },
   });
@@ -58,17 +58,18 @@ const UpdateIdea = () => {
     data["isActive"] = true;
 
     if (data.coauthors.length > 0) {
-      const selectedUserIds = userList.filter((user) => data.coauthors.includes(user.name)).map((user) => user._id);
+      const selectedUserIds = users.filter((user) => data.coauthors.includes(user.name)).map((user) => user._id);
 
       data.coauthors = selectedUserIds;
     }
 
     data.id = idea._id;
     await dispatch(updateIdea(data));
+    const titleSlug = data.title.toLowerCase().replace(/\s+/g, '-')
     dispatch(setIsUpdatingIdea(false));
     dispatch(resetIdea());
-    navigate(`/idea-details/${idea._id}`);
-
+    dispatch(setSelectedIdeaId(idea._id));
+    navigate(`/idea-details/${titleSlug}`);
     reset();
   };
 
@@ -214,7 +215,7 @@ const UpdateIdea = () => {
         <div className="flex-row">
           <div className="card">
             <FormControl fullWidth margin="normal" className="flex-item">
-              <InputLabel id="demo-multiple-name-label">Co-Authors</InputLabel>
+              <InputLabel id="demo-multiple-name-label">Co-Authors/SME</InputLabel>
               <Controller
                 name="coauthors"
                 control={control}
@@ -222,11 +223,12 @@ const UpdateIdea = () => {
                 render={({ field }) => (
                   <Select
                     {...field}
+                    label="Co-Authors/SME"
                     multiple
                     onChange={(e) => setValue(field.name, e.target.value)}
                     renderValue={(selected) => selected.join(", ")}
                   >
-                    {userList.map((author) => (
+                    {users.map((author) => (
                       <MenuItem key={author._id} value={author.name}>
                         {author.name}
                       </MenuItem>
@@ -238,25 +240,27 @@ const UpdateIdea = () => {
           </div>
           <div className="card">
             <FormControl fullWidth margin="normal" className="flex-item">
-              <InputLabel>Tags</InputLabel>
               <Controller
                 name="tags"
                 control={control}
                 defaultValue={[]}
                 render={({ field }) => (
-                  <Select
+                  <Autocomplete
                     multiple
+                    freeSolo
+                    options={tags.map(tag => tag?.name)}
                     value={field.value}
-                    onChange={(e) => setValue(field.name, e.target.value)}
-                    renderValue={(selected) => selected.join(", ")}
-                  >
-                    {tagsOptions.map((tag) => (
-                      <MenuItem key={tag} value={tag}>
-                        {tag}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )}
+                    onChange={(event, newValue) => setValue(field.name, newValue)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Tags"
+                        variant="outlined"
+                      />
+                    )}
+                  />
+                )
+                }
               />
             </FormControl>
           </div>
