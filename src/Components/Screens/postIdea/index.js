@@ -52,14 +52,9 @@ const PostIdeaPage = () => {
       data.coauthors = selectedUserIds;
     }
 
-    try {
-      await dispatch(createIdea(data));
-      navigate(`/ideas`);
-      reset();
-      toast.success("Idea posted successfully!");
-    } catch (error) {
-      toast.error("Failed to post idea. Please try again.");
-    }
+    await dispatch(createIdea(data));
+    navigate(`/ideas`);
+    reset();
   };
 
   const modules = {
