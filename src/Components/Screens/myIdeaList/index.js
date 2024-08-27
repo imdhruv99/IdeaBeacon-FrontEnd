@@ -7,14 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 
 import { getAllFilteredIdeas } from "../../Redux/api/ideaAPI";
-import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 import { setSelectedIdeaId } from "../../Redux/slice/idea-slice";
 
 const MyIdeaPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { stages, verticals, functions, subdivisions, users, currentUser } = useSelector((state) => state.common);
+  const { stages, verticals, functions, currentUser } = useSelector((state) => state.common);
   const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
 
   const [filters, setFilters] = useState({
@@ -22,14 +21,9 @@ const MyIdeaPage = () => {
     verticalId: "",
     authorId: currentUser._id,
     functionId: "",
-    subdivisionId: "",
     month: "",
     year: "",
   });
-
-  const handleOnFunctionClick = (functionId) => {
-    dispatch(getAllSubDivByFunId(functionId));
-  };
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
@@ -37,9 +31,6 @@ const MyIdeaPage = () => {
       ...prevFilters,
       [name]: value,
     }));
-
-    // Fetch and update ideas based on filters here
-    if (name === "functionId") handleOnFunctionClick(value);
   };
 
   const handleQuickFilterChange = (filterType) => {
@@ -56,7 +47,6 @@ const MyIdeaPage = () => {
       verticalId: "",
       authorId: currentUser._id,
       functionId: "",
-      subdivisionId: "",
       month: "",
       year: "",
     });
@@ -140,51 +130,6 @@ const MyIdeaPage = () => {
                 {func.functionName}
               </MenuItem>
             ))}
-          </Select>
-        </FormControl>
-
-        <FormControl sx={{ m: 1, minWidth: 120 }} disabled={!filters.functionId}>
-          <Select
-            name="subdivisionId"
-            value={filters.subdivisionId}
-            onChange={handleFilterChange}
-            displayEmpty
-            inputProps={{ "aria-label": "All Sub Divisions" }}
-          >
-            <MenuItem value="">
-              <em>{"All Sub Divisions"}</em>
-            </MenuItem>
-            {subdivisions.map((sub) => (
-              <MenuItem key={sub._id} value={sub._id}>
-                {sub.subdivisionName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <Select
-            name="month"
-            value={filters.month}
-            onChange={handleFilterChange}
-            displayEmpty
-            inputProps={{ "aria-label": "All Months" }}
-          >
-            <MenuItem value="">All Months</MenuItem>
-            {/* Add options here */}
-          </Select>
-        </FormControl>
-
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <Select
-            name="year"
-            value={filters.year}
-            onChange={handleFilterChange}
-            displayEmpty
-            inputProps={{ "aria-label": "All Years" }}
-          >
-            <MenuItem value="">All Years</MenuItem>
-            {/* Add options here */}
           </Select>
         </FormControl>
       </div>

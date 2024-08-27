@@ -1,14 +1,11 @@
 import "./PostIdeaPage.css";
 import "react-quill/dist/quill.snow.css";
 
-import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Autocomplete,
   TextField,
   Button,
-  Checkbox,
-  FormControlLabel,
   MenuItem,
   Select,
   InputLabel,
@@ -18,21 +15,15 @@ import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
 
 import { createIdea } from "../../Redux/api/ideaAPI";
-import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 import { useNavigate } from "react-router-dom";
 
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { verticals, functions, subdivisions, users, tags } = useSelector((state) => state.common);
+  const { verticals, functions, users, tags } = useSelector((state) => state.common);
 
-  const { control, handleSubmit, watch, setValue, reset } = useForm();
-  const selectedFunction = watch("functionId");
-
-  const handleOnFunctionClick = (functionId) => {
-    dispatch(getAllSubDivByFunId(functionId));
-  };
+  const { control, handleSubmit, setValue, reset } = useForm();
 
   const onSubmit = async (data) => {
     data["isActive"] = true;
@@ -60,10 +51,6 @@ const PostIdeaPage = () => {
       matchVisual: false,
     },
   };
-
-  useEffect(() => {
-    if (selectedFunction) handleOnFunctionClick(selectedFunction);
-  }, [selectedFunction]);
 
   return (
     <div className="post-idea-page">
@@ -144,28 +131,6 @@ const PostIdeaPage = () => {
               />
             </FormControl>
           </div>
-
-          {selectedFunction && (
-            <div className="card">
-              <FormControl fullWidth margin="normal" className="flex-item" disabled={!subdivisions.length > 0}>
-                <InputLabel>Sub Division</InputLabel>
-                <Controller
-                  name="subdivisionId"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <Select {...field} label="Sub Division">
-                      {subdivisions.map((sub) => (
-                        <MenuItem key={sub._id} value={sub._id}>
-                          {sub.subdivisionName}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                />
-              </FormControl>
-            </div>
-          )}
         </div>
 
         <div className="flex-row">
