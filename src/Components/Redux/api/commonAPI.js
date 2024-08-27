@@ -36,17 +36,6 @@ export const getAllFunctions = createAsyncThunk("getAllFunctions", async (data, 
   }
 });
 
-export const getAllSubDivByFunId = createAsyncThunk("getAllSubDivByFunId", async (data, { rejectWithValue }) => {
-  try {
-    const response = await Webservice.GET(`${COMMON_APIS.GET_SUBDIVISION_BY_FUNCTION_ID}${data}`, {});
-
-    return response.data.data;
-  } catch (error) {
-    console.log(`${COMMON_APIS.GET_SUBDIVISION_BY_FUNCTION_ID}`, error);
-    return rejectWithValue(error.response.data.data);
-  }
-});
-
 export const getAllUserList = createAsyncThunk("getAllUserList", async (data, { rejectWithValue }) => {
   try {
     const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_USER}`, {});

@@ -3,7 +3,7 @@ import "./IdeaDetailsPage.css";
 import React, { useState, useEffect } from "react";
 import { Button, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ShareIcon from "@mui/icons-material/Share";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -65,13 +65,7 @@ const IdeaDetailsPage = () => {
               <strong>Date Created:</strong> {moment(idea?.createdAt).format("DD-MM-YYYY")}
             </div>
             <div>
-              <strong>Presentable Date:</strong> {moment(idea?.presentableDate).format("DD-MM-YYYY")}
-            </div>
-            <div>
-              <strong>Private Idea:</strong> {idea?.isPrivate ? "Yes" : "No"}
-            </div>
-            <div>
-              <strong>Published:</strong> {idea?.published ? "Yes" : "No"}
+              <strong>Teams:</strong> {idea?.functionId.functionName}
             </div>
           </div>
           <div className="grid-item">
@@ -80,12 +74,6 @@ const IdeaDetailsPage = () => {
             </div>
             <div>
               <strong>Co-Authors:</strong> {idea?.coauthors.map((coauthor) => coauthor.name).join(", ")}
-            </div>
-            <div>
-              <strong>Functions:</strong> {idea?.functionId.functionName}
-            </div>
-            <div>
-              <strong>Sub Divisions:</strong> {idea?.subdivisionId.subdivisionName}
             </div>
           </div>
         </div>

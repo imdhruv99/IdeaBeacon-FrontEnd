@@ -1,14 +1,11 @@
 import "./UpdateIdeaPage.css";
 import "react-quill/dist/quill.snow.css";
 
-import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Autocomplete,
   TextField,
   Button,
-  Checkbox,
-  FormControlLabel,
   MenuItem,
   Select,
   InputLabel,
@@ -16,22 +13,20 @@ import {
 } from "@mui/material";
 import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment-timezone";
 import { useNavigate } from "react-router-dom";
 
 import { updateIdea } from "../../Redux/api/ideaAPI";
-import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 import { resetIdea, setIsUpdatingIdea, setSelectedIdeaId } from "../../Redux/slice/idea-slice";
 
 const UpdateIdea = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { verticals, functions, subdivisions, users, tags } = useSelector((state) => state.common);
+  const { verticals, functions, users, tags } = useSelector((state) => state.common);
 
   const { idea, isUpdatingIdea } = useSelector((state) => state.idea);
 
-  const { control, handleSubmit, watch, setValue, reset } = useForm({
+  const { control, handleSubmit, setValue, reset } = useForm({
     defaultValues: {
       ideaVerticalId: idea?.ideaVerticalId._id || "",
       title: idea?.title || "",
@@ -39,20 +34,11 @@ const UpdateIdea = () => {
       advantage: idea?.advantage || "",
       proposedSolution: idea?.proposedSolution || "",
       existingSolution: idea?.existingSolution || "",
-      presentableDate: moment(idea?.presentableDate).format("YYYY-MM-DD") || "",
       functionId: idea?.functionId._id || "",
-      subdivisionId: idea?.subdivisionId._id || "",
       coauthors: idea?.coauthors.map((author) => author.name) || [],
       tags: idea?.tags.map(item => item.name) || [],
-      isPrivate: idea?.isPrivate || false,
     },
   });
-
-  const selectedFunction = watch("functionId");
-
-  const handleOnFunctionClick = (functionId) => {
-    dispatch(getAllSubDivByFunId(functionId));
-  };
 
   const onSubmit = async (data) => {
     data["isActive"] = true;
@@ -85,10 +71,6 @@ const UpdateIdea = () => {
       matchVisual: false,
     },
   };
-
-  useEffect(() => {
-    if (selectedFunction || isUpdatingIdea) handleOnFunctionClick(selectedFunction);
-  }, [selectedFunction, isUpdatingIdea]);
 
   return (
     <div className="post-idea-page">
@@ -151,33 +133,14 @@ const UpdateIdea = () => {
 
         <div className="flex-row">
           <div className="card">
-            <Controller
-              name="presentableDate"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Presentable Date"
-                  type="date"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{ shrink: true }}
-                  className="flex-item"
-                />
-              )}
-            />
-          </div>
-
-          <div className="card">
             <FormControl fullWidth margin="normal" className="flex-item">
-              <InputLabel>Function</InputLabel>
+              <InputLabel>Team</InputLabel>
               <Controller
                 name="functionId"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <Select {...field} label="Function">
+                  <Select {...field} label="Team">
                     {functions.map((func) => (
                       <MenuItem key={func._id} value={func._id}>
                         {func.functionName}
@@ -188,28 +151,6 @@ const UpdateIdea = () => {
               />
             </FormControl>
           </div>
-
-          {selectedFunction && (
-            <div className="card">
-              <FormControl fullWidth margin="normal" className="flex-item" disabled={!subdivisions.length > 0}>
-                <InputLabel>Sub Division</InputLabel>
-                <Controller
-                  name="subdivisionId"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <Select {...field} label="Sub Division">
-                      {subdivisions.map((sub) => (
-                        <MenuItem key={sub._id} value={sub._id}>
-                          {sub.subdivisionName}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                />
-              </FormControl>
-            </div>
-          )}
         </div>
 
         <div className="flex-row">
@@ -264,15 +205,6 @@ const UpdateIdea = () => {
               />
             </FormControl>
           </div>
-        </div>
-
-        <div className="card">
-          <Controller
-            name="isPrivate"
-            control={control}
-            defaultValue={false}
-            render={({ field }) => <FormControlLabel control={<Checkbox {...field} />} label="Private" />}
-          />
         </div>
 
         <div className="form-actions card">

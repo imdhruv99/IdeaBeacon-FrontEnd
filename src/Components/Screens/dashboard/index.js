@@ -1,34 +1,28 @@
 import "./Dashboard.css";
 
 import React, { useState, useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { MenuItem, Select, InputLabel, FormControl, Grid, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { Grid, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 import { initialStages, initialVerticals } from "../../Helpers/Constants.js";
 import useInitialFeatch from "../../hooks/useInitialFeatch";
-import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
 
 // importing images
+import routingIcon from "../../../Assets/icons/routing.png";
+import switchingIcon from "../../../Assets/icons/switching.png";
+import securityIcon from "../../../Assets/icons/security.png";
+import softwareIcon from "../../../Assets/icons/software.png";
 import ideaIcon from "../../../Assets/icons/idea-icon.png";
 import brainstormIcon from "../../../Assets/icons/brainstorm-icon.png";
 import selectedIcon from "../../../Assets/icons/selected-icon.png";
-import implementedIcon from "../../../Assets/icons/implement-icon.png";
-import toolsAndTechnologyIcon from "../../../Assets/icons/tech-tool.png";
-import processIcon from "../../../Assets/icons/process.png";
-import workLifeIcon from "../../../Assets/icons/work-life.png";
-import otherIcon from "../../../Assets/icons/other.png";
-import jnprImage from "../../../Assets/images/jnpr.png";
 
-const months = ["January", "February", "March"];
-const years = ["2022", "2023", "2024"];
+import jnprImage from "../../../Assets/images/jnpr.png";
 
 const Dashboard = () => {
   // fetching initial data
   useInitialFeatch();
 
-  const dispatch = useDispatch();
-
-  const { functions, subdivisions, stages, verticals } = useSelector((state) => state.common);
+  const { stages, verticals } = useSelector((state) => state.common);
 
   useEffect(() => {
     if (!stages) {
@@ -40,13 +34,11 @@ const Dashboard = () => {
         name: stage.stageName,
         count: 0,
         icon:
-          stage.stageName === "Idea"
+          stage.stageName === "Submitted"
             ? ideaIcon
-            : stage.stageName === "Brainstorm"
+            : stage.stageName === "In Progress"
               ? brainstormIcon
-              : stage.stageName === "Selected"
-                ? selectedIcon
-                : implementedIcon,
+              : selectedIcon,
       };
     });
 
@@ -62,33 +54,19 @@ const Dashboard = () => {
         count: 0,
         icon:
           vertical.verticalName === "Routing"
-            ? toolsAndTechnologyIcon
+            ? routingIcon
             : vertical.verticalName === "Switching"
-              ? processIcon
+              ? switchingIcon
               : vertical.verticalName === "Security"
-                ? workLifeIcon
-                : otherIcon,
+                ? securityIcon
+                : softwareIcon,
       };
     });
     setVerticals(filteredVerticals);
   }, [stages, verticals]);
 
-  const { control, watch } = useForm();
   const [ideaStages, setStages] = useState(initialStages);
   const [ideaVerticals, setVerticals] = useState(initialVerticals);
-
-  const selectedFunction = watch("function");
-  const selectedSubDivision = watch("subDivision");
-  const selectedMonth = watch("month");
-  const selectedYear = watch("year");
-
-  useEffect(() => {
-    // Example: Update counts based on filters
-    // You would replace this with actual API calls
-    if (selectedFunction) {
-      dispatch(getAllSubDivByFunId(selectedFunction));
-    }
-  }, [selectedFunction]);
 
   return (
     <div className="dashboard-page">
