@@ -10,33 +10,56 @@ import {
   Select,
   InputLabel,
   FormControl,
+  FormHelperText
 } from "@mui/material";
 import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
-
 import { createIdea } from "../../Redux/api/ideaAPI";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { verticals, functions, users, tags } = useSelector((state) => state.common);
 
-  const { control, handleSubmit, setValue, reset } = useForm();
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      ideaVerticalId: "",
+      title: "",
+      problemStatement: "",
+      advantage: "",
+      proposedSolution: "",
+      existingSolution: "",
+      functionId: "",
+      coauthors: [],
+      tags: []
+    },
+    mode: "onBlur"
+  });
 
   const onSubmit = async (data) => {
     data["isActive"] = true;
 
     if (data.coauthors.length > 0) {
       const selectedUserIds = users.filter((user) => data.coauthors.includes(user.name)).map((user) => user._id);
-
       data.coauthors = selectedUserIds;
     }
 
-    await dispatch(createIdea(data));
-    navigate(`/ideas`);
-    reset();
+    try {
+      await dispatch(createIdea(data));
+      navigate(`/ideas`);
+      reset();
+      toast.success("Idea posted successfully!");
+    } catch (error) {
+      toast.error("Failed to post idea. Please try again.");
+    }
   };
 
   const modules = {
@@ -58,12 +81,12 @@ const PostIdeaPage = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-row">
           <div className="card" style={{ width: "30%" }}>
-            <FormControl fullWidth margin="normal" className="flex-item">
+            <FormControl fullWidth margin="normal" className="flex-item" error={!!errors.ideaVerticalId}>
               <InputLabel>Idea Vertical</InputLabel>
               <Controller
                 name="ideaVerticalId"
                 control={control}
-                defaultValue=""
+                rules={{ required: "Idea Vertical is required" }}
                 render={({ field }) => (
                   <Select {...field} label="Idea Vertical" inputProps={{ id: "ideaVerticalId" }}>
                     {verticals.map((vertical) => (
@@ -74,6 +97,7 @@ const PostIdeaPage = () => {
                   </Select>
                 )}
               />
+              {errors.ideaVerticalId && <FormHelperText>{errors.ideaVerticalId.message}</FormHelperText>}
             </FormControl>
           </div>
 
@@ -81,7 +105,7 @@ const PostIdeaPage = () => {
             <Controller
               name="title"
               control={control}
-              defaultValue=""
+              rules={{ required: "Synopsis is required" }}
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -91,6 +115,8 @@ const PostIdeaPage = () => {
                   multiline
                   rows={1}
                   className="flex-item flex-grow"
+                  error={!!errors.title}
+                  helperText={errors.title?.message}
                 />
               )}
             />
@@ -105,20 +131,21 @@ const PostIdeaPage = () => {
             <Controller
               name={field}
               control={control}
-              defaultValue=""
+              rules={{ required: `${field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())} is required` }}
               render={({ field }) => <ReactQuill {...field} modules={modules} theme="snow" className="quill-editor" />}
             />
+            {errors[field] && <FormHelperText error>{errors[field].message}</FormHelperText>}
           </div>
         ))}
 
         <div className="flex-row">
           <div className="card">
-            <FormControl fullWidth margin="normal" className="flex-item">
+            <FormControl fullWidth margin="normal" className="flex-item" error={!!errors.functionId}>
               <InputLabel>Team</InputLabel>
               <Controller
                 name="functionId"
                 control={control}
-                defaultValue=""
+                rules={{ required: "Team selection is required" }}
                 render={({ field }) => (
                   <Select {...field} label="Team">
                     {functions.map((func) => (
@@ -129,18 +156,19 @@ const PostIdeaPage = () => {
                   </Select>
                 )}
               />
+              {errors.functionId && <FormHelperText>{errors.functionId.message}</FormHelperText>}
             </FormControl>
           </div>
         </div>
 
         <div className="flex-row">
           <div className="card">
-            <FormControl fullWidth margin="normal" className="flex-item">
+            <FormControl fullWidth margin="normal" className="flex-item" error={!!errors.coauthors}>
               <InputLabel id="demo-multiple-name-label">Co-Authors/SME</InputLabel>
               <Controller
                 name="coauthors"
                 control={control}
-                defaultValue={[]}
+                rules={{ required: "Co-Authors/SME selection is required" }}
                 render={({ field }) => (
                   <Select
                     {...field}
@@ -157,14 +185,15 @@ const PostIdeaPage = () => {
                   </Select>
                 )}
               />
+              {errors.coauthors && <FormHelperText>{errors.coauthors.message}</FormHelperText>}
             </FormControl>
           </div>
           <div className="card">
-            <FormControl fullWidth margin="normal" className="flex-item">
+            <FormControl fullWidth margin="normal" className="flex-item" error={!!errors.tags}>
               <Controller
                 name="tags"
                 control={control}
-                defaultValue={[]}
+                rules={{ required: "At least one tag is required" }}
                 render={({ field }) => (
                   <Autocomplete
                     multiple
@@ -177,6 +206,8 @@ const PostIdeaPage = () => {
                         {...params}
                         label="Tags"
                         variant="outlined"
+                        error={!!errors.tags}
+                        helperText={errors.tags?.message}
                       />
                     )}
                   />
