@@ -70,7 +70,6 @@ const IdeasPage = () => {
   };
 
   const fetchIdeaList = async () => {
-    filters.isPrivate = false;
     await dispatch(getAllFilteredIdeas(filters));
   };
 

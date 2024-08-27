@@ -44,7 +44,6 @@ const UpdateIdea = () => {
       subdivisionId: idea?.subdivisionId._id || "",
       coauthors: idea?.coauthors.map((author) => author.name) || [],
       tags: idea?.tags.map(item => item.name) || [],
-      isPrivate: idea?.isPrivate || false,
     },
   });
 
@@ -245,15 +244,6 @@ const UpdateIdea = () => {
               />
             </FormControl>
           </div>
-        </div>
-
-        <div className="card">
-          <Controller
-            name="isPrivate"
-            control={control}
-            defaultValue={false}
-            render={({ field }) => <FormControlLabel control={<Checkbox {...field} />} label="Private" />}
-          />
         </div>
 
         <div className="form-actions card">

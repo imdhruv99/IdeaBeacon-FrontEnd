@@ -221,15 +221,6 @@ const PostIdeaPage = () => {
           </div>
         </div>
 
-        <div className="card">
-          <Controller
-            name="isPrivate"
-            control={control}
-            defaultValue={false}
-            render={({ field }) => <FormControlLabel control={<Checkbox {...field} />} label="Private" />}
-          />
-        </div>
-
         <div className="form-actions card">
           <Button type="submit" variant="contained" color="primary">
             Publish
