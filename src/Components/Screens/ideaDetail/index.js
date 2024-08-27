@@ -65,9 +65,6 @@ const IdeaDetailsPage = () => {
               <strong>Date Created:</strong> {moment(idea?.createdAt).format("DD-MM-YYYY")}
             </div>
             <div>
-              <strong>Presentable Date:</strong> {moment(idea?.presentableDate).format("DD-MM-YYYY")}
-            </div>
-            <div>
               <strong>Private Idea:</strong> {idea?.isPrivate ? "Yes" : "No"}
             </div>
             <div>

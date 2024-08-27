@@ -19,9 +19,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { createIdea } from "../../Redux/api/ideaAPI";
 import { getAllSubDivByFunId } from "../../Redux/api/commonAPI";
+import { useNavigate } from "react-router-dom";
 
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { verticals, functions, subdivisions, users, tags } = useSelector((state) => state.common);
 
@@ -42,6 +44,7 @@ const PostIdeaPage = () => {
     }
 
     await dispatch(createIdea(data));
+    navigate(`/ideas`);
     reset();
   };
 
@@ -122,25 +125,6 @@ const PostIdeaPage = () => {
         ))}
 
         <div className="flex-row">
-          <div className="card">
-            <Controller
-              name="presentableDate"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Presentable Date"
-                  type="date"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{ shrink: true }}
-                  className="flex-item"
-                />
-              )}
-            />
-          </div>
-
           <div className="card">
             <FormControl fullWidth margin="normal" className="flex-item">
               <InputLabel>Function</InputLabel>

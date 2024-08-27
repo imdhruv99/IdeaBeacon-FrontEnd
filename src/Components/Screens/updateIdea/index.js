@@ -39,7 +39,7 @@ const UpdateIdea = () => {
       advantage: idea?.advantage || "",
       proposedSolution: idea?.proposedSolution || "",
       existingSolution: idea?.existingSolution || "",
-      presentableDate: moment(idea?.presentableDate).format("YYYY-MM-DD") || "",
+      // presentableDate: moment(idea?.presentableDate).format("YYYY-MM-DD") || "",
       functionId: idea?.functionId._id || "",
       subdivisionId: idea?.subdivisionId._id || "",
       coauthors: idea?.coauthors.map((author) => author.name) || [],
@@ -150,25 +150,6 @@ const UpdateIdea = () => {
         ))}
 
         <div className="flex-row">
-          <div className="card">
-            <Controller
-              name="presentableDate"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Presentable Date"
-                  type="date"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{ shrink: true }}
-                  className="flex-item"
-                />
-              )}
-            />
-          </div>
-
           <div className="card">
             <FormControl fullWidth margin="normal" className="flex-item">
               <InputLabel>Function</InputLabel>
