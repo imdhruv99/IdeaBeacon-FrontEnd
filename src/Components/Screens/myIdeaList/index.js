@@ -120,10 +120,10 @@ const MyIdeaPage = () => {
             value={filters.functionId}
             onChange={handleFilterChange}
             displayEmpty
-            inputProps={{ "aria-label": "All Functions" }}
+            inputProps={{ "aria-label": "All Teams" }}
           >
             <MenuItem value="">
-              <em>{"All Functions"}</em>
+              <em>{"All Teams"}</em>
             </MenuItem>
             {functions.map((func) => (
               <MenuItem key={func._id} value={func._id}>

@@ -65,7 +65,7 @@ const IdeaDetailsPage = () => {
               <strong>Date Created:</strong> {moment(idea?.createdAt).format("DD-MM-YYYY")}
             </div>
             <div>
-              <strong>Functions:</strong> {idea?.functionId.functionName}
+              <strong>Teams:</strong> {idea?.functionId.functionName}
             </div>
           </div>
           <div className="grid-item">

@@ -135,13 +135,13 @@ const UpdateIdea = () => {
         <div className="flex-row">
           <div className="card">
             <FormControl fullWidth margin="normal" className="flex-item">
-              <InputLabel>Function</InputLabel>
+              <InputLabel>Team</InputLabel>
               <Controller
                 name="functionId"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <Select {...field} label="Function">
+                  <Select {...field} label="Team">
                     {functions.map((func) => (
                       <MenuItem key={func._id} value={func._id}>
                         {func.functionName}
