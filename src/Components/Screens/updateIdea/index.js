@@ -34,7 +34,6 @@ const UpdateIdea = () => {
       advantage: idea?.advantage || "",
       proposedSolution: idea?.proposedSolution || "",
       existingSolution: idea?.existingSolution || "",
-      // presentableDate: moment(idea?.presentableDate).format("YYYY-MM-DD") || "",
       functionId: idea?.functionId._id || "",
       coauthors: idea?.coauthors.map((author) => author.name) || [],
       tags: idea?.tags.map(item => item.name) || [],
