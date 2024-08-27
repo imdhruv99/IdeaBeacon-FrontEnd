@@ -8,14 +8,14 @@ import { initialStages, initialVerticals } from "../../Helpers/Constants.js";
 import useInitialFeatch from "../../hooks/useInitialFeatch";
 
 // importing images
+import routingIcon from "../../../Assets/icons/routing.png";
+import switchingIcon from "../../../Assets/icons/switching.png";
+import securityIcon from "../../../Assets/icons/security.png";
+import softwareIcon from "../../../Assets/icons/software.png";
 import ideaIcon from "../../../Assets/icons/idea-icon.png";
 import brainstormIcon from "../../../Assets/icons/brainstorm-icon.png";
 import selectedIcon from "../../../Assets/icons/selected-icon.png";
-import implementedIcon from "../../../Assets/icons/implement-icon.png";
-import toolsAndTechnologyIcon from "../../../Assets/icons/tech-tool.png";
-import processIcon from "../../../Assets/icons/process.png";
-import workLifeIcon from "../../../Assets/icons/work-life.png";
-import otherIcon from "../../../Assets/icons/other.png";
+
 import jnprImage from "../../../Assets/images/jnpr.png";
 
 const Dashboard = () => {
@@ -38,9 +38,7 @@ const Dashboard = () => {
             ? ideaIcon
             : stage.stageName === "In Progress"
               ? brainstormIcon
-              : stage.stageName === "Selected"
-                ? selectedIcon
-                : implementedIcon,
+              : selectedIcon,
       };
     });
 
@@ -56,12 +54,12 @@ const Dashboard = () => {
         count: 0,
         icon:
           vertical.verticalName === "Routing"
-            ? toolsAndTechnologyIcon
+            ? routingIcon
             : vertical.verticalName === "Switching"
-              ? processIcon
+              ? switchingIcon
               : vertical.verticalName === "Security"
-                ? workLifeIcon
-                : otherIcon,
+                ? securityIcon
+                : softwareIcon,
       };
     });
     setVerticals(filteredVerticals);
