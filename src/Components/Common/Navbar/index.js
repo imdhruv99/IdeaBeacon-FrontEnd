@@ -6,17 +6,19 @@ import { Link } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 
 import { setIsLoggedIn } from "../../Redux/slice/auth-slice";
+import { clearCurrentUser } from "../../Redux/slice/common-slice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { instance } = useMsal();
 
   const handleLogout = async () => {
+    dispatch(setIsLoggedIn(false));
+    localStorage.removeItem('accessToken');
+    dispatch(clearCurrentUser());
     await instance.logoutRedirect({
       postLogoutRedirectUri: "http://localhost:3000",
     });
-
-    dispatch(setIsLoggedIn(false));
   };
 
   return (
