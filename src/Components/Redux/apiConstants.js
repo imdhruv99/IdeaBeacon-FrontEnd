@@ -19,6 +19,7 @@ export const IDEA_APIS = {
   GET_ALL_FILTERED_IDEAS: "/idea/v1/filter",
   GET_IDEA_DETAIL: "/idea/v1/get-idea",
   UPDATE_IDEA_DETAIL: "/idea/v1/update-idea",
+  DELETE_IDEA: "/idea/v1/delete-idea",
 };
 
 export const SITE_STATISTICS = {

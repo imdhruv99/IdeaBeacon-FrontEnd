@@ -43,6 +43,10 @@
   /* Color when liked */
 }
 
+.icon-delete {
+  color: #b00101;
+}
+
 /* Idea Synopsis Design */
 .idea-synopsis {
   display: flex;

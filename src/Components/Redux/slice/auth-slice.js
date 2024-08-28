@@ -19,21 +19,18 @@ export const authSlice = createSlice({
       state.accessToken = action.payload;
       localStorage.setItem('accessToken', action.payload);
     },
+    setIsCreatingUser: (state, action) => {
+      state.isCreatingUser = action.payload;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(createUser.pending, (state) => {
-      state.isCreatingUser = true;
-    });
     builder.addCase(createUser.fulfilled, (state) => {
-      state.isCreatingUser = false;
-    });
-    builder.addCase(createUser.rejected, (state) => {
       state.isCreatingUser = false;
     });
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { setIsLoggedIn, setAccessToken } = authSlice.actions;
+export const { setIsLoggedIn, setAccessToken, setIsCreatingUser } = authSlice.actions;
 
 export default authSlice.reducer;

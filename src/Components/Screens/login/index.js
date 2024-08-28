@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 
-import { setAccessToken, setIsLoggedIn } from "../../Redux/slice/auth-slice";
+import { setAccessToken, setIsCreatingUser, setIsLoggedIn } from "../../Redux/slice/auth-slice";
 import { loginRequest } from "../../../authConfig";
 import { createUser } from "../../Redux/api/authAPI";
 import Loader from "../../Common/Loader/index.js";
@@ -29,6 +29,7 @@ const Login = () => {
   const getGraphCall = async () => {
     if (accounts.length > 0) {
       if (accounts[0].idToken !== "") {
+        dispatch(setIsCreatingUser(true));
         dispatch(setAccessToken(accounts[0].idToken));
         let response = await dispatch(createUser({
           preferredUsername: accounts[0].idTokenClaims.preferred_username,
@@ -40,6 +41,7 @@ const Login = () => {
           dispatch(incrementSiteVisitStatistics());
           navigate("/dashboard");
         }
+        dispatch(setIsCreatingUser(false));
       }
     }
   };
