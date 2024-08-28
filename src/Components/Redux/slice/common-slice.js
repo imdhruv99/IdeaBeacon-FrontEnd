@@ -9,17 +9,27 @@ const initialState = {
   functions: [],
   users: [],
   tags: [],
-  currentUser: undefined,
+  currentUser: JSON.parse(localStorage.getItem('currentUser')) || undefined,
 };
 
 export const commonSlice = createSlice({
   name: "common",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
+      localStorage.setItem('currentUser', JSON.stringify(action.payload));
+    },
+    clearCurrentUser: (state) => {
+      state.currentUser = undefined;
+      localStorage.removeItem('currentUser');
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, (state, action) => {
       const data = action.payload?.data;
       state.currentUser = data;
+      localStorage.setItem('currentUser', JSON.stringify(data));
     });
 
     // fetch all stages
@@ -58,10 +68,11 @@ export const commonSlice = createSlice({
     // fetch all users list
     builder.addCase(getAllUserList.fulfilled, (state, action) => {
       const data = action.payload;
-      const updatedUserList = data.filter((user) => user.oid !== state.currentUser.oid);
-      state.users = updatedUserList;
+      const updatedUserList = state.currentUser
+        ? data.filter((user) => user.oid !== state.currentUser.oid)
+        : data;
+      state.userList = updatedUserList;
     });
-
     builder.addCase(getAllUserList.rejected, (state, action) => {
       console.log("🚀 ~ rejected ~ getAllUserList:", action);
     });
@@ -78,7 +89,6 @@ export const commonSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
-// export const {} = commonSlice.actions;
+export const { setCurrentUser, clearCurrentUser } = commonSlice.actions;
 
 export default commonSlice.reducer;

@@ -10,6 +10,7 @@ import { loginRequest } from "../../../authConfig";
 import { createUser } from "../../Redux/api/authAPI";
 import Loader from "../../Common/Loader/index.js";
 import { toRoman } from "../../utils/utils.js";
+import { incrementSiteVisitStatistics } from "../../Redux/api/siteStatisticsAPI";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const Login = () => {
         }));
         if (response.status !== 500) {
           dispatch(setIsLoggedIn(true));
+          dispatch(incrementSiteVisitStatistics());
           navigate("/dashboard");
         }
       }

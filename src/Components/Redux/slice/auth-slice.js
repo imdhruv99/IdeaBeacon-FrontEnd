@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createUser } from "../api/authAPI";
 
 const initialState = {
-  isLoggedIn: false,
-  accessToken: null,
+  isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+  accessToken: localStorage.getItem('accessToken'),
   isCreatingUser: false,
 };
 
@@ -13,9 +13,11 @@ export const authSlice = createSlice({
   reducers: {
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
+      localStorage.setItem('isLoggedIn', action.payload);
     },
     setAccessToken: (state, action) => {
       state.accessToken = action.payload;
+      localStorage.setItem('accessToken', action.payload);
     },
   },
   extraReducers: (builder) => {
