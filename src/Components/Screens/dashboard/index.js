@@ -1,7 +1,6 @@
 import "./Dashboard.css";
 
 import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { initialStages, initialVerticals } from "../../Helpers/Constants.js";
@@ -23,6 +22,7 @@ const Dashboard = () => {
   useInitialFeatch();
 
   const { stages, verticals } = useSelector((state) => state.common);
+  const { siteVisitCount } = useSelector((state) => state.siteStatistics);
 
   useEffect(() => {
     if (!stages) {
@@ -70,6 +70,9 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-page">
+      <div className="idea-beacon">
+        <h1>IdeaBeacon</h1>
+      </div>
       <div className="dashboard-logo">{<img src={jnprImage} alt="Juniper Networks" />}</div>
 
       <div className="dashboard-cards">
@@ -111,6 +114,10 @@ const Dashboard = () => {
             </Grid>
           ))}
         </Grid>
+      </div>
+
+      <div className="site-visit-counter-container">
+        <p>Site Visit Count: {siteVisitCount}</p>
       </div>
     </div>
   );

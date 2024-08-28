@@ -37,7 +37,7 @@ const Login = () => {
         }));
         if (response.status !== 500) {
           dispatch(setIsLoggedIn(true));
-          dispatch(incrementSiteVisitStatistics())
+          dispatch(incrementSiteVisitStatistics());
           navigate("/dashboard");
         }
       }

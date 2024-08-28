@@ -23,4 +23,5 @@ export const IDEA_APIS = {
 
 export const SITE_STATISTICS = {
   INCREMENT_SITE_VISIT_COUNT_STATISTICS: "/site-statistics/v1/increment-site-visit-count",
+  GET_SITE_VISIT_COUNT_STATISTICS: "/site-statistics/v1/get-site-visit-count",
 };

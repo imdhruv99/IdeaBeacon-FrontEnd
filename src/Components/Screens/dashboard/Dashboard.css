@@ -13,8 +13,18 @@
     margin-bottom: 2rem;
 }
 
+.idea-beacon {
+    display: flex;
+    justify-content: center;
+}
+
+.idea-beacon h1 {
+    font-size: 2.65rem;
+    margin: 0 0 -0.3rem 0;
+}
+
 .dashboard-logo img {
-    max-width: 30rem;
+    max-width: 13rem;
 }
 
 .dashboard-filters {
@@ -81,4 +91,10 @@
 
 .dashboard-cards {
     margin-bottom: 2.5rem;
+}
+
+.site-visit-counter-container {
+    position: absolute;
+    right: 2rem;
+    bottom: 3rem;
 }

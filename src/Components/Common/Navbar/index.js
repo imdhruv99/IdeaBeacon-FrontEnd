@@ -17,7 +17,7 @@ const Navbar = () => {
     localStorage.removeItem('accessToken');
     dispatch(clearCurrentUser());
     await instance.logoutRedirect({
-      postLogoutRedirectUri: "http://localhost:3000",
+      postLogoutRedirectUri: process.env.REACT_APP_REDIRECT_URI,
     });
   };
 

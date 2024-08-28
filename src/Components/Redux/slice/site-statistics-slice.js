@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { incrementSiteVisitStatistics } from "../api/siteStatisticsAPI";
+import { incrementSiteVisitStatistics, getSiteVisitStatistics } from "../api/siteStatisticsAPI";
 
 const initialState = {
-    siteVisitCount: undefined,
+    siteVisitCount: 0,
 };
 
 export const siteStatisticsSlice = createSlice({
@@ -12,9 +12,17 @@ export const siteStatisticsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         // increment site visit count
+        builder.addCase(getSiteVisitStatistics.fulfilled, (state, action) => {
+            state.siteVisitCount = action.payload[0].totalVisits;
+        });
+
+        builder.addCase(getSiteVisitStatistics.rejected, (state, action) => {
+            console.log("🚀 ~ rejected ~ incrementSiteVisitStatistics:", action);
+        });
+
+        // increment site visit count
         builder.addCase(incrementSiteVisitStatistics.fulfilled, (state, action) => {
-            const data = action.payload;
-            state.siteVisitCount = data.totalVisits;
+
         });
 
         builder.addCase(incrementSiteVisitStatistics.rejected, (state, action) => {
