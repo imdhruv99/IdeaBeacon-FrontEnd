@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 import { updateIdea } from "../../Redux/api/ideaAPI";
 import { resetIdea, setIsUpdatingIdea, setSelectedIdeaId } from "../../Redux/slice/idea-slice";
+import { modules } from "../../Helpers/Constants";
 
 const UpdateIdea = () => {
   const dispatch = useDispatch();
@@ -57,19 +58,6 @@ const UpdateIdea = () => {
     dispatch(setSelectedIdeaId(idea._id));
     navigate(`/idea-details/${titleSlug}`);
     reset();
-  };
-
-  const modules = {
-    toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-      ["code-block"],
-    ],
-    clipboard: {
-      matchVisual: false,
-    },
   };
 
   return (

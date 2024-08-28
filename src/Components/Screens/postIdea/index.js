@@ -16,7 +16,7 @@ import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
 import { createIdea } from "../../Redux/api/ideaAPI";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { modules } from "../../Helpers/Constants";
 
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
@@ -55,19 +55,6 @@ const PostIdeaPage = () => {
     await dispatch(createIdea(data));
     navigate(`/ideas`);
     reset();
-  };
-
-  const modules = {
-    toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-      ["code-block"],
-    ],
-    clipboard: {
-      matchVisual: false,
-    },
   };
 
   return (

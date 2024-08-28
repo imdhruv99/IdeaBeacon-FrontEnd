@@ -33,7 +33,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin: 1rem 0 1rem 0;
 }
 
 .quick-filters {

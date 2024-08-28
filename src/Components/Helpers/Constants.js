@@ -20,3 +20,16 @@ export const initialVerticals = [
   { name: "Security", count: 0, icon: securityIcon },
   { name: "Software", count: 0, icon: softwareIcon },
 ];
+
+export const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote", "link"],
+    [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+    ["code-block"],
+  ],
+  clipboard: {
+    matchVisual: false,
+  },
+};

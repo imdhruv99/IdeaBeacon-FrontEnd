@@ -206,3 +206,7 @@
 .comment-input Button {
   align-self: flex-start;
 }
+
+.idea-content a {
+  color: #0066CC;
+}
