@@ -25,7 +25,7 @@ const UpdateIdea = () => {
 
   const { verticals, functions, users, tags } = useSelector((state) => state.common);
 
-  const { idea, isUpdatingIdea } = useSelector((state) => state.idea);
+  const { idea } = useSelector((state) => state.idea);
 
   const { control, handleSubmit, setValue, reset } = useForm({
     defaultValues: {

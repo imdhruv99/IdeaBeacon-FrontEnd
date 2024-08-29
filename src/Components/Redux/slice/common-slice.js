@@ -71,7 +71,7 @@ export const commonSlice = createSlice({
       const updatedUserList = state.currentUser
         ? data.filter((user) => user.oid !== state.currentUser.oid)
         : data;
-      state.userList = updatedUserList;
+      state.users = updatedUserList;
     });
     builder.addCase(getAllUserList.rejected, (state, action) => {
       console.log("🚀 ~ rejected ~ getAllUserList:", action);

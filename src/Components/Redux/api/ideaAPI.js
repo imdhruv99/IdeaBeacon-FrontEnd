@@ -46,3 +46,13 @@ export const updateIdea = createAsyncThunk("updateIdea", async (data, { rejectWi
     return rejectWithValue(error.response.data.data);
   }
 });
+
+export const deleteIdea = createAsyncThunk("deleteIdea", async (data, { rejectWithValue }) => {
+  try {
+    const response = await Webservice.DELETE(`${IDEA_APIS.DELETE_IDEA}/${data}`, data);
+    return response.data.data;
+  } catch (error) {
+    console.log(`${IDEA_APIS.DELETE_IDEA}`, error);
+    return rejectWithValue(error.response.data.data);
+  }
+});

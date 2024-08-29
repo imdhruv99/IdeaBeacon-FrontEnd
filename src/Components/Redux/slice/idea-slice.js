@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createIdea, getAllFilteredIdeas, getIdeaDetail, updateIdea } from "../api/ideaAPI";
+import { createIdea, deleteIdea, getAllFilteredIdeas, getIdeaDetail, updateIdea } from "../api/ideaAPI";
 
 const initialState = {
   isLoading: false,
   allFilteredIdeas: [],
   idea: undefined,
   ideaAuditLogData: undefined,
-  isUpdatingIdea: false,
   selectedIdeaId: undefined,
+  isDeletingIdea: false,
 };
 
 export const ideaSlice = createSlice({
@@ -22,7 +22,7 @@ export const ideaSlice = createSlice({
     },
     setSelectedIdeaId(state, action) {
       state.selectedIdeaId = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     //Create Idea
@@ -79,10 +79,22 @@ export const ideaSlice = createSlice({
       console.log("🚀 ~ rejected ~ createIdea:", action);
       state.isLoading = false;
     });
+
+    //Delete Idea
+    builder.addCase(deleteIdea.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteIdea.fulfilled, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(deleteIdea.rejected, (state, action) => {
+      console.log("🚀 ~ rejected ~ deleteIdea:", action);
+      state.isLoading = false;
+    });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { resetIdea, setIsUpdatingIdea, setSelectedIdeaId } = ideaSlice.actions;
+export const { resetIdea, setIsUpdatingIdea, setSelectedIdeaId, setIsDeletingIdea } = ideaSlice.actions;
 
 export default ideaSlice.reducer;

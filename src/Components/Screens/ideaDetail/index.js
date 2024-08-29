@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 import ShareIcon from "@mui/icons-material/Share";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment-timezone";
 
-import { getIdeaDetail } from "../../Redux/api/ideaAPI";
-import { setIsUpdatingIdea } from "../../Redux/slice/idea-slice";
+import { deleteIdea, getIdeaDetail } from "../../Redux/api/ideaAPI";
 
 const IdeaDetailsPage = () => {
   const dispatch = useDispatch();
@@ -19,6 +19,18 @@ const IdeaDetailsPage = () => {
   const [liked, setLiked] = useState(false);
 
   const { idea, ideaAuditLogData, selectedIdeaId } = useSelector((state) => state.idea);
+  const { currentUser } = useSelector((state) => state.common);
+
+  const [authorizedUsers, setAuthorizedUsers] = useState([]);
+
+  useEffect(() => {
+    let userOIDs = [];
+    if (idea) {
+      userOIDs = idea.coauthors.map(user => { return user.oid });
+      userOIDs.push(idea.createdBy.oid);
+      setAuthorizedUsers(userOIDs);
+    }
+  }, []);
 
   const fetchIdeaDetails = async () => {
     await dispatch(getIdeaDetail(selectedIdeaId));
@@ -28,6 +40,11 @@ const IdeaDetailsPage = () => {
     setLiked(!liked);
     // await dispatch(likeIdea(id)); // Trigger the like API call
   };
+
+  const handleDeleteClick = async () => {
+    await dispatch(deleteIdea(selectedIdeaId));
+    navigate(`/ideas`);
+  }
 
   const handleEditClick = () => {
     navigate("/update-idea");
@@ -43,7 +60,8 @@ const IdeaDetailsPage = () => {
         <div className="icon-container">
           <ThumbUpIcon className={`icon-like ${liked ? "liked" : ""}`} onClick={handleLikeClick} />
           <ShareIcon className="icon-share" />
-          <EditIcon className="icon-edit" onClick={handleEditClick} />
+          {authorizedUsers.includes(currentUser.oid) && <EditIcon className="icon-edit" onClick={handleEditClick} />}
+          {authorizedUsers.includes(currentUser.oid) && <DeleteIcon className="icon-delete" onClick={handleDeleteClick} />}
         </div>
       </div>
       <div className="idea-content">
