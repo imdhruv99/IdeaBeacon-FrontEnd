@@ -6,7 +6,7 @@ const initialState = {
   allFilteredIdeas: [],
   idea: undefined,
   ideaAuditLogData: undefined,
-  selectedIdeaId: undefined,
+  selectedIdeaId: localStorage.getItem("selectedIdeaId"),
   isDeletingIdea: false,
 };
 
@@ -22,6 +22,7 @@ export const ideaSlice = createSlice({
     },
     setSelectedIdeaId(state, action) {
       state.selectedIdeaId = action.payload;
+      localStorage.setItem("selectedIdeaId", action.payload);
     },
   },
   extraReducers: (builder) => {
