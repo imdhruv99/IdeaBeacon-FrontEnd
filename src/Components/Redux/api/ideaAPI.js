@@ -47,6 +47,17 @@ export const updateIdea = createAsyncThunk("updateIdea", async (data, { rejectWi
   }
 });
 
+export const updateIdeaStage = createAsyncThunk("updateIdeaStage", async (data, { rejectWithValue }) => {
+  try {
+    const response = await Webservice.PUT(`${IDEA_APIS.UPDATE_IDEA_STAGE}/${data.id}`, data);
+
+    return response.data.data;
+  } catch (error) {
+    console.log(`${IDEA_APIS.UPDATE_IDEA_STAGE}`, error);
+    return rejectWithValue(error.response.data.data);
+  }
+});
+
 export const deleteIdea = createAsyncThunk("deleteIdea", async (data, { rejectWithValue }) => {
   try {
     const response = await Webservice.DELETE(`${IDEA_APIS.DELETE_IDEA}/${data}`, data);

@@ -20,6 +20,7 @@ export const IDEA_APIS = {
   GET_IDEA_DETAIL: "/idea/v1/get-idea",
   UPDATE_IDEA_DETAIL: "/idea/v1/update-idea",
   DELETE_IDEA: "/idea/v1/delete-idea",
+  UPDATE_IDEA_STAGE: "/idea/v1/update-idea-stage",
 };
 
 export const SITE_STATISTICS = {
