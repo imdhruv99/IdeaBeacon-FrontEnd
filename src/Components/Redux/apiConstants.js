@@ -21,6 +21,7 @@ export const IDEA_APIS = {
   UPDATE_IDEA_DETAIL: "/idea/v1/update-idea",
   DELETE_IDEA: "/idea/v1/delete-idea",
   LIKE_IDEA: "/like/v1/like-idea",
+  UPDATE_IDEA_STAGE: "/idea/v1/update-idea-stage",
 };
 
 export const SITE_STATISTICS = {

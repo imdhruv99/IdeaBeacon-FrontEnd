@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createIdea, deleteIdea, getAllFilteredIdeas, getIdeaDetail, updateIdea } from "../api/ideaAPI";
+import { createIdea, deleteIdea, getAllFilteredIdeas, getIdeaDetail, updateIdea, updateIdeaStage } from "../api/ideaAPI";
 
 const initialState = {
   isLoading: false,
@@ -46,6 +46,18 @@ export const ideaSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(updateIdea.rejected, (state, action) => {
+      console.log("🚀 ~ rejected ~ updateIdea:", action);
+      state.isLoading = false;
+    });
+
+    //Update Idea stage
+    builder.addCase(updateIdeaStage.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateIdeaStage.fulfilled, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(updateIdeaStage.rejected, (state, action) => {
       console.log("🚀 ~ rejected ~ updateIdea:", action);
       state.isLoading = false;
     });
