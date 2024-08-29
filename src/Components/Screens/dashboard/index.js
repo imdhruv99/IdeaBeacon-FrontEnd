@@ -2,7 +2,7 @@ import "./Dashboard.css";
 
 import React, { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { initialStages, initialVerticals } from "../../Helpers/Constants.js";
 import useInitialFeatch from "../../hooks/useInitialFeatch";
 
@@ -20,6 +20,7 @@ import jnprImage from "../../../Assets/images/jnpr.png";
 const Dashboard = () => {
   // fetching initial data
   useInitialFeatch();
+  const dispatch = useDispatch();
 
   const { stages, verticals } = useSelector((state) => state.common);
   const { siteVisitCount } = useSelector((state) => state.siteStatistics);
@@ -32,7 +33,7 @@ const Dashboard = () => {
     let filteredStages = updatedStages.map((stage) => {
       return {
         name: stage.stageName,
-        count: 0,
+        count: stage.count,
         icon:
           stage.stageName === "Submitted"
             ? ideaIcon
@@ -51,7 +52,7 @@ const Dashboard = () => {
     let filteredVerticals = verticals.map((vertical) => {
       return {
         name: vertical.verticalName,
-        count: 0,
+        count: vertical.count,
         icon:
           vertical.verticalName === "Routing"
             ? routingIcon
