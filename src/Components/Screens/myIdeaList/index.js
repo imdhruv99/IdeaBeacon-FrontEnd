@@ -1,12 +1,13 @@
 import "./myIdeaList.css";
 
 import React, { useEffect, useState } from "react";
-import { MenuItem, Select, TextField, Button, FormControl } from "@mui/material";
+import { MenuItem, Select, TextField, Button, FormControl, IconButton, Menu } from "@mui/material";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 
-import { getAllFilteredIdeas } from "../../Redux/api/ideaAPI";
+import { getAllFilteredIdeas, updateIdeaStage } from "../../Redux/api/ideaAPI";
 import { setSelectedIdeaId } from "../../Redux/slice/idea-slice";
 
 const MyIdeaPage = () => {
@@ -25,6 +26,9 @@ const MyIdeaPage = () => {
     year: "",
   });
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedIdea, setSelectedIdea] = useState(null);
+
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
     setFilters((prevFilters) => ({
@@ -38,7 +42,6 @@ const MyIdeaPage = () => {
       ...prevFilters,
       quickFilter: filterType,
     }));
-    // Fetch and update ideas based on quick filter here
   };
 
   const resetFilters = () => {
@@ -57,6 +60,25 @@ const MyIdeaPage = () => {
     const titleSlug = idea.title.toLowerCase().replace(/\s+/g, '-')
     dispatch(setSelectedIdeaId(idea._id));
     navigate(`/idea-details/${titleSlug}`);
+  };
+
+  const handleMenuOpen = (event, idea) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+    setSelectedIdea(idea);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedIdea(null);
+  };
+
+  const handleStageChange = async (newStageId) => {
+    if (selectedIdea) {
+      await dispatch(updateIdeaStage({ id: selectedIdea._id, ideaStageId: newStageId }));
+      fetchIdeaList();
+    }
+    handleMenuClose();
   };
 
   const fetchIdeaList = async () => {
@@ -168,7 +190,14 @@ const MyIdeaPage = () => {
           <div className="idea-card" key={idea._id} onClick={() => handleCardClick(idea)}>
             <div className="card-header">
               <span>{idea?.ideaStageId.stageName}</span>
-              <span>{moment(idea?.createdAt).format("YYYY-MM-DD")}</span>
+              <span>{moment(idea?.createdAt).format("DD-MM-YYYY")}</span>
+              <IconButton
+                className="three-dot-menu"
+                onClick={(e) => handleMenuOpen(e, idea)}
+                size="small"
+              >
+                <MoreVertIcon />
+              </IconButton>
             </div>
             <div className="card-body">
               <p>{idea.title.length > 100 ? `${idea.title.substring(0, 100)}...` : idea.title}</p>
@@ -183,6 +212,25 @@ const MyIdeaPage = () => {
           </div>
         ))}
       </div>
+      {stages.length > 0 && (
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          {stages
+            .filter(stage => selectedIdea && stage._id !== selectedIdea.ideaStageId._id)
+            .map((stage) => (
+              <MenuItem
+                key={stage._id}
+                onClick={() => handleStageChange(stage._id)}
+              >
+                {stage.stageName}
+              </MenuItem>
+            ))
+          }
+        </Menu>
+      )}
     </div>
   );
 };
