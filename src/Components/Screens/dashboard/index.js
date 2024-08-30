@@ -2,9 +2,11 @@ import "./Dashboard.css";
 
 import React, { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { initialStages, initialVerticals } from "../../Helpers/Constants.js";
 import useInitialFeatch from "../../hooks/useInitialFeatch";
+import { useNavigate } from "react-router-dom";
+
 
 // importing images
 import routingIcon from "../../../Assets/icons/routing.png";
@@ -20,7 +22,7 @@ import jnprImage from "../../../Assets/images/jnpr.png";
 const Dashboard = () => {
   // fetching initial data
   useInitialFeatch();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { stages, verticals } = useSelector((state) => state.common);
   const { siteVisitCount } = useSelector((state) => state.siteStatistics);
@@ -32,6 +34,7 @@ const Dashboard = () => {
     let updatedStages = stages.filter((stage) => stage.stageName !== "Archived");
     let filteredStages = updatedStages.map((stage) => {
       return {
+        id: stage._id,
         name: stage.stageName,
         count: stage.count,
         icon:
@@ -51,6 +54,7 @@ const Dashboard = () => {
 
     let filteredVerticals = verticals.map((vertical) => {
       return {
+        id: vertical._id,
         name: vertical.verticalName,
         count: vertical.count,
         icon:
@@ -69,6 +73,17 @@ const Dashboard = () => {
   const [ideaStages, setStages] = useState(initialStages);
   const [ideaVerticals, setVerticals] = useState(initialVerticals);
 
+  const handleCardClick = async (type, id) => {
+    const filters = {
+      filter: {
+        [`${type}Id`]: id
+      }
+    };
+    navigate(`/ideas`, {
+      state: filters
+    });
+  };
+
   return (
     <div className="dashboard-page">
       <div className="idea-beacon">
@@ -83,7 +98,7 @@ const Dashboard = () => {
         <Grid container spacing={2}>
           {ideaStages.map((stage) => (
             <Grid item xs={12} sm={6} md={3} key={stage.name}>
-              <div className="cards">
+              <div className="cards" onClick={() => handleCardClick('stage', stage.id)}>
                 <div className="card-icon">
                   <img src={stage.icon} alt={`${stage.name} icon`} />
                 </div>
@@ -103,7 +118,7 @@ const Dashboard = () => {
         <Grid container spacing={2} className="vertical-cards">
           {ideaVerticals.map((vertical) => (
             <Grid item xs={12} sm={6} md={3} key={vertical.name}>
-              <div className="cards">
+              <div className="cards" onClick={() => handleCardClick('vertical', vertical.id)}>
                 <div className="card-icon">
                   <img src={vertical.icon} alt={`${vertical.name} icon`} />
                 </div>

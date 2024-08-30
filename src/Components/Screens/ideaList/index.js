@@ -3,7 +3,7 @@ import "./IdeasPage.css";
 import React, { useEffect, useState } from "react";
 import { MenuItem, Select, TextField, Button, FormControl, IconButton, Menu } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 
@@ -11,8 +11,11 @@ import { getAllFilteredIdeas, updateIdeaStage } from "../../Redux/api/ideaAPI";
 import { setSelectedIdeaId } from "../../Redux/slice/idea-slice";
 
 const IdeasPage = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const navFilters = location.state?.filter;
 
   const { stages, verticals, functions, users } = useSelector((state) => state.common);
 
@@ -88,6 +91,14 @@ const IdeasPage = () => {
   useEffect(() => {
     if (!isFetchingIdeas) fetchIdeaList();
   }, [filters]);
+
+  useEffect(() => {
+    if (navFilters) {
+      console.log(navFilters);
+
+      // handleFilterChange({ target: { name: Object.keys(navFilters)[0], value: navFilters[Object.keys(navFilters)[0]] } });
+    }
+  });
 
   return (
     <div className="ideas-page">
