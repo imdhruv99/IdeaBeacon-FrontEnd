@@ -2,11 +2,12 @@ import "./Dashboard.css";
 
 import React, { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import { initialStages, initialVerticals } from "../../Helpers/Constants.js";
-import useInitialFeatch from "../../hooks/useInitialFeatch";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { initialStages, initialVerticals } from "../../Helpers/Constants.js";
+import useInitialFetch from "../../hooks/useInitialFeatch.js";
+import { setIdeaFilters } from "../../Redux/slice/idea-slice.js";
 
 // importing images
 import routingIcon from "../../../Assets/icons/routing.png";
@@ -16,12 +17,13 @@ import softwareIcon from "../../../Assets/icons/software.png";
 import ideaIcon from "../../../Assets/icons/idea-icon.png";
 import brainstormIcon from "../../../Assets/icons/brainstorm-icon.png";
 import selectedIcon from "../../../Assets/icons/selected-icon.png";
-
 import jnprImage from "../../../Assets/images/jnpr.png";
 
 const Dashboard = () => {
   // fetching initial data
-  useInitialFeatch();
+  useInitialFetch();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { stages, verticals } = useSelector((state) => state.common);
@@ -41,8 +43,8 @@ const Dashboard = () => {
           stage.stageName === "Submitted"
             ? ideaIcon
             : stage.stageName === "In Progress"
-              ? brainstormIcon
-              : selectedIcon,
+            ? brainstormIcon
+            : selectedIcon,
       };
     });
 
@@ -61,10 +63,10 @@ const Dashboard = () => {
           vertical.verticalName === "Routing"
             ? routingIcon
             : vertical.verticalName === "Switching"
-              ? switchingIcon
-              : vertical.verticalName === "Security"
-                ? securityIcon
-                : softwareIcon,
+            ? switchingIcon
+            : vertical.verticalName === "Security"
+            ? securityIcon
+            : softwareIcon,
       };
     });
     setVerticals(filteredVerticals);
@@ -75,13 +77,11 @@ const Dashboard = () => {
 
   const handleCardClick = async (type, id) => {
     const filters = {
-      filter: {
-        [`${type}Id`]: id
-      }
+      filterName: `${type}Id`,
+      filterId: id,
     };
-    navigate(`/ideas`, {
-      state: filters
-    });
+    dispatch(setIdeaFilters(filters));
+    navigate(`/ideas`);
   };
 
   return (
@@ -98,7 +98,7 @@ const Dashboard = () => {
         <Grid container spacing={2}>
           {ideaStages.map((stage) => (
             <Grid item xs={12} sm={6} md={3} key={stage.name}>
-              <div className="cards" onClick={() => handleCardClick('stage', stage.id)}>
+              <div className="cards" onClick={() => handleCardClick("stage", stage.id)}>
                 <div className="card-icon">
                   <img src={stage.icon} alt={`${stage.name} icon`} />
                 </div>
@@ -118,7 +118,7 @@ const Dashboard = () => {
         <Grid container spacing={2} className="vertical-cards">
           {ideaVerticals.map((vertical) => (
             <Grid item xs={12} sm={6} md={3} key={vertical.name}>
-              <div className="cards" onClick={() => handleCardClick('vertical', vertical.id)}>
+              <div className="cards" onClick={() => handleCardClick("vertical", vertical.id)}>
                 <div className="card-icon">
                   <img src={vertical.icon} alt={`${vertical.name} icon`} />
                 </div>

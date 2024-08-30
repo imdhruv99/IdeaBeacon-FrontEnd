@@ -2,7 +2,7 @@ import "./myIdeaList.css";
 
 import React, { useEffect, useState } from "react";
 import { MenuItem, Select, TextField, Button, FormControl, IconButton, Menu } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
@@ -17,7 +17,7 @@ const MyIdeaPage = () => {
   const { stages, verticals, functions, currentUser } = useSelector((state) => state.common);
   const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
 
-  const [filters, setFilters] = useState({
+  const [filters, setIdeaFilters] = useState({
     stageId: "",
     verticalId: "",
     authorId: currentUser._id,
@@ -31,21 +31,21 @@ const MyIdeaPage = () => {
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
-    setFilters((prevFilters) => ({
+    setIdeaFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
     }));
   };
 
   const handleQuickFilterChange = (filterType) => {
-    setFilters((prevFilters) => ({
+    setIdeaFilters((prevFilters) => ({
       ...prevFilters,
       quickFilter: filterType,
     }));
   };
 
   const resetFilters = () => {
-    setFilters({
+    setIdeaFilters({
       stageId: "",
       verticalId: "",
       authorId: currentUser._id,
@@ -53,11 +53,10 @@ const MyIdeaPage = () => {
       month: "",
       year: "",
     });
-
   };
 
   const handleCardClick = (idea) => {
-    const titleSlug = idea.title.toLowerCase().replace(/\s+/g, '-')
+    const titleSlug = idea.title.toLowerCase().replace(/\s+/g, "-");
     dispatch(setSelectedIdeaId(idea._id));
     navigate(`/idea-details/${titleSlug}`);
   };
@@ -191,11 +190,7 @@ const MyIdeaPage = () => {
             <div className="card-header">
               <span>{idea?.ideaStageId.stageName}</span>
               <span>{moment(idea?.createdAt).format("DD-MM-YYYY")}</span>
-              <IconButton
-                className="three-dot-menu"
-                onClick={(e) => handleMenuOpen(e, idea)}
-                size="small"
-              >
+              <IconButton className="three-dot-menu" onClick={(e) => handleMenuOpen(e, idea)} size="small">
                 <MoreVertIcon />
               </IconButton>
             </div>
@@ -213,22 +208,14 @@ const MyIdeaPage = () => {
         ))}
       </div>
       {stages.length > 0 && (
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-        >
+        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
           {stages
-            .filter(stage => selectedIdea && stage._id !== selectedIdea.ideaStageId._id)
+            .filter((stage) => selectedIdea && stage._id !== selectedIdea.ideaStageId._id)
             .map((stage) => (
-              <MenuItem
-                key={stage._id}
-                onClick={() => handleStageChange(stage._id)}
-              >
+              <MenuItem key={stage._id} onClick={() => handleStageChange(stage._id)}>
                 {stage.stageName}
               </MenuItem>
-            ))
-          }
+            ))}
         </Menu>
       )}
     </div>
