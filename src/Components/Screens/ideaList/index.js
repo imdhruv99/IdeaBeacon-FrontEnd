@@ -57,7 +57,7 @@ const IdeasPage = () => {
   };
 
   const handleCardClick = (idea) => {
-    const titleSlug = idea.title.toLowerCase().replace(/\s+/g, '-')
+    const titleSlug = idea.title.toLowerCase().replace(/\s+/g, "-");
     dispatch(setSelectedIdeaId(idea._id));
     navigate(`/idea-details/${titleSlug}`);
   };
@@ -226,7 +226,7 @@ const IdeasPage = () => {
               </p>
             </div>
             <div className="card-footer">
-              <span>{idea?.likes} Likes</span>
+              <span>{idea?.likeCount + ` ${idea?.likeCount > 1 ? "Likes" : "Like"}`}</span>
               <span>{idea?.comments} Comments</span>
             </div>
           </div>

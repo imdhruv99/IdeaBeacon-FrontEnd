@@ -10,41 +10,39 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment-timezone";
 
-import { deleteIdea, getIdeaDetail } from "../../Redux/api/ideaAPI";
+import { deleteIdea, getIdeaDetail, likeIdea } from "../../Redux/api/ideaAPI";
 
 const IdeaDetailsPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [liked, setLiked] = useState(false);
-
   const { idea, ideaAuditLogData, selectedIdeaId } = useSelector((state) => state.idea);
   const { currentUser } = useSelector((state) => state.common);
 
   const [authorizedUsers, setAuthorizedUsers] = useState([]);
-
-  useEffect(() => {
-    let userOIDs = [];
-    if (idea) {
-      userOIDs = idea.coauthors.map(user => { return user.oid });
-      userOIDs.push(idea.createdBy.oid);
-      setAuthorizedUsers(userOIDs);
-    }
-  }, []);
+  const [liked, setLiked] = useState(false);
 
   const fetchIdeaDetails = async () => {
-    await dispatch(getIdeaDetail(selectedIdeaId));
+    const params = {
+      ideaId: selectedIdeaId,
+      userId: currentUser._id,
+    };
+    await dispatch(getIdeaDetail(params));
   };
 
   const handleLikeClick = async () => {
+    const params = {
+      ideaId: selectedIdeaId,
+      userId: currentUser._id,
+    };
+    await dispatch(likeIdea(params));
     setLiked(!liked);
-    // await dispatch(likeIdea(id)); // Trigger the like API call
   };
 
   const handleDeleteClick = async () => {
     await dispatch(deleteIdea(selectedIdeaId));
     navigate(`/ideas`);
-  }
+  };
 
   const handleEditClick = () => {
     navigate("/update-idea");
@@ -54,6 +52,18 @@ const IdeaDetailsPage = () => {
     fetchIdeaDetails();
   }, [selectedIdeaId]);
 
+  useEffect(() => {
+    let userOIDs = [];
+    if (idea) {
+      userOIDs = idea.coauthors.map((user) => {
+        return user.oid;
+      });
+      userOIDs.push(idea.createdBy.oid);
+      setAuthorizedUsers(userOIDs);
+    }
+    setLiked(idea?.isLiked);
+  }, [idea]);
+
   return (
     <div className="idea-details-page">
       <div className="idea-header">
@@ -61,7 +71,9 @@ const IdeaDetailsPage = () => {
           <ThumbUpIcon className={`icon-like ${liked ? "liked" : ""}`} onClick={handleLikeClick} />
           <ShareIcon className="icon-share" />
           {authorizedUsers.includes(currentUser.oid) && <EditIcon className="icon-edit" onClick={handleEditClick} />}
-          {authorizedUsers.includes(currentUser.oid) && <DeleteIcon className="icon-delete" onClick={handleDeleteClick} />}
+          {authorizedUsers.includes(currentUser.oid) && (
+            <DeleteIcon className="icon-delete" onClick={handleDeleteClick} />
+          )}
         </div>
       </div>
       <div className="idea-content">
