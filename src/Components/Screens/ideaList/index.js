@@ -19,7 +19,6 @@ const IdeasPage = () => {
   const { isFetchingIdeas, allFilteredIdeas, ideaFilters } = useSelector((state) => state.idea);
 
   const [filters, setIdeaFilters] = useState(ideaFilters);
-  console.log(ideaFilters);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIdea, setSelectedIdea] = useState(null);
