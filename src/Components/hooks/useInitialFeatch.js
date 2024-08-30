@@ -4,10 +4,10 @@ import { useDispatch } from "react-redux";
 import { getAllVerticals, getAllFunctions, getAllStages, getAllUserList, getAllTagsList } from "../Redux/api/commonAPI";
 import { getSiteVisitStatistics } from "../Redux/api/siteStatisticsAPI";
 
-const useInitialFeatch = () => {
+const useInitialFetch = () => {
   const dispatch = useDispatch();
 
-  //prommise for async API call
+  //promise for async API call
   const getFetchAPI = async () => {
     let Promises = [];
 
@@ -28,4 +28,4 @@ const useInitialFeatch = () => {
   return;
 };
 
-export default useInitialFeatch;
+export default useInitialFetch;

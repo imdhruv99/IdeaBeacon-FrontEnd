@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createIdea, deleteIdea, getAllFilteredIdeas, getIdeaDetail, updateIdea, updateIdeaStage } from "../api/ideaAPI";
+import {
+  createIdea,
+  deleteIdea,
+  getAllFilteredIdeas,
+  getIdeaDetail,
+  updateIdea,
+  updateIdeaStage,
+} from "../api/ideaAPI";
 
 const initialState = {
   isLoading: false,
@@ -8,6 +15,15 @@ const initialState = {
   ideaAuditLogData: undefined,
   selectedIdeaId: localStorage.getItem("selectedIdeaId"),
   isDeletingIdea: false,
+  isFetchingIdeas: false,
+  ideaFilters: {
+    stageId: "",
+    verticalId: "",
+    authorId: "",
+    functionId: "",
+    month: "",
+    year: "",
+  },
 };
 
 export const ideaSlice = createSlice({
@@ -23,6 +39,23 @@ export const ideaSlice = createSlice({
     setSelectedIdeaId(state, action) {
       state.selectedIdeaId = action.payload;
       localStorage.setItem("selectedIdeaId", action.payload);
+    },
+    setIdeaFilters(state, action) {
+      const existingFilters = JSON.parse(JSON.stringify(state.ideaFilters));
+
+      existingFilters[action.payload.filterName] = action.payload.filterId;
+
+      state.ideaFilters = existingFilters;
+    },
+    reSetIdeaFilters(state) {
+      state.ideaFilters = {
+        stageId: "",
+        verticalId: "",
+        authorId: "",
+        functionId: "",
+        month: "",
+        year: "",
+      };
     },
   },
   extraReducers: (builder) => {
@@ -65,16 +98,19 @@ export const ideaSlice = createSlice({
     // Get All Filtered Idea List
     builder.addCase(getAllFilteredIdeas.pending, (state) => {
       state.isLoading = true;
+      state.isFetchingIdeas = true;
     });
     builder.addCase(getAllFilteredIdeas.fulfilled, (state, action) => {
       const data = action.payload;
 
       state.allFilteredIdeas = data;
       state.isLoading = false;
+      state.isFetchingIdeas = false;
     });
     builder.addCase(getAllFilteredIdeas.rejected, (state, action) => {
       console.log("🚀 ~ rejected ~ createIdea:", action);
       state.isLoading = false;
+      state.isFetchingIdeas = false;
     });
 
     // Get Idea Detail
@@ -108,6 +144,7 @@ export const ideaSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { resetIdea, setIsUpdatingIdea, setSelectedIdeaId, setIsDeletingIdea } = ideaSlice.actions;
+export const { resetIdea, setIsUpdatingIdea, setSelectedIdeaId, setIsDeletingIdea, setIdeaFilters, reSetIdeaFilters } =
+  ideaSlice.actions;
 
 export default ideaSlice.reducer;

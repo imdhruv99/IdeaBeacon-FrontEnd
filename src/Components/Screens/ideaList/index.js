@@ -2,7 +2,7 @@ import "./IdeasPage.css";
 
 import React, { useEffect, useState } from "react";
 import { MenuItem, Select, TextField, Button, FormControl, IconButton, Menu } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
@@ -16,37 +16,30 @@ const IdeasPage = () => {
 
   const { stages, verticals, functions, users } = useSelector((state) => state.common);
 
-  const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
+  const { isFetchingIdeas, allFilteredIdeas, ideaFilters } = useSelector((state) => state.idea);
 
-  const [filters, setFilters] = useState({
-    stageId: "",
-    verticalId: "",
-    authorId: "",
-    functionId: "",
-    month: "",
-    year: "",
-  });
+  const [filters, setIdeaFilters] = useState(ideaFilters);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIdea, setSelectedIdea] = useState(null);
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
-    setFilters((prevFilters) => ({
+    setIdeaFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
     }));
   };
 
   const handleQuickFilterChange = (filterType) => {
-    setFilters((prevFilters) => ({
+    setIdeaFilters((prevFilters) => ({
       ...prevFilters,
       quickFilter: filterType,
     }));
   };
 
   const resetFilters = () => {
-    setFilters({
+    setIdeaFilters({
       stageId: "",
       verticalId: "",
       authorId: "",
@@ -211,11 +204,7 @@ const IdeasPage = () => {
             <div className="card-header">
               <span>{idea?.ideaStageId.stageName}</span>
               <span>{moment(idea?.createdAt).format("DD-MM-YYYY")}</span>
-              <IconButton
-                className="three-dot-menu"
-                onClick={(e) => handleMenuOpen(e, idea)}
-                size="small"
-              >
+              <IconButton className="three-dot-menu" onClick={(e) => handleMenuOpen(e, idea)} size="small">
                 <MoreVertIcon />
               </IconButton>
             </div>
@@ -233,22 +222,14 @@ const IdeasPage = () => {
         ))}
       </div>
       {stages.length > 0 && (
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-        >
+        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
           {stages
-            .filter(stage => selectedIdea && stage._id !== selectedIdea.ideaStageId._id)
+            .filter((stage) => selectedIdea && stage._id !== selectedIdea.ideaStageId._id)
             .map((stage) => (
-              <MenuItem
-                key={stage._id}
-                onClick={() => handleStageChange(stage._id)}
-              >
+              <MenuItem key={stage._id} onClick={() => handleStageChange(stage._id)}>
                 {stage.stageName}
               </MenuItem>
-            ))
-          }
+            ))}
         </Menu>
       )}
     </div>
