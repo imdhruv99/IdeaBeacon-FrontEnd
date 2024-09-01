@@ -57,3 +57,14 @@ export const getAllTagsList = createAsyncThunk("getAllTagsList", async (data, { 
     return rejectWithValue(error.response.data.data);
   }
 });
+
+export const getAllDemoDayList = createAsyncThunk("getAllDemoDayList", async (data, { rejectWithValue }) => {
+  try {
+    const response = await Webservice.GET(`${COMMON_APIS.GET_ALL_DEMO_DAYS}`, {});
+
+    return response.data.data;
+  } catch (error) {
+    console.log(`${COMMON_APIS.GET_ALL_DEMO_DAYS}`, error);
+    return rejectWithValue(error.response.data.data);
+  }
+});

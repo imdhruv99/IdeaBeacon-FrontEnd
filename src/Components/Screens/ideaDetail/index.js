@@ -84,10 +84,10 @@ const IdeaDetailsPage = () => {
               <strong>Author:</strong> {idea?.createdBy?.name}
             </div>
             <div>
-              <strong>Stage:</strong> {idea?.ideaStageId.stageName}
+              <strong>Stage:</strong> {idea?.ideaStageId?.stageName}
             </div>
             <div>
-              <strong>Vertical:</strong> {idea?.ideaVerticalId.verticalName}
+              <strong>Vertical:</strong> {idea?.ideaVerticalId?.verticalName}
             </div>
           </div>
           <div className="grid-item">
@@ -95,7 +95,10 @@ const IdeaDetailsPage = () => {
               <strong>Date Created:</strong> {moment(idea?.createdAt).format("DD-MM-YYYY")}
             </div>
             <div>
-              <strong>Teams:</strong> {idea?.functionId.functionName}
+              <strong>Teams:</strong> {idea?.functionId?.functionName}
+            </div>
+            <div>
+              <strong>Demo Day:</strong> {idea?.demoDayId?.number}
             </div>
           </div>
           <div className="grid-item">
