@@ -5,6 +5,7 @@ export const COMMON_APIS = {
   GET_ALL_FUNCTIONS: "/function/v1/get-all-function",
   GET_ALL_USER: "/user/v1/get-all-user",
   GET_ALL_TAGS: "/tag/v1/get-all-tag",
+  GET_ALL_DEMO_DAYS: "/demo-day/v1/get-all-demo-day",
 };
 
 //auth endpoint

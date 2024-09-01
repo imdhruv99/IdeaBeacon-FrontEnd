@@ -21,7 +21,7 @@ import { modules } from "../../Helpers/Constants";
 const PostIdeaPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { verticals, functions, users, tags } = useSelector((state) => state.common);
+  const { verticals, functions, users, tags, demoDays } = useSelector((state) => state.common);
 
   const {
     control,
@@ -139,6 +139,27 @@ const PostIdeaPage = () => {
                 )}
               />
               {errors.functionId && <FormHelperText>{errors.functionId.message}</FormHelperText>}
+            </FormControl>
+          </div>
+
+          <div className="card">
+            <FormControl fullWidth margin="normal" className="flex-item" error={!!errors.demoDay}>
+              <InputLabel>Demo Day</InputLabel>
+              <Controller
+                name="demoDayId"
+                control={control}
+                rules={{ required: "Demo Day selection is required" }}
+                render={({ field }) => (
+                  <Select {...field} label="Demo Day">
+                    {demoDays.map((demoDay) => (
+                      <MenuItem key={demoDay._id} value={demoDay._id}>
+                        {demoDay.number}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+              {errors.demoDayId && <FormHelperText>{errors.demoDayId.message}</FormHelperText>}
             </FormControl>
           </div>
         </div>

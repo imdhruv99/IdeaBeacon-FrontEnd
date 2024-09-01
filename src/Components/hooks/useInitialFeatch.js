@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { getAllVerticals, getAllFunctions, getAllStages, getAllUserList, getAllTagsList } from "../Redux/api/commonAPI";
+import { getAllVerticals, getAllFunctions, getAllStages, getAllUserList, getAllTagsList, getAllDemoDayList } from "../Redux/api/commonAPI";
 import { getSiteVisitStatistics } from "../Redux/api/siteStatisticsAPI";
 
 const useInitialFetch = () => {
@@ -17,6 +17,7 @@ const useInitialFetch = () => {
     Promises.push(dispatch(getAllUserList()));
     Promises.push(dispatch(getAllTagsList()));
     Promises.push(dispatch(getSiteVisitStatistics()));
+    Promises.push(dispatch(getAllDemoDayList()));
 
     await Promise.all(Promises);
   };
