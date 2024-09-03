@@ -70,7 +70,7 @@ export const commonSlice = createSlice({
     builder.addCase(getAllUserList.fulfilled, (state, action) => {
       const data = action.payload;
       const updatedUserList = state.currentUser
-        ? data.filter((user) => user.oid !== state.currentUser.oid)
+        ? data.filter((user) => user.oid !== state.currentUser?.oid)
         : data;
       state.users = updatedUserList;
     });

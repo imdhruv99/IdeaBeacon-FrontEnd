@@ -69,12 +69,23 @@
   margin-top: 20px;
 }
 
+.grid-item-details {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+
 /* Grid item design */
 .grid-item {
   display: flex;
   flex-direction: column;
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 0.1rem 1rem 0.1rem 1rem;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -111,13 +122,13 @@
   text-align: center;
 }
 
-/* Center the heading for Track Status*/
+/* Center the heading for Track Status */
 .track-status-title {
   font-size: 1.5rem;
   margin-bottom: 15px;
 }
 
-/* Track Status container design*/
+/* Track Status container design */
 .track-status-container {
   display: flex;
   flex-direction: column;
@@ -128,7 +139,7 @@
   border-radius: 5px;
 }
 
-/* Track Status header/row design*/
+/* Track Status header/row design */
 .track-status-header,
 .track-status-row {
   display: flex;
@@ -137,14 +148,14 @@
   line-height: 25px;
 }
 
-/* Track Status header design*/
+/* Track Status header design */
 .track-status-header {
   font-weight: bold;
   padding: 5px;
   background-color: #f0f0f0;
 }
 
-/* Track Status cell design*/
+/* Track Status cell design */
 .track-status-cell {
   flex: 1;
   text-align: left;
@@ -171,46 +182,120 @@
   margin-top: 20px;
 }
 
-/* Border between comments */
+/* Individual comment styling */
 .comment {
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
+  border-bottom: 1px solid #e1e1e1;
+  padding: 10px 15px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin: 0 0 10px 0;
 }
 
-/* Space between author and date */
-.comment-text {
+/* Comment header styling (author and date) */
+.header-container {
+  display: flex;
+  justify-content: left;
   margin-bottom: 5px;
+  font-size: 0.875rem;
+  color: #333;
 }
 
-/* Comment Date Design */
-.comment-date {
-  font-style: italic;
-  color: #666;
+.header-container strong {
+  margin-right: 1rem;
 }
 
-/* Comment input box Design */
+/* Comment body styling */
+.comment-body {
+  margin-bottom: 10px;
+  font-size: 0.875rem;
+  color: #333;
+}
+
+/* Reply container styling */
+.replies {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 1px solid #e1e1e1;
+  background-color: #f9f9f9;
+  /* Slightly different background for replies */
+}
+
+/* Individual reply styling */
+.reply {
+  padding: 8px 15px;
+  margin-bottom: 10px;
+}
+
+.comment-text-container {
+  padding: 0.1rem 1rem 0.1rem 1rem;
+  font-size: 0.875rem;
+  color: #333;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  /* Match width to text content */
+  width: auto;
+  /* Ensure width adjusts to content */
+  max-width: 100%;
+}
+
+/* Comment input styling */
 .comment-input {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
 }
 
+/* Text field styling */
 .comment-textfield {
-  width: 500px;
-  height: auto;
+  width: 100%;
   font-size: 0.875rem;
 }
 
-/* Space between text field and button */
-.comment-input .MuiTextField-root {
-  margin-bottom: 10px;
-}
-
-/* Align button to the start of the container */
+/* Button styling */
 .comment-input Button {
   align-self: flex-start;
+  margin-top: 10px;
 }
 
-.idea-content a {
-  color: #0066CC;
+/* Reply icon styling */
+.comment-actions {
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.comment-actions .MuiButton-root {
+  font-size: 0.75rem;
+  color: #144d9c;
+}
+
+.reply-button {
+  color: #ffffff !important;
+}
+
+.reply-icon-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.margin-left {
+  margin-left: 0.5rem !important;
+}
+
+.margin-top {
+  margin-top: 0.5rem;
+}
+
+.reply-textfield {
+  display: flex !important;
+}
+
+.header-container em {
+  font-style: normal;
+  color: #797979;
+  font-size: smaller;
+  margin-top: 0.1rem;
+  font-family: Arial, Helvetica, sans-serif;
 }

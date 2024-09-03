@@ -8,9 +8,12 @@ import ShareIcon from "@mui/icons-material/Share";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ReplyIcon from '@mui/icons-material/Reply';
+import CommentIcon from '@mui/icons-material/ChatBubbleOutline';
 import moment from "moment-timezone";
 
 import { deleteIdea, getIdeaDetail, likeIdea } from "../../Redux/api/ideaAPI";
+import { createComment, getIdeaCommentsList } from "../../Redux/api/commentAPI";
 
 const IdeaDetailsPage = () => {
   const dispatch = useDispatch();
@@ -18,22 +21,30 @@ const IdeaDetailsPage = () => {
 
   const { idea, ideaAuditLogData, selectedIdeaId } = useSelector((state) => state.idea);
   const { currentUser } = useSelector((state) => state.common);
+  const { commentList } = useSelector((state) => state.comment);
 
   const [authorizedUsers, setAuthorizedUsers] = useState([]);
   const [liked, setLiked] = useState(false);
+  const [commentText, setCommentText] = useState();
+  const [replyToCommentId, setReplyToCommentId] = useState(null);
+  const [replyText, setReplyText] = useState("");
 
   const fetchIdeaDetails = async () => {
     const params = {
       ideaId: selectedIdeaId,
-      userId: currentUser._id,
+      userId: currentUser?._id,
     };
     await dispatch(getIdeaDetail(params));
   };
 
+  const fetchCommentList = async () => {
+    await dispatch(getIdeaCommentsList(selectedIdeaId));
+  }
+
   const handleLikeClick = async () => {
     const params = {
       ideaId: selectedIdeaId,
-      userId: currentUser._id,
+      userId: currentUser?._id,
     };
     await dispatch(likeIdea(params));
     setLiked(!liked);
@@ -48,8 +59,48 @@ const IdeaDetailsPage = () => {
     navigate("/update-idea");
   };
 
+  const handleCreateCommentClick = async () => {
+    if (!commentText.trim()) return;
+    const commentPayload = {
+      "ideaId": selectedIdeaId,
+      "comment": commentText,
+      "userId": currentUser?._id,
+      "isReply": false,
+      "replyComment": "",
+      "commentId": "",
+      "userName": currentUser?.name,
+    };
+    await dispatch(createComment(commentPayload)).then(() => {
+      setCommentText("");
+    });
+  };
+
+  const handleReplyCommentClick = (commentId) => {
+    setReplyToCommentId(commentId);
+  };
+
+  const handleSubmitReply = async () => {
+    if (!replyText.trim()) return;
+
+    const replyPayload = {
+      ideaId: selectedIdeaId,
+      comment: "",
+      userId: currentUser?._id,
+      isReply: true,
+      replyComment: replyText,
+      commentId: replyToCommentId,
+      userName: currentUser?.name,
+    };
+
+    await dispatch(createComment(replyPayload));
+    setReplyText("");
+    setReplyToCommentId(null);
+  };
+
+
   useEffect(() => {
     fetchIdeaDetails();
+    fetchCommentList();
   }, [selectedIdeaId]);
 
   useEffect(() => {
@@ -65,13 +116,14 @@ const IdeaDetailsPage = () => {
   }, [idea]);
 
   return (
+
     <div className="idea-details-page">
       <div className="idea-header">
         <div className="icon-container">
           <ThumbUpIcon className={`icon-like ${liked ? "liked" : ""}`} onClick={handleLikeClick} />
           <ShareIcon className="icon-share" />
-          {authorizedUsers.includes(currentUser.oid) && <EditIcon className="icon-edit" onClick={handleEditClick} />}
-          {authorizedUsers.includes(currentUser.oid) && (
+          {authorizedUsers.includes(currentUser?.oid) && <EditIcon className="icon-edit" onClick={handleEditClick} />}
+          {authorizedUsers.includes(currentUser?.oid) && (
             <DeleteIcon className="icon-delete" onClick={handleDeleteClick} />
           )}
         </div>
@@ -79,7 +131,7 @@ const IdeaDetailsPage = () => {
       <div className="idea-content">
         <div className="idea-synopsis">{idea?.title}</div>
         <div className="idea-details-grid">
-          <div className="grid-item">
+          <div className="grid-item-details">
             <div>
               <strong>Author:</strong> {idea?.createdBy?.name}
             </div>
@@ -90,7 +142,7 @@ const IdeaDetailsPage = () => {
               <strong>Vertical:</strong> {idea?.ideaVerticalId?.verticalName}
             </div>
           </div>
-          <div className="grid-item">
+          <div className="grid-item-details">
             <div>
               <strong>Date Created:</strong> {moment(idea?.createdAt).format("DD-MM-YYYY")}
             </div>
@@ -101,7 +153,7 @@ const IdeaDetailsPage = () => {
               <strong>Demo Day:</strong> {idea?.demoDayId?.number}
             </div>
           </div>
-          <div className="grid-item">
+          <div className="grid-item-details">
             <div>
               <strong>Tags:</strong> {idea?.tags.map((tag) => tag.name).join(", ")}
             </div>
@@ -147,23 +199,96 @@ const IdeaDetailsPage = () => {
             </div>
           </div>
         </div>
-        <div className="comments-separator"></div> {/* Horizontal line */}
+        <div className="comments-separator"></div>
         <div className="grid-item">
           <h3>Comments</h3>
           <div className="comments-section">
-            {idea?.comments?.map((comment, index) => (
+            {commentList?.map((comment, index) => (
               <div key={index} className="comment">
-                <div className="comment-text">
-                  <strong>{comment.author}:</strong> {comment.text}
+                <div className="header-container">
+                  <strong>{comment.userId.name}:</strong>
+                  <em>{moment(comment?.createdAt).format("DD MMM, YYYY hh:mm a")}</em>
                 </div>
-                <div className="comment-date">
-                  <em>{comment.date}</em>
+                <div className="comment-body">
+                  <div className="comment-text-container">
+                    <p>{comment.comment}</p>
+                  </div>
+                  {comment.replies.length > 0 && (
+                    <div className="replies">
+                      {comment.replies.map((reply, replyIndex) => (
+                        <div key={replyIndex} className="reply">
+                          <div className="header-container">
+                            <strong>{reply.userId.name}</strong>
+                            <em>{moment(reply?.createdAt).format("DD MMM, YYYY hh:mm a")}</em>
+                          </div>
+                          <div className="comment-text-container">
+                            <p>{reply.comment}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="comment-actions">
+                  {replyToCommentId === comment._id ? (
+                    <div className="reply-input">
+                      <TextField
+                        className="reply-textfield"
+                        label="Reply"
+                        variant="outlined"
+                        multiline
+                        rows={2}
+                        value={replyText}
+                        onChange={(event) => setReplyText(event.target.value)}
+                      />
+                      <div className="reply-icon-button margin-top">
+                        <Button
+                          className="reply-button"
+                          variant="contained"
+                          color="primary"
+                          onClick={handleSubmitReply}
+                        >
+                          Reply
+                        </Button>
+                        <Button
+                          className="margin-left"
+                          variant="text"
+                          size="small"
+                          onClick={() => { handleReplyCommentClick(""); setReplyText("") }}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : <div className="reply-icon-button">
+                    <Button
+                      variant="text"
+                      size="small"
+                      startIcon={<ReplyIcon />}
+                      onClick={() => { handleReplyCommentClick(comment._id); setReplyText("") }}
+                    >
+                      Reply
+                    </Button>
+                  </div>}
                 </div>
               </div>
             ))}
             <div className="comment-input">
-              <TextField className="comment-textfield" label="Add a Comment" variant="outlined" multiline rows={2} />
-              <Button variant="contained" color="primary">
+              <TextField
+                className="comment-textfield"
+                label="Comment"
+                variant="outlined"
+                multiline
+                rows={2}
+                value={commentText}
+                onChange={(event) => setCommentText(event.target.value)}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                endIcon={<CommentIcon />}
+                onClick={handleCreateCommentClick}
+              >
                 Comment
               </Button>
             </div>

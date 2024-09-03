@@ -20,7 +20,7 @@ const MyIdeaPage = () => {
   const [filters, setIdeaFilters] = useState({
     stageId: "",
     verticalId: "",
-    authorId: currentUser._id,
+    authorId: currentUser?._id,
     functionId: "",
     month: "",
     year: "",
@@ -48,7 +48,7 @@ const MyIdeaPage = () => {
     setIdeaFilters({
       stageId: "",
       verticalId: "",
-      authorId: currentUser._id,
+      authorId: currentUser?._id,
       functionId: "",
       month: "",
       year: "",
@@ -201,8 +201,8 @@ const MyIdeaPage = () => {
               </p>
             </div>
             <div className="card-footer">
-              <span>{idea?.likes} Likes</span>
-              <span>{idea?.comments} Comments</span>
+              <span>{idea?.likeCount + ` ${idea?.likeCount > 1 ? "Likes" : "Like"}`}</span>
+              {/* <span>{idea?.comments} Comments</span> */}
             </div>
           </div>
         ))}
