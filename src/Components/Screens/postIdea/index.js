@@ -12,6 +12,7 @@ import {
   FormControl,
   FormHelperText
 } from "@mui/material";
+import SaveIcon from '@mui/icons-material/Save';
 import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
 import { createIdea } from "../../Redux/api/ideaAPI";
@@ -221,7 +222,7 @@ const PostIdeaPage = () => {
         </div>
 
         <div className="form-actions card">
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" variant="contained" color="primary" startIcon={<SaveIcon />}>
             Publish
           </Button>
         </div>

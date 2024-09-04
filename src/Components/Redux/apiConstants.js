@@ -29,3 +29,8 @@ export const SITE_STATISTICS = {
   INCREMENT_SITE_VISIT_COUNT_STATISTICS: "/site-statistics/v1/increment-site-visit-count",
   GET_SITE_VISIT_COUNT_STATISTICS: "/site-statistics/v1/get-site-visit-count",
 };
+
+export const COMMENT = {
+  CREATE_COMMENT: "/comment/v1/idea-comment",
+  GET_COMMENT: "/comment/v1/get-idea-comment"
+}

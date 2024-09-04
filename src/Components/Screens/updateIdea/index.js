@@ -11,6 +11,7 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import SaveIcon from '@mui/icons-material/Save';
 import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -196,7 +197,7 @@ const UpdateIdea = () => {
         </div>
 
         <div className="form-actions card">
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" variant="contained" color="primary" startIcon={<SaveIcon />}>
             {"Publish"}
           </Button>
         </div>
