@@ -1,15 +1,15 @@
 import "./IdeaDetailsPage.css";
 
 import React, { useState, useEffect } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import ShareIcon from "@mui/icons-material/Share";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReplyIcon from '@mui/icons-material/Reply';
 import CommentIcon from '@mui/icons-material/ChatBubbleOutline';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import moment from "moment-timezone";
 
 import { deleteIdea, getIdeaDetail, likeIdea } from "../../Redux/api/ideaAPI";
@@ -121,7 +121,6 @@ const IdeaDetailsPage = () => {
       <div className="idea-header">
         <div className="icon-container">
           <ThumbUpIcon className={`icon-like ${liked ? "liked" : ""}`} onClick={handleLikeClick} />
-          <ShareIcon className="icon-share" />
           {authorizedUsers.includes(currentUser?.oid) && <EditIcon className="icon-edit" onClick={handleEditClick} />}
           {authorizedUsers.includes(currentUser?.oid) && (
             <DeleteIcon className="icon-delete" onClick={handleDeleteClick} />
@@ -178,6 +177,16 @@ const IdeaDetailsPage = () => {
           <div className="details-box">
             <strong>Existing Solution:</strong>
             <div dangerouslySetInnerHTML={{ __html: idea?.existingSolution }} />
+          </div>
+          <div className="details-box">
+            <strong>Source Code Links:</strong>
+            <div className="links-container">
+              {idea?.links.map((link, index) => (
+                <a href={link} target="_blank" rel="noopener noreferrer" className="link-source">
+                  {link}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
         <div className="track-status-section">

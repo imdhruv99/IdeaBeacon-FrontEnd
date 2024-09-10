@@ -38,6 +38,7 @@ const PostIdeaPage = () => {
       advantage: "",
       proposedSolution: "",
       existingSolution: "",
+      links: [],
       functionId: "",
       coauthors: [],
       tags: []
@@ -120,6 +121,34 @@ const PostIdeaPage = () => {
             {errors[field] && <FormHelperText error>{errors[field].message}</FormHelperText>}
           </div>
         ))}
+
+        <div className="card">
+          <Controller
+            name="links"
+            control={control}
+            rules={{
+              validate: (value) => {
+                if (!value) return true; // No validation needed if empty
+                const urlPattern = /^(https?:\/\/[^\s/$.?#].[^\s]*)$/i;
+                return value.every(url => urlPattern.test(url)) || "Enter valid URLs separated by commas";
+              }
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Source Code Links (comma-separated)"
+                fullWidth
+                margin="normal"
+                error={!!errors.links}
+                helperText={errors.links?.message}
+                onChange={(e) => {
+                  const links = e.target.value.split(',').map(link => link.trim());
+                  setValue("links", links)
+                }}
+              />
+            )}
+          />
+        </div>
 
         <div className="flex-row">
           <div className="card">
