@@ -175,10 +175,6 @@
   margin: 20px 0;
 }
 
-.comments-section {
-  margin-top: 20px;
-}
-
 /* Individual comment styling */
 .comment {
   border-bottom: 1px solid #e1e1e1;
@@ -261,6 +257,12 @@
 .comment-actions {
   justify-content: flex-end;
   margin-top: 10px;
+}
+
+.no-comment {
+  margin: 0 0 0 0.5rem;
+  font-size: 0.83rem;
+  color: #888;
 }
 
 .comment-actions .MuiButton-root {

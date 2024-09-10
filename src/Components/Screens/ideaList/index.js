@@ -216,7 +216,7 @@ const IdeasPage = () => {
             </div>
             <div className="card-footer">
               <span>{idea?.likeCount + ` ${idea?.likeCount > 1 ? "Likes" : "Like"}`}</span>
-              {/* <span>{idea?.comments} Comments</span> */}
+              <span>{idea?.commentCount} Comments</span>
             </div>
           </div>
         ))}
