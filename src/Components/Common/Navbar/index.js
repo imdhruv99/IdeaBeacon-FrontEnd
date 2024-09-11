@@ -43,6 +43,9 @@ const Navbar = () => {
         <Link to="/my-ideas" onClick={handleFilters}>
           My Ideas
         </Link>
+        <Link to="/about" onClick={handleFilters}>
+          About
+        </Link>
         <button className="login-button" onClick={handleLogout}>
           Logout
         </button>
