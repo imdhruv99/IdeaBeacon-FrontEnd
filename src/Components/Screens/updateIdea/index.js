@@ -24,7 +24,7 @@ const UpdateIdea = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { verticals, functions, users, tags } = useSelector((state) => state.common);
+  const { verticals, functions, users, tags, demoDays } = useSelector((state) => state.common);
 
   const { idea } = useSelector((state) => state.idea);
 
@@ -38,6 +38,8 @@ const UpdateIdea = () => {
       existingSolution: idea?.existingSolution || "",
       functionId: idea?.functionId._id || "",
       coauthors: idea?.coauthors.map((author) => author.name) || [],
+      links: idea?.links || [],
+      demoDayId: idea?.demoDayId._id || "",
       tags: idea?.tags.map(item => item.name) || [],
     },
   });
@@ -120,6 +122,32 @@ const UpdateIdea = () => {
           </div>
         ))}
 
+        <div className="card">
+          <Controller
+            name="links"
+            control={control}
+            rules={{
+              validate: (value) => {
+                if (!value) return true; // No validation needed if empty
+                const urlPattern = /^(https?:\/\/[^\s/$.?#].[^\s]*)$/i;
+                return value.every(url => urlPattern.test(url)) || "Enter valid URLs separated by commas";
+              }
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Source Code Links (comma-separated)"
+                fullWidth
+                margin="normal"
+                onChange={(e) => {
+                  const links = e.target.value.split(',').map(link => link.trim());
+                  setValue("links", links)
+                }}
+              />
+            )}
+          />
+        </div>
+
         <div className="flex-row">
           <div className="card">
             <FormControl fullWidth margin="normal" className="flex-item">
@@ -133,6 +161,25 @@ const UpdateIdea = () => {
                     {functions.map((func) => (
                       <MenuItem key={func._id} value={func._id}>
                         {func.functionName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+            </FormControl>
+          </div>
+
+          <div className="card">
+            <FormControl fullWidth margin="normal" className="flex-item">
+              <InputLabel>Demo Day</InputLabel>
+              <Controller
+                name="demoDayId"
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} label="Demo Day">
+                    {demoDays.map((demoDay) => (
+                      <MenuItem key={demoDay._id} value={demoDay._id}>
+                        {demoDay.number}
                       </MenuItem>
                     ))}
                   </Select>
