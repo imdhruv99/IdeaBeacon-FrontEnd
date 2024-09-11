@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createComment, getIdeaCommentsList } from "../api/commentAPI";
-import moment from "moment-timezone";
 
 const initialState = {
     commentList: [],

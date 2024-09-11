@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { Button, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import ShareIcon from "@mui/icons-material/Share";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -121,7 +120,6 @@ const IdeaDetailsPage = () => {
       <div className="idea-header">
         <div className="icon-container">
           <ThumbUpIcon className={`icon-like ${liked ? "liked" : ""}`} onClick={handleLikeClick} />
-          <ShareIcon className="icon-share" />
           {authorizedUsers.includes(currentUser?.oid) && <EditIcon className="icon-edit" onClick={handleEditClick} />}
           {authorizedUsers.includes(currentUser?.oid) && (
             <DeleteIcon className="icon-delete" onClick={handleDeleteClick} />
@@ -179,6 +177,20 @@ const IdeaDetailsPage = () => {
             <strong>Existing Solution:</strong>
             <div dangerouslySetInnerHTML={{ __html: idea?.existingSolution }} />
           </div>
+          <div className="details-box">
+            <strong>Source Code Links:</strong>
+            <div className="links-container">
+              {idea?.links.length > 0 ? (
+                idea.links.map((link, index) => (
+                  <a href={link} target="_blank" rel="noopener noreferrer" className="link-source" key={index}>
+                    {link}
+                  </a>
+                ))
+              ) : (
+                <p>No links are provided.</p>
+              )}
+            </div>
+          </div>
         </div>
         <div className="track-status-section">
           <h3 className="track-status-title">Idea Tracking Progress</h3>
@@ -203,76 +215,80 @@ const IdeaDetailsPage = () => {
         <div className="grid-item">
           <h3>Comments</h3>
           <div className="comments-section">
-            {commentList?.map((comment, index) => (
-              <div key={index} className="comment">
-                <div className="header-container">
-                  <strong>{comment.userId.name}:</strong>
-                  <em>{moment(comment?.createdAt).format("DD MMM, YYYY hh:mm a")}</em>
-                </div>
-                <div className="comment-body">
-                  <div className="comment-text-container">
-                    <p>{comment.comment}</p>
+            {commentList?.length > 0 ? (
+              commentList.map((comment, index) => (
+                <div key={index} className="comment">
+                  <div className="header-container">
+                    <strong>{comment.userId.name}:</strong>
+                    <em>{moment(comment?.createdAt).format("DD MMM, YYYY hh:mm a")}</em>
                   </div>
-                  {comment.replies.length > 0 && (
-                    <div className="replies">
-                      {comment.replies.map((reply, replyIndex) => (
-                        <div key={replyIndex} className="reply">
-                          <div className="header-container">
-                            <strong>{reply.userId.name}</strong>
-                            <em>{moment(reply?.createdAt).format("DD MMM, YYYY hh:mm a")}</em>
-                          </div>
-                          <div className="comment-text-container">
-                            <p>{reply.comment}</p>
-                          </div>
-                        </div>
-                      ))}
+                  <div className="comment-body">
+                    <div className="comment-text-container">
+                      <p>{comment.comment}</p>
                     </div>
-                  )}
-                </div>
-                <div className="comment-actions">
-                  {replyToCommentId === comment._id ? (
-                    <div className="reply-input">
-                      <TextField
-                        className="reply-textfield"
-                        label="Reply"
-                        variant="outlined"
-                        multiline
-                        rows={2}
-                        value={replyText}
-                        onChange={(event) => setReplyText(event.target.value)}
-                      />
-                      <div className="reply-icon-button margin-top">
-                        <Button
-                          className="reply-button"
-                          variant="contained"
-                          color="primary"
-                          onClick={handleSubmitReply}
-                        >
-                          Reply
-                        </Button>
-                        <Button
-                          className="margin-left"
-                          variant="text"
-                          size="small"
-                          onClick={() => { handleReplyCommentClick(""); setReplyText("") }}
-                        >
-                          Cancel
-                        </Button>
+                    {comment.replies.length > 0 && (
+                      <div className="replies">
+                        {comment.replies.map((reply, replyIndex) => (
+                          <div key={replyIndex} className="reply">
+                            <div className="header-container">
+                              <strong>{reply.userId.name}</strong>
+                              <em>{moment(reply?.createdAt).format("DD MMM, YYYY hh:mm a")}</em>
+                            </div>
+                            <div className="comment-text-container">
+                              <p>{reply.comment}</p>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    </div>
-                  ) : <div className="reply-icon-button">
-                    <Button
-                      variant="text"
-                      size="small"
-                      startIcon={<ReplyIcon />}
-                      onClick={() => { handleReplyCommentClick(comment._id); setReplyText("") }}
-                    >
-                      Reply
-                    </Button>
-                  </div>}
+                    )}
+                  </div>
+                  <div className="comment-actions">
+                    {replyToCommentId === comment._id ? (
+                      <div className="reply-input">
+                        <TextField
+                          className="reply-textfield"
+                          label="Reply"
+                          variant="outlined"
+                          multiline
+                          rows={2}
+                          value={replyText}
+                          onChange={(event) => setReplyText(event.target.value)}
+                        />
+                        <div className="reply-icon-button margin-top">
+                          <Button
+                            className="reply-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={handleSubmitReply}
+                          >
+                            Reply
+                          </Button>
+                          <Button
+                            className="margin-left"
+                            variant="text"
+                            size="small"
+                            onClick={() => { handleReplyCommentClick(""); setReplyText("") }}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    ) : <div className="reply-icon-button">
+                      <Button
+                        variant="text"
+                        size="small"
+                        startIcon={<ReplyIcon />}
+                        onClick={() => { handleReplyCommentClick(comment._id); setReplyText("") }}
+                      >
+                        Reply
+                      </Button>
+                    </div>}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="no-comment">No comments have been made.</p>
+            )}
             <div className="comment-input">
               <TextField
                 className="comment-textfield"

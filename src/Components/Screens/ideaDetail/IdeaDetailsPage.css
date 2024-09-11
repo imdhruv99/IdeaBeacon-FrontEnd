@@ -16,13 +16,6 @@
   gap: 15px;
 }
 
-/* Share icon design */
-.icon-share {
-  cursor: pointer;
-  font-size: 1.5rem;
-  color: #014686;
-}
-
 /* Edit icon design */
 .icon-edit {
   cursor: pointer;
@@ -113,7 +106,11 @@
 
 /* Space between title and content */
 .details-box>div {
-  margin-top: 5px;
+  margin: 0.7rem 0 0.3rem 0.5rem;
+}
+
+.grid-item-details>div {
+  margin: 0.4rem 0 0.4rem 0.5rem;
 }
 
 /* Center the heading for Track Status */
@@ -176,10 +173,6 @@
 .comments-separator {
   border-top: 2px solid #ddd;
   margin: 20px 0;
-}
-
-.comments-section {
-  margin-top: 20px;
 }
 
 /* Individual comment styling */
@@ -266,6 +259,12 @@
   margin-top: 10px;
 }
 
+.no-comment {
+  margin: 0 0 0 0.5rem;
+  font-size: 0.83rem;
+  color: #888;
+}
+
 .comment-actions .MuiButton-root {
   font-size: 0.75rem;
   color: #144d9c;
@@ -298,4 +297,22 @@
   font-size: smaller;
   margin-top: 0.1rem;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.links-container {
+  display: block;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.link-source {
+  margin: 0.7rem 0 0.3rem 0.5rem;
+  text-decoration: none;
+  color: #007bff;
+  font-size: 1rem;
+  display: block;
+}
+
+.link-source:hover {
+  text-decoration: underline;
 }
