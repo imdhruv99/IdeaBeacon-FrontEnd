@@ -13,8 +13,10 @@ import UpdateIdea from "../Screens/updateIdea/index.js";
 import Ideas from "../Screens/ideaList/index.js";
 import IdeaDetail from "../Screens/ideaDetail/index.js";
 import MyIdeaPage from "../Screens/myIdeaList/index.js";
+import About from "../Screens/about/index.js";
 import Loader from "../Common/Loader/index.js";
 import { setAccessToken, setIsLoggedIn } from "../Redux/slice/auth-slice.js";
+import NotFound from "../Screens/notFound/index.js";
 
 const Web = () => {
   const dispatch = useDispatch();
@@ -22,8 +24,8 @@ const Web = () => {
   const { isLoading } = useSelector((state) => state.idea);
 
   useEffect(() => {
-    const storedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const storedAccessToken = localStorage.getItem("accessToken");
 
     if (storedIsLoggedIn && storedAccessToken) {
       dispatch(setIsLoggedIn(true));
@@ -42,14 +44,16 @@ const Web = () => {
             <Route key={"/update-idea"} path="/update-idea" exact={true} element={<UpdateIdea />} />
             <Route key={"/ideas"} path="/ideas" exact={true} element={<Ideas />} />
             <Route key={"/my-ideas"} path="/my-ideas" exact={true} element={<MyIdeaPage />} />
-            <Route key={"/idea-details/:titleSlug"} path="/idea-details/:titleSlug" exact={true} element={<IdeaDetail />} />
+            <Route key={"/about"} path="/about" exact={true} element={<About />} />
+            <Route
+              key={"/idea-details/:titleSlug"}
+              path="/idea-details/:titleSlug"
+              exact={true}
+              element={<IdeaDetail />}
+            />
           </Route>
-
-          <Route
-            path={"/"}
-            exact={true}
-            element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />}
-          />
+          <Route path={"/"} exact={true} element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
       <Footer />
