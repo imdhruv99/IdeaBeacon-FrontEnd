@@ -24,6 +24,9 @@ const initialState = {
     month: "",
     year: "",
   },
+  ideaSearchText: "",
+  isTopRated: false,
+  isTopCommented: false,
 };
 
 export const ideaSlice = createSlice({
@@ -56,6 +59,15 @@ export const ideaSlice = createSlice({
         month: "",
         year: "",
       };
+    },
+    setIdeaSearchText(state, action) {
+      state.ideaSearchText = action.payload;
+    },
+    setIsTopRate(state, action) {
+      state.isTopRated = action.payload;
+    },
+    setIsTopCommented(state, action) {
+      state.isTopCommented = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -144,7 +156,16 @@ export const ideaSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { resetIdea, setIsUpdatingIdea, setSelectedIdeaId, setIsDeletingIdea, setIdeaFilters, reSetIdeaFilters } =
-  ideaSlice.actions;
+export const {
+  resetIdea,
+  setIsUpdatingIdea,
+  setSelectedIdeaId,
+  setIsDeletingIdea,
+  setIdeaFilters,
+  reSetIdeaFilters,
+  setIdeaSearchText,
+  setIsTopRate,
+  setIsTopCommented,
+} = ideaSlice.actions;
 
 export default ideaSlice.reducer;
