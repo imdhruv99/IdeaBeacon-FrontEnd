@@ -8,14 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 
 import { getAllFilteredIdeas, updateIdeaStage } from "../../Redux/api/ideaAPI";
-import { setSelectedIdeaId } from "../../Redux/slice/idea-slice";
+import { setIdeaSearchText, setIsTopCommented, setIsTopRate, setSelectedIdeaId } from "../../Redux/slice/idea-slice";
+import { getIdeaSelector } from "../../Redux/selector/ideaSelector";
 
 const MyIdeaPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { stages, verticals, functions, currentUser } = useSelector((state) => state.common);
-  const { isFetchingIdeas, allFilteredIdeas } = useSelector((state) => state.idea);
+  const { isFetchingIdeas, ideaSearchText } = useSelector((state) => state.idea);
+  const getIdeasFromSelector = useSelector(getIdeaSelector);
 
   const [filters, setIdeaFilters] = useState({
     stageId: "",
@@ -53,6 +55,13 @@ const MyIdeaPage = () => {
       month: "",
       year: "",
     });
+    dispatch(setIdeaSearchText(""));
+    dispatch(setIsTopRate(false));
+    dispatch(setIsTopCommented(false));
+  };
+
+  const handleSearch = (event) => {
+    dispatch(setIdeaSearchText(event.target.value));
   };
 
   const handleCardClick = (idea) => {
@@ -93,7 +102,7 @@ const MyIdeaPage = () => {
       <h1 className="page-title">My Ideas</h1>
       <div className="background-card">
         <div className="search-bar">
-          <TextField variant="outlined" label="Search Ideas" fullWidth />
+          <TextField variant="outlined" label="Search Ideas" onChange={handleSearch} value={ideaSearchText} fullWidth />
         </div>
       </div>
       <div className="filters">
@@ -157,21 +166,20 @@ const MyIdeaPage = () => {
       <div className="quick-filters">
         <Button
           variant="outlined"
-          onClick={() => handleQuickFilterChange("Recent")}
-          className={filters.quickFilter === "Recent" ? "active" : ""}
-        >
-          Recent
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => handleQuickFilterChange("Top Voted")}
+          onClick={() => {
+            dispatch(setIsTopCommented(false));
+            dispatch(setIsTopRate(true));
+          }}
           className={filters.quickFilter === "Top Voted" ? "active" : ""}
         >
           Top Voted
         </Button>
         <Button
           variant="outlined"
-          onClick={() => handleQuickFilterChange("Most Commented")}
+          onClick={() => {
+            dispatch(setIsTopRate(false));
+            dispatch(setIsTopCommented(true));
+          }}
           className={filters.quickFilter === "Most Commented" ? "active" : ""}
         >
           Most Commented
@@ -185,7 +193,7 @@ const MyIdeaPage = () => {
       </div>
 
       <div className="idea-cards">
-        {allFilteredIdeas.map((idea) => (
+        {getIdeasFromSelector.map((idea) => (
           <div className="idea-card" key={idea._id} onClick={() => handleCardClick(idea)}>
             <div className="card-header">
               <span>{idea?.ideaStageId.stageName}</span>
