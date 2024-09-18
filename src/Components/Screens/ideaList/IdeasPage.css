@@ -1,12 +1,12 @@
 .ideas-page {
-  padding: 20px;
+  padding: 1.25rem;
   font-family: 'Libre Baskerville', serif;
 }
 
 .page-title {
   text-align: center;
   font-size: 2rem;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   padding: 5rem 0rem 0rem 0rem;
 }
 
@@ -24,7 +24,7 @@
   display: flex;
   background: #ffffff;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   margin-bottom: 0.1rem !important;
 }
 
@@ -32,59 +32,63 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 0.625rem;
   margin: 1rem 0 1rem 0;
 }
 
 .quick-filters {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 0.625rem;
+  margin-bottom: 1.25rem;
 }
 
 .reset-filters {
   display: block;
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .idea-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 1.25rem;
   justify-content: center;
 }
 
 .idea-card {
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: calc(20% - 20px);
-  /* 5 cards per row */
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  width: calc(20% - 1.25rem);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .idea-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-0.313rem);
+  box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, 0.2);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
   align-items: center;
+}
+
+.card-body {
+  flex: 1;
 }
 
 .card-body p {
   font-size: 0.9rem;
   color: #333;
-  /* Slightly grayish font */
 }
 
 .card-footer {
@@ -92,6 +96,5 @@
   justify-content: space-between;
   font-size: 0.8rem;
   color: #666;
-  /* Slightly grayish font */
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
