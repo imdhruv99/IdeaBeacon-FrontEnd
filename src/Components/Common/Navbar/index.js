@@ -2,7 +2,7 @@ import "./Navbar.css";
 
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 
 import { setIsLoggedIn } from "../../Redux/slice/auth-slice";
@@ -12,6 +12,7 @@ import { reSetIdeaFilters } from "../../Redux/slice/idea-slice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { instance } = useMsal();
+  const location = useLocation();
 
   const handleFilters = () => {
     dispatch(reSetIdeaFilters());
@@ -31,21 +32,12 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-logo">IdeaBeacon</div>
       <div className="navbar-links">
-        <Link to="/dashboard" onClick={handleFilters}>
-          Dashboard
-        </Link>
-        <Link to="/post-idea" onClick={handleFilters}>
-          Post Idea
-        </Link>
-        <Link to="/ideas" onClick={handleFilters}>
-          Ideas
-        </Link>
-        <Link to="/my-ideas" onClick={handleFilters}>
-          My Ideas
-        </Link>
-        <Link to="/about" onClick={handleFilters}>
-          About
-        </Link>
+        {["/dashboard", "/post-idea", "/ideas", "/my-ideas", "/about", "/user-guide"].map((path) => (
+          <Link key={path} to={path} onClick={handleFilters} className={location.pathname === path ? "active" : ""}>
+            {path.split("/").pop().replace("-", " ").charAt(0).toUpperCase() +
+              path.split("/").pop().replace("-", " ").slice(1) || "Home"}
+          </Link>
+        ))}
         <button className="login-button" onClick={handleLogout}>
           Logout
         </button>

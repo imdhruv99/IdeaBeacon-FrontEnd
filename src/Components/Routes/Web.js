@@ -14,9 +14,10 @@ import Ideas from "../Screens/ideaList/index.js";
 import IdeaDetail from "../Screens/ideaDetail/index.js";
 import MyIdeaPage from "../Screens/myIdeaList/index.js";
 import About from "../Screens/about/index.js";
+import NotFound from "../Screens/notFound/index.js";
 import Loader from "../Common/Loader/index.js";
 import { setAccessToken, setIsLoggedIn } from "../Redux/slice/auth-slice.js";
-import NotFound from "../Screens/notFound/index.js";
+import UserGuide from "../Screens/userGuide/index.js";
 
 const Web = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const Web = () => {
             <Route key={"/ideas"} path="/ideas" exact={true} element={<Ideas />} />
             <Route key={"/my-ideas"} path="/my-ideas" exact={true} element={<MyIdeaPage />} />
             <Route key={"/about"} path="/about" exact={true} element={<About />} />
+            <Route key={"/user-guide"} path="/user-guide" exact={true} element={<UserGuide />} />
             <Route
               key={"/idea-details/:titleSlug"}
               path="/idea-details/:titleSlug"
@@ -52,6 +54,7 @@ const Web = () => {
               element={<IdeaDetail />}
             />
           </Route>
+
           <Route path={"/"} exact={true} element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

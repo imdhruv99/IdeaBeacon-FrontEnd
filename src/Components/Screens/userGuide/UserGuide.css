@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
+
+html {
+    scroll-behavior: smooth;
+}
+
+.user-guide {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 5rem 2rem;
+    font-family: 'Libre Baskerville', serif;
+    margin: 0 auto;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: row;
+    max-width: 110rem;
+    width: 100%;
+    position: relative;
+}
+
+.heading > h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.table-contents {
+    width: 25%;
+    padding: 2rem;
+    text-align: left;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    height: calc(100vh - 4rem);
+    z-index: 1;
+    background-color: #fff;
+    border-radius: 0.5rem;
+}
+
+.table-contents h2 {
+    font-size: 2rem;
+    color: #444;
+    border-bottom: 0.070rem solid #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.table-contents ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.table-contents li {
+    margin-bottom: 1rem;
+}
+
+.table-contents a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.table-contents a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.user-guide-details {
+    width: 70%;
+    padding: 2rem;
+}
+
+.user-guide-details h2 {
+    font-size: 2rem;
+    color: #444;
+    margin-bottom: 1rem;
+    scroll-margin-top: 5rem;
+    border-bottom: 0.070rem solid #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.user-guide-details p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+}
+
+.user-guide-details .browser-frame {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    border: 0.063rem solid #ccc;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.1);
+    background: #fff;
+    overflow: hidden;
+    margin-bottom: 3rem;
+}
+
+.user-guide-details .browser-frame:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1.5rem;
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    border-bottom: 0.063rem solid #ccc;
+    border-radius: 0.625rem 0.625rem 0 0;
+    z-index: 1;
+}
+
+.user-guide-details .browser-frame .browser-buttons {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    display: flex;
+    gap: 0.313rem;
+    z-index: 2;
+}
+
+.user-guide-details .browser-frame .browser-button {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background-color: #ff5f57;
+}
+
+.user-guide-details .browser-frame .browser-button:nth-child(2) {
+    background-color: #ffbb45;
+}
+
+.user-guide-details .browser-frame .browser-button:nth-child(3) {
+    background-color: #27c93f;
+}
+
+.user-guide-details .browser-frame .browser-content {
+    padding: 1rem;
+}
+
+.user-guide-details img,
+.user-guide-details video {
+    max-width: 100%;
+    margin-top: 0.3rem;
+    height: auto;
+    border-radius: 1rem;
+}
+
+.user-guide-details a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.user-guide-details a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
