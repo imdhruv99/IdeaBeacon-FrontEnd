@@ -1,11 +1,17 @@
 export const toRoman = (num) => {
-    if (num <= 0) return '';
+    if (num <= 0) return "";
 
     const lookup = {
-        M: 1000, D: 500, C: 100, L: 50, X: 10, V: 5, I: 1
+        M: 1000,
+        D: 500,
+        C: 100,
+        L: 50,
+        X: 10,
+        V: 5,
+        I: 1,
     };
 
-    let roman = '';
+    let roman = "";
     for (const i in lookup) {
         const q = Math.floor(num / lookup[i]);
         num -= q * lookup[i];
@@ -14,12 +20,12 @@ export const toRoman = (num) => {
 
     // Handle subtractive combinations
     const subtractive = [
-        { numeral: 'CM', value: 900 },
-        { numeral: 'CD', value: 400 },
-        { numeral: 'XC', value: 90 },
-        { numeral: 'XL', value: 40 },
-        { numeral: 'IX', value: 9 },
-        { numeral: 'IV', value: 4 }
+        { numeral: "CM", value: 900 },
+        { numeral: "CD", value: 400 },
+        { numeral: "XC", value: 90 },
+        { numeral: "XL", value: 40 },
+        { numeral: "IX", value: 9 },
+        { numeral: "IV", value: 4 },
     ];
 
     for (const { numeral, value } of subtractive) {
@@ -30,4 +36,16 @@ export const toRoman = (num) => {
     }
 
     return roman;
+};
+
+export const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const base64String = reader.result.split(",")[1];
+            resolve(base64String);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
 };

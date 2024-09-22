@@ -1,35 +1,43 @@
-import ideaIcon from "../../Assets/icons/idea-icon.png";
-import brainstormIcon from "../../Assets/icons/brainstorm-icon.png";
-import selectedIcon from "../../Assets/icons/selected-icon.png";
-import implementedIcon from "../../Assets/icons/implement-icon.png";
-import routingIcon from "../../Assets/icons/routing.png";
-import switchingIcon from "../../Assets/icons/switching.png";
-import securityIcon from "../../Assets/icons/security.png";
-import softwareIcon from "../../Assets/icons/software.png";
-
-export const initialStages = [
-  { name: "Idea", count: 0, icon: ideaIcon },
-  { name: "Brainstorm", count: 0, icon: brainstormIcon },
-  { name: "Selected", count: 0, icon: selectedIcon },
-  { name: "Implemented", count: 0, icon: implementedIcon },
-];
-
-export const initialVerticals = [
-  { name: "Routing", count: 0, icon: routingIcon },
-  { name: "Switching", count: 0, icon: switchingIcon },
-  { name: "Security", count: 0, icon: securityIcon },
-  { name: "Software", count: 0, icon: softwareIcon },
-];
-
 export const modules = {
-  toolbar: [
-    [{ header: "1" }, { header: "2" }, { font: [] }],
-    [{ size: [] }],
-    ["bold", "italic", "underline", "strike", "blockquote", "link"],
-    [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-    ["code-block"],
-  ],
-  clipboard: {
-    matchVisual: false,
-  },
+    toolbar: [
+        [{ header: "1" }, { header: "2" }, { font: [] }],
+        [{ size: [] }],
+        ["bold", "italic", "underline", "strike", "blockquote", "link"],
+        [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+        ["code-block"],
+    ],
+    clipboard: {
+        matchVisual: false,
+    },
 };
+
+// Admin Panel Table Column Information
+export const stageColumns = [
+    { key: "index", label: "Index" },
+    { key: "stageName", label: "Stage Name" },
+    { key: "image", label: "Stage Icon" },
+];
+
+export const userColumns = [
+    { key: "index", label: "Index" },
+    { key: "name", label: "Name" },
+    { key: "preferredUsername", label: "Email" },
+    { key: "role", label: "Role" },
+];
+
+export const verticalColumns = [
+    { key: "index", label: "Index" },
+    { key: "verticalName", label: "Vertical Name" },
+    { key: "image", label: "Vertical Icon" },
+];
+
+export const teamColumns = [
+    { key: "index", label: "Index" },
+    { key: "functionName", label: "Function Name" },
+];
+
+export const demoDayColumns = [
+    { key: "index", label: "Index" },
+    { key: "number", label: "Demo Day Iteration" },
+    { key: "year", label: "Demo Day Year" },
+];
