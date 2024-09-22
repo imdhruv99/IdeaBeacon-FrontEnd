@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "../Screens/login/index.js";
-
 import Navbar from "../Common/Navbar/index.js";
 import Footer from "../Common/Footer/index.js";
 import ProtectedRoutes from "./ProtectedRoutes.js";
@@ -18,52 +17,55 @@ import NotFound from "../Screens/notFound/index.js";
 import Loader from "../Common/Loader/index.js";
 import { setAccessToken, setIsLoggedIn } from "../Redux/slice/auth-slice.js";
 import UserGuide from "../Screens/userGuide/index.js";
+import Admin from "../Screens/admin/index.js";
+import AdminRoute from "./AdminRoute";
 
 const Web = () => {
-  const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const { isLoading } = useSelector((state) => state.idea);
+    const dispatch = useDispatch();
+    const { isLoggedIn } = useSelector((state) => state.auth);
+    const { isLoading } = useSelector((state) => state.idea);
 
-  useEffect(() => {
-    const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const storedAccessToken = localStorage.getItem("accessToken");
+    useEffect(() => {
+        const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        const storedAccessToken = localStorage.getItem("accessToken");
 
-    if (storedIsLoggedIn && storedAccessToken) {
-      dispatch(setIsLoggedIn(true));
-      dispatch(setAccessToken(storedAccessToken));
-    }
-  }, [dispatch]);
+        if (storedIsLoggedIn && storedAccessToken) {
+            dispatch(setIsLoggedIn(true));
+            dispatch(setAccessToken(storedAccessToken));
+        }
+    }, [dispatch]);
 
-  return (
-    <div className="App">
-      {isLoggedIn && <Navbar />}
-      <div className="App">
-        <Routes>
-          <Route exact={true} element={<ProtectedRoutes />}>
-            <Route key={"/dashboard"} path="/dashboard" exact={true} element={<Dashboard />} />
-            <Route key={"/post-idea"} path="/post-idea" exact={true} element={<PostIdea />} />
-            <Route key={"/update-idea"} path="/update-idea" exact={true} element={<UpdateIdea />} />
-            <Route key={"/ideas"} path="/ideas" exact={true} element={<Ideas />} />
-            <Route key={"/my-ideas"} path="/my-ideas" exact={true} element={<MyIdeaPage />} />
-            <Route key={"/about"} path="/about" exact={true} element={<About />} />
-            <Route key={"/user-guide"} path="/user-guide" exact={true} element={<UserGuide />} />
-            <Route
-              key={"/idea-details/:titleSlug"}
-              path="/idea-details/:titleSlug"
-              exact={true}
-              element={<IdeaDetail />}
-            />
-          </Route>
+    return (
+        <div className="App">
+            {isLoggedIn && <Navbar />}
+            <div className="App">
+                <Routes>
+                    <Route exact={true} element={<ProtectedRoutes />}>
+                        <Route key={"/dashboard"} path="/dashboard" exact={true} element={<Dashboard />} />
+                        <Route key={"/post-idea"} path="/post-idea" exact={true} element={<PostIdea />} />
+                        <Route key={"/update-idea"} path="/update-idea" exact={true} element={<UpdateIdea />} />
+                        <Route key={"/ideas"} path="/ideas" exact={true} element={<Ideas />} />
+                        <Route key={"/my-ideas"} path="/my-ideas" exact={true} element={<MyIdeaPage />} />
+                        <Route key={"/about"} path="/about" exact={true} element={<About />} />
+                        <Route key={"/user-guide"} path="/user-guide" exact={true} element={<UserGuide />} />
+                        <Route key={"/admin"} path="/admin" exact={true} element={<AdminRoute element={<Admin />} />} />
+                        <Route
+                            key={"/idea-details/:titleSlug"}
+                            path="/idea-details/:titleSlug"
+                            exact={true}
+                            element={<IdeaDetail />}
+                        />
+                    </Route>
+                    <Route path={"/"} exact={true} element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} />
+                    <Route path="/404" element={<NotFound />} />
+                    <Route path="*" element={<Navigate to="/404" />} />
+                </Routes>
+            </div>
+            <Footer />
 
-          <Route path={"/"} exact={true} element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-      <Footer />
-
-      {isLoading && <Loader />}
-    </div>
-  );
+            {isLoading && <Loader />}
+        </div>
+    );
 };
 
 export default Web;
