@@ -23,6 +23,8 @@ export const userColumns = [
     { key: "name", label: "Name" },
     { key: "preferredUsername", label: "Email" },
     { key: "role", label: "Role" },
+    { key: "lastLoggedInTime", label: "Last LoggedIn Time" },
+    { key: "countOfLoggedIn", label: "Total LoggedIn Count" },
 ];
 
 export const verticalColumns = [

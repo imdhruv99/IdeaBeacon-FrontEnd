@@ -11,11 +11,14 @@ import { convertToBase64 } from "../../utils/utils";
 import { createVertical, deleteVertical, updateVertical } from "../../Redux/api/verticalAPI";
 import { createTeam, deleteTeam, updateTeam } from "../../Redux/api/teamAPI";
 import { createDemoDay, deleteDemoDay, updateDemoDay } from "../../Redux/api/demoDayAPI";
+import moment from "moment-timezone";
 
 const Admin = () => {
     const dispatch = useDispatch();
 
     const { stages, allUsers, verticals, functions, demoDays } = useSelector((state) => state.common);
+    console.log("allUsers", allUsers);
+
     const [activeTab, setActiveTab] = useState("stages");
     const [showModal, setShowModal] = useState(false);
     const [formType, setFormType] = useState("");
@@ -38,6 +41,8 @@ const Admin = () => {
             name: user.name,
             preferredUsername: user.preferredUsername,
             role: user.role.roleName === "ROLE_ADMIN" ? "Admin" : "User",
+            countOfLoggedIn: user.countOfLoggedIn,
+            lastLoggedInTime: moment.utc(user.lastLoggedInTime).tz("Asia/Kolkata").format("DD-MM-YYYY hh:mm:ss A"),
         }));
     };
     const transformedUsers = transformUsersData(allUsers);
