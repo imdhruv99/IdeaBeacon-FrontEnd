@@ -18,14 +18,16 @@ const Login = () => {
     const navigate = useNavigate();
 
     const { instance, accounts } = useMsal();
-
     const { isCreatingUser } = useSelector((state) => state.auth);
 
+    // Commented out login functionality
+    /*
     const handleAzureLogin = async () => {
         await instance.loginRedirect(loginRequest).catch((e) => {
             console.error(e);
         });
     };
+    */
 
     const getGraphCall = async () => {
         if (accounts.length > 0) {
@@ -57,19 +59,12 @@ const Login = () => {
         getGraphCall();
     }, [accounts, instance]);
 
-    const currentYear = new Date().getFullYear();
-    const romanNumeral = toRoman(currentYear - 2014);
-
     return (
         <div className="landing-page">
             <div className="landing-content">
-                <h3 className="demo-day">Demo Day {romanNumeral}</h3>
                 <h1 className="landing-title">Ideas</h1>
                 <h1 className="landing-title">& Innovations</h1>
-                <p>Share your ideas and collaborate with other Junivators.</p>
-                <button className="login-button" onClick={handleAzureLogin}>
-                    Login
-                </button>
+                <p>Share your ideas and collaborate with other Innovators.</p>
             </div>
             {isCreatingUser && <Loader />}
         </div>

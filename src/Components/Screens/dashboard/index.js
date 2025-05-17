@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import useInitialFetch from "../../hooks/useInitialFeatch.js";
 import { setIdeaFilters } from "../../Redux/slice/idea-slice.js";
 
-import jnprImage from "../../../Assets/images/jnpr.png";
-
 const Dashboard = () => {
     useInitialFetch();
 
@@ -58,7 +56,6 @@ const Dashboard = () => {
             <div className="idea-beacon">
                 <h1>IdeaBeacon</h1>
             </div>
-            <div className="dashboard-logo">{<img src={jnprImage} alt="Juniper Networks" />}</div>
             <div className="dashboard-cards">
                 <Typography variant="h5" className="section-header">
                     Idea Stages
